@@ -46,7 +46,7 @@ docker run --name bookie1 \
     -p 3181:3181 \
     -v ~/cluster-test/stack1/bookkeeper/data:/pulsar/data/bookkeeper/ \
     -v ~/cluster-test/stack1/conf:/conf \
-    -v ~/cluster-test/stack1/scripts:/scripts \
+    -v ~/cluster-test/stack1/bin:/scripts \
     -v ~/cluster-test/stack1/bookkeeper/logs:/logs \
     -e BOOKIE_CONF=/conf/bookkeeper.conf \
     apachepulsar/pulsar:2.8.1 /bin/bash /scripts/start_bk.sh

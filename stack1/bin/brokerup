@@ -23,5 +23,4 @@ docker run --name broker1 \
     -v ~/cluster-test/stack1/bin:/scripts \
     -v ~/cluster-test/stack1/broker/logs:/logs \
     -e PULSAR_BROKER_CONF=/conf/broker.conf \
-    apachepulsar/pulsar:2.8.1 \
-    /bin/bash /scripts/start_brk.sh
+    apachepulsar/pulsar:2.8.1 /bin/bash /scripts/start_brk.sh
