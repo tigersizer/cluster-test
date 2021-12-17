@@ -1,3 +1,9 @@
 # cluster-test Stack2
 
-The stuff needed for the second node in the clusters
+## Common Stack Information
+
+See the [stack1 version](../stack1/README.md) of this file for common information.
+
+## Stack2 Specifics
+
+Specifics for the second node in the clusters:

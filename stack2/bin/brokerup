@@ -19,8 +19,7 @@ docker run --name broker2 \
     -p 8083:8083 \
     -v ~/cluster-test/stack2/broker/data:/puslar/data/broker \
     -v ~/cluster-test/stack2/conf:/conf \
-    -v ~/cluster-test/stack2/scripts:/scripts \
+    -v ~/cluster-test/stack2/bin:/scripts \
     -v ~/cluster-test/stack2/broker/logs:/logs \
     -e PULSAR_BROKER_CONF=/conf/broker.conf \
-    apachepulsar/pulsar:2.8.1 \
-    /bin/bash /scripts/start_brk.sh
+    apachepulsar/pulsar:2.8.1 /bin/bash /scripts/start_brk.sh
