@@ -1,10 +1,10 @@
-# cluster-dev - Recovering from Mistakes
+# cluster-test: Recovering from Mistakes
 
 ## Table of Contents {#toc}
 
 1. [BookKeeper Changes](#Recovering-bk)
 
-## Recovering from Mistakes {#Recovering}
+## Recovering from Mistakes{#Recovering}
 
 This can be difficult because the entire point of all this clustering is redundancy. 
 
@@ -14,7 +14,7 @@ require starting Pulsar from scratch, too.
 Cassandra also likes its redundancy and bringing the cluster up and down moves a lot of data. If you're doing
 Cassandra work, I recommend leaving it running and putting the host to "sleep" rather than powering it down.
 
-### BookKeeper Changes {#Recovering-bk}
+### BookKeeper Changes{#Recovering-bk}
 
 BookKeeper has two cookies: One locally in the data directory and one in ZooKeeper. When those cookies do not match, it refuses to start. The error message will look like this:
 
@@ -47,7 +47,5 @@ To remove them via prettyZoo, fire it up (on ops.cluster.dev):
 - Select the problem bookie (host:3181).
 - Delete it, by right-clicking and choosing the "delete" option.
 - Confirm the deletion.
-
-
 
 

@@ -1,6 +1,6 @@
-# cluster-dev Installing and Configuring the Template CentOS
+# cluster-test: Installing and Configuring the Template CentOS
 
-## Table of Contents {#toc}
+## Table of Contents
 
 This is all manual, mostly command-line, work. But it's all simple, short, and copy/paste.
 
@@ -19,7 +19,7 @@ This is all manual, mostly command-line, work. But it's all simple, short, and c
     1. [bash](#CentOS-bash)
     1. [Pulsar and Cassandra](#CentOS-pandc)
 
-## CentOS {#CentOS}
+## CentOS{#CentOS}
 Find a CentOS ISO and download it (this is the last Windows download). 
 [CentOS.org](https://www.centos.org/download/) is a logical place to find the CentOS ISOs.
 
@@ -29,7 +29,7 @@ Go back to Virtual Box and "mount" this ISO in the Storage settings.
 
 Start the VM.
 
-### CentOS Installer {#CentOS-installer}
+### CentOS Installer{#CentOS-installer}
 
 You will notice that the VM window captures your mouse once you click in it. The right ctrl key will release that capture. We'll fix that inconvenience, shortly.
 

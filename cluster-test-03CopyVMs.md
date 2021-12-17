@@ -1,4 +1,4 @@
-# cluster-dev - Copying the Template VM
+# cluster-test: Copying the Template VM
 
-## Copying the VM {#VirtualBox-copy}
+## Copying the VM{#VirtualBox-copy}
 

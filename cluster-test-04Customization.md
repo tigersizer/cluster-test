@@ -1,4 +1,4 @@
-# cluster-dev - Customizing the VMs
+# cluster-test: Customizing the VMs
 
 ## Table of Contents {#toc}
 

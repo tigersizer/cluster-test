@@ -1,4 +1,4 @@
-# cluster-dev
+# cluster-test: Overview
 
 This is a full set of instructions for installing and running five virtual machines:
 - Host OS: Windows 10 (although I don't think there is anything Windows-specific in here)
@@ -17,7 +17,7 @@ There is a lot of manual, mostly command-line, work. But it's all simple, short,
 1. [Introduction](#Introduction)
 1. [System Requirements](#Requirements)
 1. [Design](#Design)
-1. [VirtualBox](cluster-test-01VirtualBoxTempateVM.md)
+1. [VirtualBox](cluster-test-01VirtualBoxTemplateVM.md)
 1. [CentOS](cluster-test-02CentOSTemplateVM.md)
 1. [Copying the VM](cluster-test-03CopyVMs.md)
 1. [VM customization](cluster-test-04Customization.md)

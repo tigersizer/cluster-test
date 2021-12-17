@@ -1,13 +1,11 @@
-# cluster-dev - Setting up the Template Virtual Machine
+# cluster-test: Setting up the Template Virtual Machine
 
-## Table of Contents {#toc}
-
-This is all manual, mostly command-line, work. But it's all simple, short, and copy/paste.
+This is all manual, but it's all simple, short, and copy/paste.
 
 1. [Networking](#VirtualBox-networking)
 1. [VM Settings](#VirtualBox-VMs)
 
-## VirtualBox {#VirtualBox}
+## VirtualBox{#VirtualBox}
 
 The Windows Hypervisor does not run on the Home edition of Windows 10. If for some reason you
 care, you can read the [installation instructions](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v).
@@ -18,7 +16,7 @@ This leads us to [VirtualBox, the Oracle virtual machine manager](https://www.vi
 
 There is one "trick", which we will get to, that makes it work *well*: The Guest Additions. This makes the VM window a seamless part of your host desktop.
 
-### VirtualBox Networking {#VirtualBox-networking}
+### VirtualBox Networking{#VirtualBox-networking}
 
 This is confusing and the manual has an [https://www.virtualbox.org/manual/ch06.html](entire chapter devoted to it).
 
@@ -36,7 +34,7 @@ These instructions will create five VMs with static IP addresses and domain-name
 
 This will not play well with corporate networks.
 
-### Virtual Box VM Settings {#VirtualBox-VMs}
+### Virtual Box VM Settings{#VirtualBox-VMs}
 
 These settings are (mostly) changeable at-will. Since we're creating three VMs of one sort and two of another, it makes sense to create the first one as one of the three. That way, when we copy it, we only need to edit two of them.
 
