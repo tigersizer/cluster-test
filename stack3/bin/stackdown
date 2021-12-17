@@ -1,0 +1,5 @@
+#!/bin/bash
+# this could be bad, but it works for dev
+docker stop broker3
+docker stop book3
+docker stop zoo3

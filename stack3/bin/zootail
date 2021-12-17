@@ -1,0 +1,5 @@
+#!/bin/bash
+# set the terminal window title
+echo -en "\033]2;ZooKeeper: Zoo3 logs\007";
+# this is trivial, but hand
+tail -f ~/cluster-test/stack3/zookeeper/logs/zookeeper3.log
