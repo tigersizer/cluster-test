@@ -28,7 +28,7 @@ There is one "trick", which we will get to, that makes it work *well*: The Guest
 
 ### VirtualBox Networking
 
-This is confusing and the manual has an [entire chapter devoted to it].(https://www.virtualbox.org/manual/ch06.html)
+This is confusing and the manual has an [entire chapter devoted to it](https://www.virtualbox.org/manual/ch06.html).
 
 What matters is how you want connectivity to work. For this, we need all five VMs talking to each other. It's also pretty much mandatory to have a VM to Internet connection for installations. Having access to the VM services from the host Windows machine is not as handy as it may sound, but from a laptop can be convenient.
 
@@ -44,7 +44,7 @@ These instructions will create five VMs with static IP addresses and domain-name
 
 This will not play well with corporate networks.
 
-### Virtual Box VM Settings
+### VirtualBox VM Settings
 
 These settings are (mostly) changeable at-will. Since we're creating three VMs of one sort and two of another, it makes sense to create the first one as one of the three. That way, when we copy it, we only need to edit two of them.
 

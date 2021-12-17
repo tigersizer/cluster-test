@@ -15,8 +15,11 @@ This is all manual, mostly command-line, work. But it's all simple, short, and c
         1. [ZooKeeper Admin](#zookeeper-admin)
         1. [prettyZoo](#prettyzoo)
         1. [BookKeeper Admin](#bookkeeper-admin)
-        1. [Pulsar Manager](#pular-manager)
+        1. [Pulsar Manager](#pulsar-manager)
         1. [Prometheus](#prometheus)
+        1. [Elasticsearch](#elasticsearch)
+        1. [Grafana](#grafana)
+        1. [Kibana](#kibana)
     1. [STACK VMs](#stack-vms)
         1. [ifcfg](#stack-ifcfg)
     1. [DEV VM](#dev-vm)
@@ -26,7 +29,7 @@ This is all manual, mostly command-line, work. But it's all simple, short, and c
 1. [Recovering from Mistakes](cluster-test-06Recovery.md)
 1. [Testing Failure Modes](cluster-test-07Testing.md)
 
-## VM Customization {#VMs}
+## VM Customization
 
 Each virtual machine is slightly different (notably the IP addresses).
 
@@ -261,9 +264,11 @@ Of course, as always, the trick is provisioning it.
 
 #### Graphana
 
+#### Elasticsearch
+
 #### Kibana
 
-### STACK  VMs
+### STACK VMs
 
 #### STACK ifcfg
 
@@ -309,6 +314,8 @@ Replace "stack1" with the appropriate value.
 ```
 
 ### DEV VM
+
+#### DEV ifcfg
 
 #### github
 

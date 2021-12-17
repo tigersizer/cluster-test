@@ -6,13 +6,14 @@
 1. [VirtualBox](cluster-test-01VirtualBoxTemplateVM.md) - template VM creation
 1. [CentOS](#centos) - template VM configuration
     1. [Installer](#centos-installer)
+    1. [Setup](#setup)
     1. [Manual Setup](#centos-manual-setup)
         1. [sudo](#sudo)
         1. [VirtualBox Guest Additions](#virtualbox-guest-additions)
-        1. [Scrip the Rest](#buildcommon)
+        1. [Script the Rest](#script-the-rest)
     1. [What the script does](#what-the-script-does)
         1. [git](#git)
-        1. [Domain Name Server](#domain-name-servier)
+        1. [Domain Name Server](#domain-name-server)
         1. [Prometheus Node Exporter](#prometheus-node-exporter)
         1. [Firefox](#firefox)
         1. [Docker](#docker)
@@ -53,7 +54,7 @@ Finish the installer, which will reboot.
 
 Finish the installation wizard that comes up after you login.
 
-### CentOS Basic Setup
+### Setup
 
 There are a number of things that are less than ideal about a bare installation. This section describes the things *I* like. Feel free to customize your heart out before we start copying this VM. Everything you do here is one less thing to be done multiple times, later.
 
@@ -62,6 +63,10 @@ After rebooting, login as *stack* and open a terminal window (click Activities i
 You will notice that resizing the VM window doesn't resize what's inside. We'll get to that.
 
 Oh, I assume you know how to use vi. If not, use an editor of your choice; `nano` is popular, but not always installed. vi is always there.
+
+### Manual Setup
+
+The first few steps must be done manually. After that, you can decide whether or not script the rest.
 
 #### sudo
 
@@ -248,7 +253,7 @@ You don't want to run it, yet, but it "just runs":
     $ ./node_exporter
 ```
 
-#### Firefox {#CentOS-Firefox}
+#### Firefox
 
 This is not required for anything, although a browser is useful. If you want to use a different one, install it *before* the VM is copied.
 
@@ -258,7 +263,7 @@ Upgrade to the most recent version:
     $ sudo dnf update firefox
 ```
 
-#### Docker {#CentOS-Docker}
+#### Docker
 
 You want Docker on all the VMs. There is a "trick": It collides with podman, which is a CentOS container thing. So, get rid of that:
 
