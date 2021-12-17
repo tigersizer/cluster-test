@@ -1,0 +1,33 @@
+#!/bin/bash
+# make them all executable
+chmod +x ~/cluster-test/stack2/bin
+
+# make them all usably executable
+ln -s ~/cluster-test/stack2/bin/bookiedown ~/bin/bookiedown
+ln -s ~/cluster-test/stack2/bin/bookietail ~/bin/bookietail
+ln -s ~/cluster-test/stack2/bin/bookieup ~/bin/bookieup
+ln -s ~/cluster-test/stack2/bin/brokerdown ~/bin/brokerdown
+ln -s ~/cluster-test/stack2/bin/brokertail ~/bin/brokertail
+ln -s ~/cluster-test/stack2/bin/brokerup ~/bin/brokerup
+ln -s ~/cluster-test/stack2/bin/netup ~/bin/netup
+ln -s ~/cluster-test/stack2/bin/stackdown ~/bin/stackdown
+ln -s ~/cluster-test/stack2/bin/stackup ~/bin/stackup
+ln -s ~/cluster-test/stack2/bin/zoodown ~/bin/zoodown
+ln -s ~/cluster-test/stack2/bin/zootail ~/bin/zootail
+ln -s ~/cluster-test/stack2/bin/zooup ~/bin/zooup
+
+# create the non-git directories that Docker will screw up permissions on
+mkdir ~/cluster-test/stack2/bookkeeper
+mkdir ~/cluster-test/stack2/bookkeeper/data
+mkdir ~/cluster-test/stack2/bookkeeper/logs
+chgrp -r docker ~/cluster-test/stack2/bookkeeper
+
+mkdir ~/cluster-test/stack2/broker
+mkdir ~/cluster-test/stack2/broker/data
+mkdir ~/cluster-test/stack2/broker/logs
+chgrp -r docker ~/cluster-test/stack2/broker
+
+mkdir ~/cluster-test/stack2/zookeeper
+mkdir ~/cluster-test/stack2/zookeeper/data
+mkdir ~/cluster-test/stack2/zookeeper/logs
+chgrp -r docker ~/cluster-test/stack2/zookeeper

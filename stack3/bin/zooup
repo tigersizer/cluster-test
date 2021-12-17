@@ -22,10 +22,8 @@ docker run --name zoo3 \
     -p 2888:2888 \
     -v ~/cluster-test/stack3/zookeeper/data:/pulsar/data/zookeeper/ \
     -v ~/cluster-test/stack3/conf:/conf \
-    -v ~/cluster-test/stack3/scripts:/scripts \
+    -v ~/cluster-test/stack3/bin:/scripts \
     -v ~/cluster-test/stack3/zookeeper/logs:/logs \
     -e PULSAR_ZK_CONF=/conf/zookeeper.conf \
     -e ZK_ID=3 \
     apachepulsar/pulsar:2.8.1 /bin/bash /scripts/start_zk.sh
-
-# No additional environment variables; it's all in the config file
