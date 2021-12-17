@@ -30,7 +30,7 @@ Go back to Virtual Box and "mount" this ISO in the Storage settings.
 
 Start the VM.
 
-### CentOS Installer(#CentOS-installer)
+### CentOS Installer
 
 You will notice that the VM window captures your mouse once you click in it. The right ctrl key will release that capture. We'll fix that inconvenience, shortly.
 
