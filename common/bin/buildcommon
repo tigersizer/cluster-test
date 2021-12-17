@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# This script is fairly innocuous, but it is NOT idempotent.
+# If you run this more than once, it will screw things up.
+
+# The Firefox section of cluster-test-02CentOSTemplateVM.md
+sudo dnf update firefox
+
+# The Docker section of cluster-test-02CentOSTemplateVM.md
+sudo yum erase podman buildah
+sudo yum install -y yum-utils
+sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+sudo yum install docker-ce docker-ce-cli containerd.io
+sudo groupadd docker
+sudo usermod -aG docker $USER
+sudo systemctl enable docker.service
+sudo systemctl enable containerd.service
+sudo systemctl start docker
+dockerr run hello-world
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+
+# The Docker section of cluster-test-02CentOSTemplateVM.md
+sudo yum install java-11-openjdk-devel
+sudo alternatives --config java
+
+cd ~
+wget http://ftp.yz.yamagata-u.ac.jp/pub/eclipse/oomph/epp/2021-09/R/eclipse-inst-linux64.tar.gz
+tar xvf eclipse-inst-linux64.tar.gz
+cd eclipse-installer/
+./eclipse-inst
+
+# The Python section of cluster-test-02CentOSTemplateVM.md
+sudo alternatives --config python
+
+# The vi section of cluster-test-02CentOSTemplateVM.md
+cat ~/cluster-test/common/conf/vi.vimrc >> ~/.vimrc
+
+# The vi section of cluster-test-02CentOSTemplateVM.md
+cat ~/cluster-test/common/conf/sh.bashrc >> ~/.bashrc
+
