@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# create the network (should already be there with an error for this)
+# one node per VM works better without a Docker network
+netup
+
+# this could be bad, but it works for dev
+docker stop bookie1
+
+# cannot recreate with the same name (docker-compose does this on "down")
+# do it on up so the logs are laying about should I want them
+# do this before the run command below so prots are not in use
+docker rm bookie1
+
+# this assumes book1 always comes up first
+# if the data directory is not there, nothing has started, yet
+# this is actually Pulsar Broker initialization, but it does Bookie initialization, too
+# --cluster must match clusterName in broker.conf 
+if [ ! -d ~/cluster-test/stack1/bookkeeper/data/journal ]; then
+    # initialize the bookie cluster with pulsar metadata
+    docker run --rm \
+        --net=vm-bridge \
+        -p 8082:8082 \
+        -p 3181:3181 \
+        -v ~/cluster-test/stack1/bookkeeper/data:/pulsar/data/bookkeeper/ \
+        -v ~/cluster-test/stack1/conf:/conf \
+        -v ~/cluster-test/stack1/bin:/scripts \
+        -e BOOKIE_CONF=/conf/bookkeeper.conf \
+        apachepulsar/pulsar:2.8.1 bin/pulsar initialize-cluster-metadata \
+          --cluster pulsar-cluster-test \
+          --zookeeper zoo1.cluster.test:2181 \
+          --web-service-url broker1.cluster.test:8083 \
+          --configuration-store zoo1.cluster.test:2181 \
+          --broker-service-url pulsar://broker1.cluster.test:6650 
+  
+fi
+   
+# 8082 is the configurable prometheusStatsHttpPort
+#   there is also an httpServerPort that should be the same
+# 3181 is the configurable bookiePort
+docker run --name bookie1 \
+    -d \
+    --restart always \
+    --net=vm-bridge \
+    -p 8082:8082 \
+    -p 3181:3181 \
+    -v ~/cluster-test/stack1/bookkeeper/data:/pulsar/data/bookkeeper/ \
+    -v ~/cluster-test/stack1/conf:/conf \
+    -v ~/cluster-test/stack1/scripts:/scripts \
+    -v ~/cluster-test/stack1/bookkeeper/logs:/logs \
+    -e BOOKIE_CONF=/conf/bookkeeper.conf \
+    apachepulsar/pulsar:2.8.1 /bin/bash /scripts/start_bk.sh

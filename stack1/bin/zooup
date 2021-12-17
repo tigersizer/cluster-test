@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# create the network (should already be there with an error for this)
+# one node per VM works better without a Docker network
+netup
+   
+# this could be bad, but it works for dev
+docker stop zoo1
+
+# cannot recreate with the same name (docker-compose does this on "down")
+# do it on up so the logs are laying about should I want them
+docker rm zoo1
+
+# need scripts for start_zk to create the myid file from ZK_ID and redirect stdout logs
+# 3888 is used internally for elections and does not seem override-able
+# 2181 is the configurable clientPort
+# 8081 is the configurable admin.serverPort (it's awful, but why not have it?)
+# 2888 is the configuralbe data synch port
+# restart always will restart after a shutdown, if the container is running at the time
+docker run --name zoo1 \
+    -d \
+    --restart always \
+    --net=vm-bridge \
+    -p 3888:3888 \
+    -p 2181:2181 \
+    -p 8081:8081 \
+    -p 2888:2888 \
+    -v ~/cluster-test/stack1/zookeeper/data:/pulsar/data/zookeeper/ \
+    -v ~/cluster-test/stack1/conf:/conf \
+    -v ~/cluster-test/stack1/bin:/scripts \
+    -v ~/cluster-test/stack1/zookeeper/logs:/logs \
+    -e PULSAR_ZK_CONF=/conf/zookeeper.conf \
+    -e ZK_ID=1 \
+    apachepulsar/pulsar:2.8.1 /bin/bash /scripts/start_zk.sh
+
+# No additional environment variables; it's all in the config file
