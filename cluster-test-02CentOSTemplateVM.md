@@ -8,6 +8,7 @@ This is all manual, mostly command-line, work. But it's all simple, short, and c
 1. [Basic Setup](#CentOS-setup)
     1. [sudo](#CentOS-sudo)
     1. [VirtualBox Guest Additions](#CentOS-VBGA)
+    1. [Scrip the Rest](#CentOS-buildcommon)
     1. [git](#CentOS-git)
     1. [DNS](#CentOS-DNS)
     1. [Prometheus Node Exporter](#CentOS-pnode)
@@ -29,7 +30,7 @@ Go back to Virtual Box and "mount" this ISO in the Storage settings.
 
 Start the VM.
 
-### CentOS Installer{#CentOS-installer}
+### CentOS Installer(#CentOS-installer)
 
 You will notice that the VM window captures your mouse once you click in it. The right ctrl key will release that capture. We'll fix that inconvenience, shortly.
 
@@ -43,7 +44,7 @@ Finish the installer, which will reboot.
 
 Finish the installation wizard that comes up after you login.
 
-### CentOS Basic Setup {#CentOS-setup}
+### [CentOS Basic Setup](#CentOS-setup)
 
 There are a number of things that are less than ideal about a bare installation. This section describes the things *I* like. Feel free to customize your heart out before we start copying this VM. Everything you do here is one less thing to be done multiple times, later.
 
@@ -53,7 +54,7 @@ You will notice that resizing the VM window doesn't resize what's inside. We'll 
 
 Oh, I assume you know how to use vi. If not, use an editor of your choice; `nano` is popular, but not always installed. vi is always there.
 
-#### sudo {#CentOS-sudo}
+#### sudo(#CentOS-sudo)
 
 This is basically required to do anything. Life is much simpler without having to type a password each time. So, we'll make that happen. After this, you can forget the root password that you just configured (although I don't recommend that).
 
@@ -92,7 +93,7 @@ It's probably unnecessary to actually reboot, but rebooting works. Either use th
 
 Note that this step may break some corporate policy or another. Passwordless root access freaks some people out (and it's not terribly wise, but these are development VMs).
 
-#### VirtualBox Guest Additions {#CentOS-VBGA}
+#### VirtualBox Guest Additions(#CentOS-VBGA)
 
 These are like magic (and why you want so much video memory), but they rebuild parts of the kernel, which means you need to be up-to-date with the kernel building tools, which the ISO is not.
 
@@ -148,26 +149,7 @@ This is confusing and do not paste into vi unless you're in insert mode!
 
 See why we do this *before* copying the VM?
 
-#### git {#CentOS-git}
-
-Can't forget to clone this repository! It's not all typing. There are scripts and configurations and things!
-
-If you don't clone this from your home directory, there are many things in the cluster-dev/stackX/bin directory that must be edited. Be good to yourself and do it from ~.
-
-```
-    $ cd ~
-    $ git clone 
-```
-
-github doesn't maintain file modes, so you'll want to do this to make life easier, later:
-
-```
-    $ chmod +x cluster-test/common/bin/*
-    $ chmod +x cluster-test/ops/bin/*
-    $ chmod +x cluster-test/stack1/bin/*
-    $ chmod +x cluster-test/stack2/bin/*
-    $ chmod +x cluster-test/stack3/bin/*
-```
+#### Script the Rest(#CentOS-buildcommon)
 
 If you are going to build **EXACTLY** my configuration, the rest of the setup below can be accomplished in one step:
 
@@ -178,6 +160,28 @@ If you are going to build **EXACTLY** my configuration, the rest of the setup be
 These "build" scripts are very dangerous to run:
 - They are *NOT* idempotent. Run them only once.
 - They create *EXCATLY* what is documented, here. If you want *anything* different, run them at your own risk.
+
+#### git {#CentOS-git}
+
+Can't forget to clone this repository! It's not all typing. There are scripts and configurations and things!
+
+If you don't clone this from your home directory, there are many things in the cluster-test/stackX/bin directory that must be edited. Be good to yourself and do it from ~.
+
+```
+    $ cd ~
+    $ git clone 
+```
+
+github doesn't maintain file modes, so you'll want to do this to make life easier, later:
+
+
+```
+    $ chmod +x cluster-test/common/bin/*
+    $ chmod +x cluster-test/ops/bin/*
+    $ chmod +x cluster-test/stack1/bin/*
+    $ chmod +x cluster-test/stack2/bin/*
+    $ chmod +x cluster-test/stack3/bin/*
+```
 
 #### DNS {#CentOS-DNS}
 

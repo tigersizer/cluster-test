@@ -1,11 +1,11 @@
 # cluster-test: Setting up the Template Virtual Machine
 
-This is all manual, but it's all simple, short, and copy/paste.
+This is all manual, but it's all simple.
 
 1. [Networking](#VirtualBox-networking)
 1. [VM Settings](#VirtualBox-VMs)
 
-## VirtualBox{#VirtualBox}
+## VirtualBox
 
 The Windows Hypervisor does not run on the Home edition of Windows 10. If for some reason you
 care, you can read the [installation instructions](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v).
@@ -18,7 +18,7 @@ There is one "trick", which we will get to, that makes it work *well*: The Guest
 
 ### VirtualBox Networking{#VirtualBox-networking}
 
-This is confusing and the manual has an [https://www.virtualbox.org/manual/ch06.html](entire chapter devoted to it).
+This is confusing and the manual has an [entire chapter devoted to it].(https://www.virtualbox.org/manual/ch06.html)
 
 What matters is how you want connectivity to work. For this, we need all five VMs talking to each other. It's also pretty much mandatory to have a VM to Internet connection for installations. Having access to the VM services from the host Windows machine is not as handy as it may sound, but from a laptop can be convenient.
 
@@ -69,9 +69,9 @@ Press the Settings button:
     - You're on your own for "Monitor Count"; I have only one.
 - Storage settings
     - Select the DVD icon under "Controller IDE", the press the other DVD icon on the right.
-    - Pick your OS installation ISO, which we [have not downloaded, yet](#CentOS).
+    - Pick your OS installation ISO, which we [have not downloaded, yet](cluster-test-02CentOSTemplateVM.md).
 - Network settings:
     - Adapter 1 tab. Select "Bridged Adapter" for "Attached To".
 
-Now it's ready to fire up - except we need the ISO...
+Now it's ready to fire up - [except we need that ISO...](cluster-test-02CentOSTemplateVM.md)
 
