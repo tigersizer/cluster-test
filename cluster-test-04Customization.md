@@ -4,22 +4,33 @@
 
 This is all manual, mostly command-line, work. But it's all simple, short, and copy/paste.
 
-1. [OPS VM](#VMs-ops)
-    1. [DNS](#VMs-dns)
-    1. [ifcfg](#VMs-ifcfg)
-    1. [ZooKeeper Admin](#VMs-zooadmin)
-    1. [prettyZoo](#VMs-prettyzoo)
-    1. [BookKeeper Admin](#VMs-bookadmin)
-    1. [Pulsar Manager](#VMs-pularmanager)
-    1. [Prometheus](#VMs-prometheus)
-1. [Cluster Node VMs](#VMs-cluster)
-1. [DEV VM](#VMs-dev)
+1. [Introduction](README.md)
+1. [VirtualBox](cluster-test-01VirtualBoxTemplateVM.md) - template VM creation
+1. [CentOS](cluster-test-02CentOSTemplateVM.md) - template VM configuration
+1. [Copying the VM](cluster-test-03CopyVMs.md)
+1. [VM customization](#vm-customization)
+    1. [OPS VM](#ops-vm)
+        1. [BIND](#bind)
+        1. [ifcfg](#ops-ifcfg)
+        1. [ZooKeeper Admin](#zookeeper-admin)
+        1. [prettyZoo](#prettyzoo)
+        1. [BookKeeper Admin](#bookkeeper-admin)
+        1. [Pulsar Manager](#pular-manager)
+        1. [Prometheus](#prometheus)
+    1. [STACK VMs](#stack-vms)
+        1. [ifcfg](#stack-ifcfg)
+    1. [DEV VM](#dev-vm)
+        1. [ifcfg](#dev-ifcfg)
+        1. [github](#github)
+1. [Firing it all up](cluster-test-05FiringItUp.md)
+1. [Recovering from Mistakes](cluster-test-06Recovery.md)
+1. [Testing Failure Modes](cluster-test-07Testing.md)
 
 ## VM Customization {#VMs}
 
 Each virtual machine is slightly different (notably the IP addresses).
 
-### OPS VM {#VMs-ops}
+### OPS VM
 
 We'll do this one first so it's ready to deal with DNS right away. That is the only "do this first" step, here. If you want to hurry and get the cluster up before you can monitor it - I get it. Skip ahead and come back to this step.
 
@@ -33,7 +44,7 @@ If you are configuring everything **EXACATLY** as described here, you can get al
     $ ~/cluster-test/ops/bin/buildops
 ```
 
-#### DNS {#VMs-dns}
+#### BIND
 
 You want to do this BEFORE changing your network configuration because it requires access to the Internet and changing your network configuration may break that.
 
@@ -41,8 +52,8 @@ You want to do this BEFORE changing your network configuration because it requir
 This is almost word-for-word of a [fedingo post](https://fedingo.com/how-to-configure-dns-server-on-centos-rhel/) on installing BIND.
 
 ```
-$ sudo dnf install bind bind-utils
-$ sudo vi /etc/named.conf
+    $ sudo dnf install bind bind-utils
+    $ sudo vi /etc/named.conf
 ```
 
 You want to comment out two lines in options and change one:
@@ -148,11 +159,11 @@ As long as we're dealing with names:
 
 The firewall commands at the link are not needed because the firewall is not enabled.
 
-#### ifcfg-enp0s3 {#ifcfg}
+#### OPS ifcfg
 
 The same change is made to all of the VMs, with just the IPADDR being different: Replace DHCP with a static IP and associated configuration.
 
-I don't know where "enp0s3" came from. The VMs only have one NIC, so edit whatever is there.
+I don't know where `enp0s3` came from. The VMs only have one NIC, so edit whatever is there.
 
 ```
     $ sudo vi /etc/sysconfig/network-scripts/ifcfg-enp0s3
@@ -169,7 +180,7 @@ The next line should be "DEFROUTE=yes". Leave the rest of the file alone.
 
 And reboot. Be sure you can still connect to the Internet. If you cannot, I have no idea what might be wrong; it just worked for me.
 
-#### ZooKeeper Admin {#VMs-zooadmin}
+#### ZooKeeper Admin
 
 This is a **terrible** tool, but it exists so if you want it, it is exposed.
 
@@ -182,7 +193,7 @@ It is web-based, so open a browser (FireFix comes installed) and bookmark:
 
 Note that the port is configured in cluster.dev/stackX/conf/zookeeper.conf as "admin.serverPort" and exposed in the zooup "docker run" command.
 
-#### prettyZoo {#VMs-prettyzoo}
+#### prettyZoo
 
 Download the rpm from the [github page](https://github.com/vran-dev/PrettyZoo/releases) and install it:
 
@@ -220,7 +231,7 @@ You may add the servers before bringing them up, if you wish; obviosly connectin
 
 Note that the port is configured in cluster.dev/stackX/conf/zookeeper.conf as "clientPort" and exposed in the zooup "docker run" command.
 
-#### BookKeeper Admin {#VMs-bookadmin}
+#### BookKeeper Admin
 
 This is web-based. Open a browser (Firefox comes installed) and bookmark:
 - http://bookie1.cluster.test:8082/metrics
@@ -231,9 +242,9 @@ There are other URLs. See the [Admin REST API](https://bookkeeper.apache.org/doc
 
 Note that the port is configured in cluster.dev/stackX/conf/bookkeeper.conf as BOTH "prometheusStatsHttpPort" and "httpServerPort" and exposed in the bookup "docker run" command.
 
-#### Puslar Manager {#VMs-pulsarmanager}
+#### Puslar Manager
 
-#### Prometheus {#VMs-prometheus}
+#### Prometheus
 
 Download it and run it. Check the [Prometheus Download page](https://prometheus.io/download/) for the current version.
 
@@ -248,16 +259,15 @@ There are Docker images, but all by third-parties. I may revisit this later.
 
 Of course, as always, the trick is provisioning it.
 
-
 #### Graphana
 
 #### Kibana
 
-### Cluster Node VMs {#VMs-cluster}
+### STACK  VMs
 
-#### ifcfg-enp0s3
+#### STACK ifcfg
 
-This is the same change as for the [ops machine](#ifcfg). Be sure to give each VM a unique IP and, if diverging from these instructions, that it matches the DNS zone files.
+This is the same change as for the [ops machine](#ops-ifcfg). Be sure to give each VM a unique IP and, if diverging from these instructions, that it matches the DNS zone files.
 
 Reboot and test via ping-by-name.
 
@@ -298,7 +308,7 @@ Replace "stack1" with the appropriate value.
     $ chmod +x ~/bin/*
 ```
 
-### DEV VM {#VMs-dev}
+### DEV VM
 
 #### github
 

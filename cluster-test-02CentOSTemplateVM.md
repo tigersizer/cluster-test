@@ -2,25 +2,34 @@
 
 ## Table of Contents
 
-This is all manual, mostly command-line, work. But it's all simple, short, and copy/paste.
-
-1. [Installer](#CentOS-installer)
-1. [Basic Setup](#CentOS-basic-setup)
-    1. [sudo](#sudo)
-    1. [VirtualBox Guest Additions](#CentOS-VBGA)
-    1. [Scrip the Rest](#CentOS-buildcommon)
-    1. [git](#CentOS-git)
-    1. [DNS](#CentOS-DNS)
-    1. [Prometheus Node Exporter](#CentOS-pnode)
-    1. [Firefox](#CentOS-Firefox)
-    1. [Docker](#CentOS-Docker)
-    1. [Eclipse and Java](#CentOS-Eclipse)
-    1. [Python](#CentOS-Python)
-    1. [vi](#CentOS-vi)
-    1. [bash](#CentOS-bash)
-    1. [Pulsar and Cassandra](#CentOS-pandc)
+1. [Introduction](README.md)
+1. [VirtualBox](cluster-test-01VirtualBoxTemplateVM.md) - template VM creation
+1. [CentOS](#centos) - template VM configuration
+    1. [Installer](#centos-installer)
+    1. [Manual Setup](#centos-manual-setup)
+        1. [sudo](#sudo)
+        1. [VirtualBox Guest Additions](#virtualbox-guest-additions)
+        1. [Scrip the Rest](#buildcommon)
+    1. [What the script does](#what-the-script-does)
+        1. [git](#git)
+        1. [Domain Name Server](#domain-name-servier)
+        1. [Prometheus Node Exporter](#prometheus-node-exporter)
+        1. [Firefox](#firefox)
+        1. [Docker](#docker)
+        1. [Eclipse and Java](#eclipse-and-java)
+        1. [Python](#python)
+        1. [vi](#vi)
+        1. [bash](#bash)
+1. [Copying the VM](cluster-test-03CopyVMs.md)
+1. [VM customization](cluster-test-04Customization.md)
+1. [Firing it all up](cluster-test-05FiringItUp.md)
+1. [Recovering from Mistakes](cluster-test-06Recovery.md)
+1. [Testing Failure Modes](cluster-test-07Testing.md)
 
 ## CentOS
+
+This is all manual, mostly command-line, work. But it's all simple, short, and copy/paste.
+
 Find a CentOS ISO and download it (this is the last Windows download). 
 [CentOS.org](https://www.centos.org/download/) is a logical place to find the CentOS ISOs.
 
@@ -93,7 +102,7 @@ It's probably unnecessary to actually reboot, but rebooting works. Either use th
 
 Note that this step may break some corporate policy or another. Passwordless root access freaks some people out (and it's not terribly wise, but these are development VMs).
 
-#### VirtualBox Guest Additions(#CentOS-VBGA)
+#### VirtualBox Guest Additions
 
 These are like magic (and why you want so much video memory), but they rebuild parts of the kernel, which means you need to be up-to-date with the kernel building tools, which the ISO is not.
 
@@ -149,7 +158,7 @@ This is confusing and do not paste into vi unless you're in insert mode!
 
 See why we do this *before* copying the VM?
 
-#### Script the Rest(#CentOS-buildcommon)
+#### Script the Rest
 
 If you are going to build **EXACTLY** my configuration, the rest of the setup below can be accomplished in one step:
 
@@ -161,7 +170,9 @@ These "build" scripts are very dangerous to run:
 - They are *NOT* idempotent. Run them only once.
 - They create *EXCATLY* what is documented, here. If you want *anything* different, run them at your own risk.
 
-#### git {#CentOS-git}
+### What the script does
+
+#### git
 
 Can't forget to clone this repository! It's not all typing. There are scripts and configurations and things!
 
@@ -183,7 +194,7 @@ github doesn't maintain file modes, so you'll want to do this to make life easie
     $ chmod +x cluster-test/stack3/bin/*
 ```
 
-#### DNS {#CentOS-DNS}
+#### Domain Name Server
 
 We only want a DNS server on the operations VM, so we don't want to do that, yet. 
 
@@ -219,7 +230,7 @@ If you want to create a separate address space and routing, you're on your own. 
 
 Note that it was originally going to be cluster.dev, but Google has broken the ".dev" top level domain for almost all browsers. It is hard-coded into the browsers - even Microsoft browsers - to use TLS (aka https://) connections to all .dev domains. This breaks many of the admin tools. ".test" is supposed to be reserved and seems to work fine.
 
-#### Prometheus Node Exporter {#CentOS-pnode}
+#### Prometheus Node Exporter
 
 In addition to generally monitoring your VMs, this provides a handy way to know they're all connected and working.
 
@@ -300,7 +311,7 @@ As long as we're here, we might as well get `docker-compose`
 
 Presumably, that version in the URL will change over time.
 
-#### Eclipse {#CentOS-Eclipse}
+#### Eclipse and Java
 
 This is not required. In fact, I haven't even used it, yet. But it's handy for Python and an up-to-date Java is usually a good thing.
 
@@ -326,7 +337,7 @@ When it asks to launch Eclipse, say yes or it yells at you.
 
 As long as you have Eclipse open...
 
-#### Python {#CentOS-Python}
+#### Python
 
 Do NOT install Python 2.x unless the world is coming to an end. Trying to manage both Python 2.x and Python 3.x is a nightmare.
 
@@ -340,7 +351,7 @@ You shouldn't have a choice, but choosing the only option (Python 3) will make "
 
 While you have Eclipse open, install the PyDev Python plugin from the Marketplace.
 
-#### vi / VIM {#CentOS-vi}
+#### vi
 
 I'm on the "space" side of the tab/space war, so I configure vi (and Eclipse) to use spaces. Create a .vimrc file and insert:
 
@@ -361,7 +372,7 @@ One of those annoys me on insert, but I don't know which one it is.
 
 Oddly enough, logout/login doesn't seem to force this to work; I rebooted.
 
-#### bash {#CentOS-bash}
+#### bash
 
 I use separate terminal windows or tabs for Docker containers and I like having them titled. This is handy - and it was ridiculously difficult to find a version that actually worked, so I saved it.
 
@@ -377,19 +388,3 @@ Open .bashrc and append:
     }
     function title { echo -en "\033]2;$1\007"; }
 ```
-
-If you think this is silly, feel free to remove the "title" lines from the "up" commands, which we will discuss later.
-
-#### Pulsar and Cassandra {#CentOS-pandc}
-
-You don't need to install these. They will be run in Docker containers, not "natively" in the VM.
-
-It's a bit of a wash, since Docker will just magically do it when required, but you can pre-pull the images:
-
-```
-    $ docker pull apachepulsar/pulsar:2.8.1
-    $ docker pull cassandra:3.11
-```
-
-The scripts use those versions; feel free to pick different ones (and make the necessary changes)
-

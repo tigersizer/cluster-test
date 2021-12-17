@@ -1,14 +1,24 @@
 # cluster-test: Setting up the Template Virtual Machine
 
-This is all manual, but it's all simple.
+## Table of Contents
 
-1. [Networking](#VirtualBox-networking)
-1. [VM Settings](#VirtualBox-VMs)
+1. [Introduction](README.md)
+1. [VirtualBox](#virtualbox) - template VM creation
+    1. [Networking](#virtualbox-networking)
+    1. [VM Settings](#virtualbox-vm-settings)
+1. [CentOS](cluster-test-02CentOSTemplateVM.md) - template VM configuration
+1. [Copying the VM](cluster-test-03CopyVMs.md)
+1. [VM customization](cluster-test-04Customization.md)
+1. [Firing it all up](cluster-test-05FiringItUp.md)
+1. [Recovering from Mistakes](cluster-test-06Recovery.md)
+1. [Testing Failure Modes](cluster-test-07Testing.md)
+
 
 ## VirtualBox
 
-The Windows Hypervisor does not run on the Home edition of Windows 10. If for some reason you
-care, you can read the [installation instructions](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v).
+This is all manual, but it's all simple.
+
+The Windows Hypervisor does not run on the Home edition of Windows 10. If for some reason you care, you can read the [installation instructions](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v).
 
 There are BIOS settings that must be turned on for virtual machines to work. This is one problem I did not have, so I don't know what they are.
 
@@ -16,7 +26,7 @@ This leads us to [VirtualBox, the Oracle virtual machine manager](https://www.vi
 
 There is one "trick", which we will get to, that makes it work *well*: The Guest Additions. This makes the VM window a seamless part of your host desktop.
 
-### VirtualBox Networking{#VirtualBox-networking}
+### VirtualBox Networking
 
 This is confusing and the manual has an [entire chapter devoted to it].(https://www.virtualbox.org/manual/ch06.html)
 
@@ -34,7 +44,7 @@ These instructions will create five VMs with static IP addresses and domain-name
 
 This will not play well with corporate networks.
 
-### Virtual Box VM Settings{#VirtualBox-VMs}
+### Virtual Box VM Settings
 
 These settings are (mostly) changeable at-will. Since we're creating three VMs of one sort and two of another, it makes sense to create the first one as one of the three. That way, when we copy it, we only need to edit two of them.
 
@@ -69,7 +79,7 @@ Press the Settings button:
     - You're on your own for "Monitor Count"; I have only one.
 - Storage settings
     - Select the DVD icon under "Controller IDE", the press the other DVD icon on the right.
-    - Pick your OS installation ISO, which we [have not downloaded, yet](cluster-test-02CentOSTemplateVM.md).
+    - Pick your OS installation ISO, which we [have not downloaded, yet](cluster-test-02CentOSTemplateVM.md#centos).
 - Network settings:
     - Adapter 1 tab. Select "Bridged Adapter" for "Attached To".
 

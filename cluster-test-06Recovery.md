@@ -1,10 +1,18 @@
 # cluster-test: Recovering from Mistakes
 
-## Table of Contents {#toc}
+## Table of Contents
 
-1. [BookKeeper Changes](#Recovering-bk)
+1. [Introduction](README.md)
+1. [VirtualBox](cluster-test-01VirtualBoxTemplateVM.md) - template VM creation
+1. [CentOS](cluster-test-02CentOSTemplateVM.md) - template VM configuration
+1. [Copying the VM](cluster-test-03CopyVMs.md)
+1. [VM customization](cluster-test-04Customization.md)
+1. [Firing it all up](cluster-test-05FiringItUp.md)
+1. [Recovering from Mistakes](#recovering-from-mistakes)
+    1. [BookKeeper Changes](#bookkeeper-changes)
+1. [Testing Failure Modes](cluster-test-07Testing.md)
 
-## Recovering from Mistakes{#Recovering}
+## Recovering from Mistakes
 
 This can be difficult because the entire point of all this clustering is redundancy. 
 
@@ -14,7 +22,7 @@ require starting Pulsar from scratch, too.
 Cassandra also likes its redundancy and bringing the cluster up and down moves a lot of data. If you're doing
 Cassandra work, I recommend leaving it running and putting the host to "sleep" rather than powering it down.
 
-### BookKeeper Changes{#Recovering-bk}
+### BookKeeper Changes
 
 BookKeeper has two cookies: One locally in the data directory and one in ZooKeeper. When those cookies do not match, it refuses to start. The error message will look like this:
 
