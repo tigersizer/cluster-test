@@ -5,8 +5,8 @@
 This is all manual, mostly command-line, work. But it's all simple, short, and copy/paste.
 
 1. [Installer](#CentOS-installer)
-1. [Basic Setup](#CentOS-setup)
-    1. [sudo](#CentOS-sudo)
+1. [Basic Setup](#CentOS-basic-setup)
+    1. [sudo](#sudo)
     1. [VirtualBox Guest Additions](#CentOS-VBGA)
     1. [Scrip the Rest](#CentOS-buildcommon)
     1. [git](#CentOS-git)
@@ -20,7 +20,7 @@ This is all manual, mostly command-line, work. But it's all simple, short, and c
     1. [bash](#CentOS-bash)
     1. [Pulsar and Cassandra](#CentOS-pandc)
 
-## CentOS{#CentOS}
+## CentOS
 Find a CentOS ISO and download it (this is the last Windows download). 
 [CentOS.org](https://www.centos.org/download/) is a logical place to find the CentOS ISOs.
 
@@ -44,7 +44,7 @@ Finish the installer, which will reboot.
 
 Finish the installation wizard that comes up after you login.
 
-### [CentOS Basic Setup](#CentOS-setup)
+### CentOS Basic Setup
 
 There are a number of things that are less than ideal about a bare installation. This section describes the things *I* like. Feel free to customize your heart out before we start copying this VM. Everything you do here is one less thing to be done multiple times, later.
 
@@ -54,7 +54,7 @@ You will notice that resizing the VM window doesn't resize what's inside. We'll 
 
 Oh, I assume you know how to use vi. If not, use an editor of your choice; `nano` is popular, but not always installed. vi is always there.
 
-#### sudo(#CentOS-sudo)
+#### sudo
 
 This is basically required to do anything. Life is much simpler without having to type a password each time. So, we'll make that happen. After this, you can forget the root password that you just configured (although I don't recommend that).
 
