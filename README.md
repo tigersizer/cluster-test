@@ -10,28 +10,28 @@ This is a full set of instructions for installing and running five virtual machi
 
 There is a lot of manual setup work before the included scripts will function.
 
-## Table of Contents {#toc}
+## Table of Contents
 
 There is a lot of manual, mostly command-line, work. But it's all simple, short, and copy/paste. So much for the Docker promises.
 
-1. [Introduction](#Introduction)
-1. [System Requirements](#Requirements)
-1. [Design](#Design)
-1. [VirtualBox](cluster-test-01VirtualBoxTemplateVM.md)
-1. [CentOS](cluster-test-02CentOSTemplateVM.md)
+1. [Introduction](#introduction)
+    1. [System Requirements](#system-requirements)
+    1. [Design](#design)
+1. [VirtualBox](cluster-test-01VirtualBoxTemplateVM.md) - template VM creation
+1. [CentOS](cluster-test-02CentOSTemplateVM.md) - template VM configuration
 1. [Copying the VM](cluster-test-03CopyVMs.md)
 1. [VM customization](cluster-test-04Customization.md)
 1. [Firing it all up](cluster-test-05FiringItUp.md)
 1. [Recovering from Mistakes](cluster-test-06Recovery.md)
 1. [Testing Failure Modes](cluster-test-07Testing.md)
 
-## Introduction{#Introduction}
+## Introduction
 
 This is very long document. Feel free to skip the sections you do not need.
 
 However, from what I've seen, this is not at all normal. Skipping sections may break things, later.
 
-Read the [System Requirements](#Requirements) section to see if the configuration
+Read the [System Requirements](#system-requirements) section to see if the configuration
 defined here is compatible with your needs and resources. It may very well not be.
 
 I had a very difficult time making this work, so I thought I'd write it all down in one place 
@@ -46,7 +46,7 @@ follow-up for Kubernetes seems likely.
 Most of this can be done via putty, which comes configured. I assume a GUI per VM with the
 full CentOS installation, which includes Gnome, but the cluster nodes could be headless.
 
-## System Requirements{#Requirements}
+## System Requirements
 
 **A big host machine**
 
@@ -76,7 +76,7 @@ I chose VirtualBox because Windows 10 Home edition does not run Hyper-V.
 
 The same ideas may work elsewhere, since all the configuration is in the virtual machines, but it has not been tested.
 
-## Design{#Design}
+## Design
 
 This is all software I use at work, but from a very high level. I wanted to understand how it worked in detail and be able to play with it without creating problems for others. I have a beast of a computer that I bought not least out of spite (it's banned in Colorado, from which I had just moved) and I wanted to stretch it a bit. So why not? I figured it would be a weekend project. Hah! It turns out that lots of people do parts of this, but no one (internet-search-able) has done it all. I was taking copious notes and had many links to other helpful people, so why not publicize the result?
 
