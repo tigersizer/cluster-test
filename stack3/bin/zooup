@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# create the network (should already be there with an error for this)
+# one node per VM works better without a Docker network
+netup
+
+# this could be bad, but it works for dev
+docker stop zoo3
+
+# cannot recreate with the same name (docker-compose does this on "down")
+# do it on up so the logs are laying about should I want them
+docker rm zoo3
+
+# see stack1 version for more comments about this
+docker run --name zoo3 \
+    -d \
+    --restart always \
+    --net=vm-bridge \
+    -p 3888:3888 \
+    -p 2181:2181 \
+    -p 8081:8081 \
+    -p 2888:2888 \
+    -v ~/cluster-test/stack3/zookeeper/data:/pulsar/data/zookeeper/ \
+    -v ~/cluster-test/stack3/conf:/conf \
+    -v ~/cluster-test/stack3/scripts:/scripts \
+    -v ~/cluster-test/stack3/zookeeper/logs:/logs \
+    -e PULSAR_ZK_CONF=/conf/zookeeper.conf \
+    -e ZK_ID=3 \
+    apachepulsar/pulsar:2.8.1 /bin/bash /scripts/start_zk.sh
+
+# No additional environment variables; it's all in the config file

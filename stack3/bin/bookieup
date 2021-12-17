@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# create the network (should already be there with an error for this)
+# one node per VM works better without a Docker network
+netup
+
+# this could be bad, but it works for dev
+docker stop bookie3
+
+# cannot recreate with the same name (docker-compose does this on "down")
+# do it on up so the logs are laying about should I want them
+docker rm bookie3
+
+# see stack1 version for comments
+docker run --name bookie3 \
+    -d \
+    --restart always \
+    --net=vm-bridge \
+    -p 8082:8082 \
+    -p 3181:3181 \
+    -v ~/cluster-test/stack3/bookkeeper/data:/pulsar/data/bookkeeper/ \
+    -v ~/cluster-test/stack3/conf:/conf \
+    -v ~/cluster-test/stack3/scripts:/scripts \
+    -v ~/cluster-test/stack3/bookkeeper/logs:/logs \
+    -e BOOKIE_CONF=/conf/bookkeeper.conf \
+    apachepulsar/pulsar:2.8.1 /bin/bash /scripts/start_bk.sh
