@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# create the network (should already be there with an error for this)
+# one node per VM works better without a Docker network
+netup
+   
+# this could be bad, but it works for dev
+docker stop prometheus
+
+# cannot recreate with the same name (docker-compose does this on "down")
+# do it on up so the logs are laying about should I want them
+docker rm prometheus
+
+# 9090 is the http server 
+# /prometheus is the data directory (from Stackoverflow, Prometheus docs don't mention it)
+# restart always will restart after a shutdown, if the container is running at the time
+docker run --name prometheus \
+    -d \
+    --restart always \
+    --net=vm-bridge \
+    -p 9090:9090 \
+    -v ~/cluster-test/ops/prometheus/data:/prometheus \
+    -v ~/cluster-test/ops/conf/:/conf \
+    -v ~/cluster-test/ops/bin:/scripts \
+    -v ~/cluster-test/ops/prometheus/logs:/logs \
+    prom/prometheus --config.file=/conf/prometheus.yml

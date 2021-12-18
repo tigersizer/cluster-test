@@ -1,0 +1,51 @@
+# my global config
+global:
+    scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+    evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+    # scrape_timeout is set to the global default (10s).
+
+# Alertmanager configuration
+alerting:
+    alertmanagers:
+        - static_configs:
+            - targets:
+                # - alertmanager:9093
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+    # - "first_rules.yml"
+    # - "second_rules.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+    # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+    - job_name: "prometheus"
+
+      # metrics_path defaults to '/metrics'
+      # scheme defaults to 'http'.
+
+      static_configs:
+          - targets: ["localhost:9090"]
+
+    - job_name: "stacks"
+      static_configs:
+            - targets: ["stack1.cluster.test:8080","stack2.cluster.test:8080","stacke3.cluster.test:8080"]
+
+    # working on this one:
+    # - job_name: "dockers"
+    # static_configs:
+    #   - targets: ["stack1.cluster.test:9090","stack2.cluster.test:9090","stack3.cluster.test:9090"]
+
+    # zooX are on 8081, but they do not serve prometheus compatible data
+    
+    - job_name: "bookies"
+      static_configs:
+          - targets: ["bookie1.cluster.test:8082", "bookie2.cluster.test:8082", "bookie3.cluster.test:8082"]
+
+    - job_name: "brokers"
+      static_configs:
+          - targets: ["broker1.cluster.test:8083", "broker2.cluster.test:8083", "broker3.cluster.test:8083"]
+
+    # hopefully this will work:
+    # - job_name: "casses"
