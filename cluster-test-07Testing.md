@@ -1,6 +1,6 @@
 # cluster-test: Testing Failure Modes
 
-## Table of Contents {#toc}
+## Table of Contents
 
 1. [Introduction](README.md)
 1. [VirtualBox](cluster-test-01VirtualBoxTemplateVM.md) - template VM creation

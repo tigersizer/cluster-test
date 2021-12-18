@@ -1,6 +1,6 @@
 # cluster-test: Customizing the VMs
 
-## Table of Contents {#toc}
+## Table of Contents 
 
 This is all manual, mostly command-line, work. But it's all simple, short, and copy/paste.
 
@@ -35,7 +35,7 @@ Each virtual machine is slightly different (notably the IP addresses).
 
 ### OPS VM
 
-We'll do this one first so it's ready to deal with DNS right away. That is the only "do this first" step, here. If you want to hurry and get the cluster up before you can monitor it - I get it. Skip ahead and come back to this step.
+We'll do this one first so it's ready to deal with DNS right away. That is the only "do this first" step, here. If you want to hurry and get the cluster up before you can monitor it - I get it. Configure bind/named then skip ahead and come back to this step.
 
 If you are configuring everything **EXACATLY** as described here, you can get all this done with one command (you did the chmod +x commands in the [common git setup](cluster-test-02-CentOSTempateVM.md#CentOS-git), right?)
 
@@ -44,7 +44,7 @@ If you are configuring everything **EXACATLY** as described here, you can get al
 **WARNING**: This will create *exactly* what's documented here - particularly IP addresses, but also including some of my settings that are *not* expected to be configured here because the NIC configuration is copied in full. If you break networking, it's painful to get it restored - and you're on your own without Internet assistance.
 
 ```
-    $ ~/cluster-test/ops/bin/buildops
+    ~/cluster-test/ops/bin/buildops
 ```
 
 #### BIND
@@ -55,8 +55,8 @@ You want to do this BEFORE changing your network configuration because it requir
 This is almost word-for-word of a [fedingo post](https://fedingo.com/how-to-configure-dns-server-on-centos-rhel/) on installing BIND.
 
 ```
-    $ sudo dnf install bind bind-utils
-    $ sudo vi /etc/named.conf
+    sudo dnf install bind bind-utils
+    sudo vi /etc/named.conf
 ```
 
 You want to comment out two lines in options and change one:
@@ -66,8 +66,10 @@ You want to comment out two lines in options and change one:
 //      listen-on port 53 { 127.0.0.1; };
 //      listen-on-v6 port 53 { ::1; };
 
-	allow-query     { localhost; 192.168.2.0/24; };
+	allow-query     { any; };
 ```
+
+"any" is not the best choice, but names in local Docker containers need to resolve and adding "127.0.0.11" - the Docker DNS address - was insufficient.
 
 Right after the "." zone, add the new zone:
 
@@ -89,7 +91,7 @@ I'll mention it here, one last time: Change 192.168.2 to whatever works for you.
 Now create the two (forward and reverse) zone files:
 
 ```
-    $ sudo vi /var/named/cluster.dev.db
+    $ sudo vi /var/named/cluster.test.db
 @	IN	SOA	ops.cluster.test	root.cluster.test. (
 							1001	; Serial
 							3H	; Refresh
@@ -201,22 +203,22 @@ Note that the port is configured in cluster.dev/stackX/conf/zookeeper.conf as "a
 Download the rpm from the [github page](https://github.com/vran-dev/PrettyZoo/releases) and install it:
 
 ```
-    $ wget https://github.com/vran-dev/PrettyZoo/releases/download/v1.9.4/prettyzoo-1.9.4-1.x86_64.rpm
-    $ sudo rpm -i prettyzoo-1.9.4-1.x86_64.rpm 
+    wget https://github.com/vran-dev/PrettyZoo/releases/download/v1.9.4/prettyzoo-1.9.4-1.x86_64.rpm
+    sudo rpm -i prettyzoo-1.9.4-1.x86_64.rpm 
 ```
 
 
 It does install in an odd directory, so this is as good a place as any for this step:
 
 ```
-    $ ln -s ~/cluster-test/ops/bin/* ~/bin
-    $ chmod +x ~/bin/*
+    ln -s ~/cluster-test/ops/bin/* ~/bin
+    chmod +x ~/bin/*
 ```
 
 You can configure it now or come back after starting the cluster and use this as verification.
 
 ```
-    $ prettyZoo &
+    prettyZoo &
 ```
 
 It likes to write to stderr, so you probably want to open a new terminal tab/window even though it's running in the background.
@@ -249,20 +251,35 @@ Note that the port is configured in cluster.dev/stackX/conf/bookkeeper.conf as B
 
 #### Prometheus
 
-Download it and run it. Check the [Prometheus Download page](https://prometheus.io/download/) for the current version.
+This runs in Docker, so there is nothing to configure, but we need directories and links:
 
 ```
-    $ wget "https://github.com/prometheus/prometheus/releases/download/v2.32.0/prometheus-2.32.0.linux-amd64.tar.gz"
-    $ tar xvfz prometheus-*.tar.gz
-    $ cd prometheus-*
-    $ ./prometheus --help
+    mkdir -p ~/cluster-test/ops/prometheus/logs
+    mkdir -p ~/cluster-test/ops/prometheus/data
+    ln -s ~/cluster-test/ops/bin/prometheusup ~/bin/prometheusup
+    ln -s ~/cluster-test/ops/bin/prometheusdown ~/bin/prometheusdown
+    ln -s ~/cluster-test/ops/bin/prometheustail ~/bin/prometheustail
 ```
-
-There are Docker images, but all by third-parties. I may revisit this later.
-
-Of course, as always, the trick is provisioning it.
 
 #### Graphana
+
+This runs in Docker, so there is no thing to configure, but we need directories and links.
+
+There are [configuration instructions](https://grafana.com/docs/grafana/latest/administration/configuration/), if you want details. The [Docker configuration](https://grafana.com/docs/grafana/latest/administration/configure-docker/) is a bit different.
+
+
+Grafana has some funky user stuff going on; I just punted:
+
+```
+    mkdir -p ~/cluster-test/ops/grafana/logs
+    mkdir -p ~/cluster-test/ops/grafana/data
+    chmod -R a+w ~/cluster-test/ops/grafana 
+    ln -s ~/cluster-test/ops/bin/grafanaup ~/bin/grafanaup
+    ln -s ~/cluster-test/ops/bin/grafanadown ~/bin/grafanadown
+    ln -s ~/cluster-test/ops/bin/grafanatail ~/bin/grafanatail
+```
+
+The default admin user and password are - what else? - "admin" and "admin"
 
 #### Elasticsearch
 
@@ -279,7 +296,7 @@ Reboot and test via ping-by-name.
 If something doesn't work, try:
 
 ```
-$ dig ops.cluster.dev
+    dig ops.cluster.dev
 ```
 
 That will do a name lookup and should supply some helpful information.
@@ -295,9 +312,9 @@ Docker does weird things with root and directory ownership. Everything was "clea
 Remember "stack" is your login; if you used something different, change the ownership appropriately.
 
 ```
-    $ sudo chown -R stack cluster-test
-    $ chgrp -R docker cluster-test
-    $ chmod -R g+w cluster-test
+    sudo chown -R stack cluster-test
+    chgrp -R docker cluster-test
+    chmod -R g+w cluster-test
 ```
 
 That's a bit excessive, but it's the least typing.
@@ -309,8 +326,8 @@ There are scripts for each node. We need to put them somewhere useful.
 Replace "stack1" with the appropriate value.
 
 ```
-    $ ln -s ~/cluster-test/stack1/bin/* ~/bin
-    $ chmod +x ~/bin/*
+    ln -s ~/cluster-test/stack1/bin/* ~/bin
+    chmod +x ~/bin/*
 ```
 
 ### DEV VM
@@ -322,14 +339,14 @@ Replace "stack1" with the appropriate value.
 Install [gh](https://github.com/cli/cli/blob/trunk/docs/install_linux.md)
 
 ```
-    $ sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
-    $ sudo dnf install gh 
+    sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
+    sudo dnf install gh 
 ```
 
 Set the authentication configuration (assuming you'll use it)
 
 ```
-    $ gh auth login
+    gh auth login
 ```
 The user interface is awful. Use the up and down arrows and don't type much, even if you think you should.
 
