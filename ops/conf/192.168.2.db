@@ -1,0 +1,19 @@
+@	IN	SOA	ops.cluster.test	root.cluster.test (
+							1001	; Serial
+							3H	; Refresh
+							15M	; Retry
+							1W	; Expire
+							1D	; Minimum TTL
+							)
+
+; name server information
+@	IN	NS	ops.cluster.test.
+
+; reverse
+200	IN	PTR	ops.cluster.test.
+
+; PTR Records for the rest
+201	IN	PTR	stack1.cluster.test.
+202	IN	PTR	stack2.cluster.test.
+203	IN	PTR	stack3.cluster.test.
+210	IN	PTR	dev.cluster.test.

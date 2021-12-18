@@ -1,0 +1,40 @@
+@	IN	SOA	ops.cluster.test	root.cluster.test. (
+							1001	; Serial
+							3H	; Refresh
+							15M	; Retry
+							1W	; Expire
+							1D	; Minimum TTL
+							)
+; Name server information
+@	IN	NS	ops.cluster.test.
+
+; IP of name server
+ops	IN 	A	192.168.2.200
+
+; no MX record
+
+;A - host to IP
+elastic	IN	A	192.168.2.200
+kibana	IN	A	192.168.2.200
+prometheus	IN	A	192.168.2.200
+grafana	IN	A	192.168.2.200
+stack1	IN	A 	192.168.2.201
+zoo1	IN	A	192.168.2.201
+bookie1	IN	A	192.168.2.201
+broker1	IN	A	192.168.2.201
+pulsar1	IN	A	192.168.2.201
+cass1	IN	A	192.168.2.201
+stack2	IN	A 	192.168.2.202
+zoo2	IN	A	192.168.2.202
+bookie2	IN	A	192.168.2.202
+broker2	IN	A	192.168.2.202
+pulsar2	IN	A	192.168.2.201
+cass2	IN	A	192.168.2.202
+stack3	IN	A 	192.168.2.203
+zoo3	IN	A	192.168.2.203
+bookie3	IN	A	192.168.2.203
+broker3	IN	A	192.168.2.203
+pulsar3	IN	A	192.168.2.201
+cass3	IN	A	192.168.2.203
+dev	IN	A	192.168.2.210
+
