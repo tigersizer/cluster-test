@@ -15,6 +15,9 @@ ln -s ~/cluster-test/stack1/bin/stackup ~/bin/stackup
 ln -s ~/cluster-test/stack1/bin/zoodown ~/bin/zoodown
 ln -s ~/cluster-test/stack1/bin/zootail ~/bin/zootail
 ln -s ~/cluster-test/stack1/bin/zooup ~/bin/zooup
+ln -s ~/cluster-test/stack1/bin/pnodedown ~/bin/pnodedown
+ln -s ~/cluster-test/stack1/bin/pnodetail ~/bin/pnodetail
+ln -s ~/cluster-test/stack1/bin/pnodeup ~/bin/pnodeup
 
 # create the non-git directories that Docker will screw up permissions on
 mkdir ~/cluster-test/stack1/bookkeeper
@@ -31,3 +34,7 @@ mkdir ~/cluster-test/stack1/zookeeper
 mkdir ~/cluster-test/stack1/zookeeper/data
 mkdir ~/cluster-test/stack1/zookeeper/logs
 chgrp -r docker ~/cluster-test/stack1/zookeeper
+
+mkdir ~/cluster-test/stack1/node_exporter
+mkdir ~/cluster-test/stack1/node_exporter/logs
+
