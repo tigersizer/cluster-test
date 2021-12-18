@@ -1,6 +1,6 @@
 # cluster-test: Firing It Up
 
-## Table of Contents {#toc}
+## Table of Contents
 
 1. [Introduction](README.md)
 1. [VirtualBox](cluster-test-01VirtualBoxTemplateVM.md) - template VM creation
@@ -20,7 +20,7 @@
 1. [Testing Failure Modes](cluster-test-07Testing.md)
 
 
-## Firing it all up {#Running}
+## Firing it Up
 
 There are two ways to do this: Fire up the whole stack with logs 
 or bring up each service in its own window/tab and let the logs scroll.
@@ -66,6 +66,10 @@ On one node you will probably want the Pulsar proxy service, so pick one and:
 I have no idea; I haven't created it, yet.
 
 #### prettyZoo
+
+#### Pulsar Manager
+
+#### Prometheus
 
 ### DEV VM
 
