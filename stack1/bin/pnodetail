@@ -2,4 +2,4 @@
 # set the terminal window title
 echo -en "\033]2;Prometheus: node_exporter1 logs\007";
 # this is trivial, but handy
-tail -f ~/cluster-test/stack1/node_exporter/logs/node_exporter.log
+tail -f ~/cluster-test/stack1/node_exporter/logs/nodeexporter1.log
