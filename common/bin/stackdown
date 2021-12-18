@@ -1,0 +1,6 @@
+#!/bin/bash
+# bring everything down in reverse order of up
+brokerdown
+bookiedown
+zoodown
+pnodedown
