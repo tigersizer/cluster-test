@@ -30,12 +30,13 @@ scrape_configs:
 
     - job_name: "stacks"
       static_configs:
-            - targets: ["stack1.cluster.test:8080","stack2.cluster.test:8080","stacke3.cluster.test:8080"]
+          # I don't like 9090, but node_exporter dislikes many ports; this one works          
+            - targets: ["stack1.cluster.test:9090","stack2.cluster.test:9090","stack3.cluster.test:9090"]
 
     # working on this one:
-    # - job_name: "dockers"
-    # static_configs:
-    #   - targets: ["stack1.cluster.test:9090","stack2.cluster.test:9090","stack3.cluster.test:9090"]
+    - job_name: "dockers"
+      static_configs:
+            - targets: ["stack1.cluster.test:9092","stack2.cluster.test:9092","stack3.cluster.test:9092"]
 
     # zooX are on 8081, but they do not serve prometheus compatible data
     

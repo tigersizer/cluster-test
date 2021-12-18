@@ -1,0 +1,31 @@
+#!/bin/bash
+
+if [ ! -d /var/named ]; then
+    sudo dnf install bind bind-utils
+    sudo systemctl enable named
+
+    # this is DANGEROUS if you're not me
+    # use cat - it does a better job with ownership
+    sudo cat ~/cluster-test/ops/conf/named.conf > /etc/named.conf
+    sudo cat ~/cluster-test/ops/conf/cluster.test.db > /var/named/cluster.test.db
+    sudo cat ~/cluster-test/ops/conf/192.168.2.db > /var/named/192.168.2.db
+    sudo cat ~/cluster-test/ops/conf/ifcfg-enp0s3 > /etc/sysconfig/network-scripts/ifcfg-enp0s3 
+    hostnamectl set-hostname ops.cluster.test
+    sudo reboot
+fi
+
+cd ~
+wget https://github.com/vran-dev/PrettyZoo/releases/download/v1.9.4/prettyzoo-1.9.4-1.x86_64.rpm
+sudo rpm -i prettyzoo-1.9.4-1.x86_64.rpm
+
+chmod +x ~/cluster-test/ops/bin/*
+
+ln -s ~/cluster-test/ops/bin/prettyZoo ~/bin/prettyZoo
+
+ln -s ~/cluster-test/ops/bin/prometheusdown ~/bin/prometheusdown
+ln -s ~/cluster-test/ops/bin/prometheustail ~/bin/prometheustail
+ln -s ~/cluster-test/ops/bin/prometheusup ~/bin/prometheusup
+
+
+
+
