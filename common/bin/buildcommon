@@ -26,11 +26,17 @@ sudo chmod +x /usr/local/bin/docker-compose
 sudo yum install java-11-openjdk-devel
 sudo alternatives --config java
 
+# The Eclipse and Java section of cluster-test-02CentOSTemplateVM.md
 cd ~
 wget http://ftp.yz.yamagata-u.ac.jp/pub/eclipse/oomph/epp/2021-09/R/eclipse-inst-linux64.tar.gz
 tar xvf eclipse-inst-linux64.tar.gz
 cd eclipse-installer/
 ./eclipse-inst
+
+#The Prometheus section of cluster-test02CentOSTemplateVM.md
+cd ~
+wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
+tar xvfz node_exporter-*.*-amd64.tar.gz
 
 # The Python section of cluster-test-02CentOSTemplateVM.md
 sudo alternatives --config python
@@ -41,3 +47,5 @@ cat ~/cluster-test/common/conf/vi.vimrc >> ~/.vimrc
 # The vi section of cluster-test-02CentOSTemplateVM.md
 cat ~/cluster-test/common/conf/sh.bashrc >> ~/.bashrc
 
+ln -s ~/cluster-test/common/bin/stackup ~/bin/stackup
+ln -s ~/cluster-test/common/bin/stackdown ~/bin/stackdown

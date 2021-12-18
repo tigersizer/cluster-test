@@ -1,5 +1,5 @@
 #!/bin/bash
 # set the terminal window title
-echo -en "\033]2;Pulsar Broker3 logs\007";
+echo -en "\033]2;Pulsar: Broker3 logs\007";
 # this is trivial, but hand
 tail -f ~/cluster-test/stack3/broker/logs/broker3.log
