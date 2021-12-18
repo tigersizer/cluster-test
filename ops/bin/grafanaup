@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# create the network (should already be there with an error for this)
+# one node per VM works better without a Docker network
+netup
+   
+# this could be bad, but it works for dev
+docker stop grafana
+
+# cannot recreate with the same name (docker-compose does this on "down")
+# do it on up so the logs are laying about should I want them
+docker rm grafana
+
+# Grafana has some funky user issues
+ID=$(id -u)
+
+# 3000 is the http server 
+# /var/lib/grafana is the data directory 
+docker run --name grafana \
+    -d \
+    --net=vm-bridge \
+    --user $ID \
+    -p 3000:3000 \
+    -e "GF_LOG_MODE=console file" \
+    -v ~/cluster-test/ops/grafana/data:/var/lib/grafana \
+    -v ~/cluster-test/ops/conf/grafana.ini:/etc/grafana/grafana.ini \
+    -v ~/cluster-test/ops/bin:/scripts \
+    -v ~/cluster-test/ops/grafana/logs:/var/log/grafana \
+    grafana/grafana-enterprise

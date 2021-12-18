@@ -1,0 +1,5 @@
+#!/bin/bash
+# set the terminal window title
+echo -en "\033]2;Grafana logs\007";
+# this is trivial, but handy
+tail -f ~/cluster-test/ops/grafana/logs/grafana.log
