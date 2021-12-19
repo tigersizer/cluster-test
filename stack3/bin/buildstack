@@ -38,3 +38,8 @@ chgrp -r docker ~/cluster-test/stack2/zookeeper
 mkdir ~/cluster-test/stack3/node_exporter
 mkdir ~/cluster-test/stack3/node_exporter/logs
 
+mkdir ~/cluster-test/stack3/cassandra
+mkdir ~/cluster-test/stack3/cassandra/data
+mkdir ~/cluster-test/stack3/cassandra/logs
+chgrp -R docker ~/cluster-test/stack3/cassandra
+
