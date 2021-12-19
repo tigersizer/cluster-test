@@ -423,7 +423,7 @@ seed_provider:
       parameters:
           # seeds is actually a comma-delimited list of addresses.
           # Ex: "<ip1>,<ip2>,<ip3>"
-          - seeds: "172.18.0.5"
+          - seeds: "192.168.2.201"
 
 # For workloads with more data than can fit in memory, Cassandra's
 # bottleneck will be reads that need to fetch data from
@@ -609,6 +609,8 @@ ssl_storage_port: 7001
 # address associated with the hostname (it might not be).
 #
 # Setting listen_address to 0.0.0.0 is always wrong.
+#   I beg to differ: Try getting this to work across VMs while inside Docker.
+#   IP addresses flip/flop all over the place and network boundaries change.
 #
 listen_address: 172.18.0.5
 
@@ -624,7 +626,7 @@ listen_address: 172.18.0.5
 
 # Address to broadcast to other Cassandra nodes
 # Leaving this blank will set it to the same value as listen_address
-broadcast_address: 172.18.0.5
+broadcast_address: 192.168.2.201
 
 # When using multiple physical network interfaces, set this
 # to true to listen on broadcast_address in addition to
@@ -673,7 +675,7 @@ native_transport_port: 9042
 # native_transport_max_concurrent_connections_per_ip: -1
 
 # Whether to start the thrift rpc server.
-start_rpc: false
+start_rpc: true
 
 # The address or interface to bind the Thrift RPC service and native transport
 # server to.
@@ -706,7 +708,7 @@ rpc_port: 9160
 # be set to 0.0.0.0. If left blank, this will be set to the value of
 # rpc_address. If rpc_address is set to 0.0.0.0, broadcast_rpc_address must
 # be set.
-broadcast_rpc_address: 172.18.0.5
+broadcast_rpc_address: 192.168.2.201
 
 # enable or disable keepalive on rpc/native connections
 rpc_keepalive: true

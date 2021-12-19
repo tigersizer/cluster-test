@@ -18,19 +18,29 @@ docker rm cass1
 # -p
 #   7000 is the configurable storage_port
 #   7001 is the secure version ssl_storage_port
+#   7199 is JMX
 #   9042 is the configurable native_transport_port (for clients)
+#   9160 is Thrift
 # -v
 #   make /var/lib/cassandra persistent 
 #   override /etc/cassandra for configuration; we need access to more than cassandra.yaml
 #   create /logs directory is also handy for transferring arbitrary data to/from the container
+# -e
+#   Docker Cassandra "helpfully" rewrites IP addresses in cassandra.yaml; this is not as bad
+#       as one may think, because external IPs don't bind. It does some magic if you
+#       pass them in as environment variables.
+#   not-stack1 has CASSANDRA_SEEDS= for the same reason.
 docker run --name cass1 \
     -d \
     --restart always \
     --net=vm-bridge \
     -p 7000:7000 \
     -p 7001:7001 \
+    -p 7199:7199 \
     -p 9042:9042 \
+    -p 9160:9160 \
     -v ~/cluster-test/stack1/cassandra/data:/var/lib/cassandra/ \
     -v ~/cluster-test/stack1/conf/etccassandra:/etc/cassandra \
     -v ~/cluster-test/stack1/cassandra/logs:/logs \
+    -e CASSANDRA_BROADCAST_ADDRESS=192.168.2.201 \
     cassandra:3.11 
