@@ -23,18 +23,23 @@ ln -s ~/cluster-test/stack1/bin/pnodeup ~/bin/pnodeup
 mkdir ~/cluster-test/stack1/bookkeeper
 mkdir ~/cluster-test/stack1/bookkeeper/data
 mkdir ~/cluster-test/stack1/bookkeeper/logs
-chgrp -r docker ~/cluster-test/stack1/bookkeeper
+chgrp -R docker ~/cluster-test/stack1/bookkeeper
 
 mkdir ~/cluster-test/stack1/broker
 mkdir ~/cluster-test/stack1/broker/data
 mkdir ~/cluster-test/stack1/broker/logs
-chgrp -r docker ~/cluster-test/stack1/broker
+chgrp -R docker ~/cluster-test/stack1/broker
 
 mkdir ~/cluster-test/stack1/zookeeper
 mkdir ~/cluster-test/stack1/zookeeper/data
 mkdir ~/cluster-test/stack1/zookeeper/logs
-chgrp -r docker ~/cluster-test/stack1/zookeeper
+chgrp -R docker ~/cluster-test/stack1/zookeeper
 
 mkdir ~/cluster-test/stack1/node_exporter
 mkdir ~/cluster-test/stack1/node_exporter/logs
+
+mkdir ~/cluster-test/stack1/cassandra
+mkdir ~/cluster-test/stack1/cassandra/data
+mkdir ~/cluster-test/stack1/cassandra/logs
+chgrp -R docker ~/cluster-test/stack1/cassandra
 
