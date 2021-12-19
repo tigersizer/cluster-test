@@ -1,45 +1,50 @@
 #!/bin/bash
-# make them all executable
+# make the commands executable
 chmod +x ~/cluster-test/stack1/bin
 
-# make them all usably executable
-ln -s ~/cluster-test/stack1/bin/bookiedown ~/bin/bookiedown
-ln -s ~/cluster-test/stack1/bin/bookietail ~/bin/bookietail
-ln -s ~/cluster-test/stack1/bin/bookieup ~/bin/bookieup
-ln -s ~/cluster-test/stack1/bin/brokerdown ~/bin/brokerdown
-ln -s ~/cluster-test/stack1/bin/brokertail ~/bin/brokertail
-ln -s ~/cluster-test/stack1/bin/brokerup ~/bin/brokerup
+# first command required by everything
 ln -s ~/cluster-test/stack1/bin/netup ~/bin/netup
-ln -s ~/cluster-test/stack1/bin/stackdown ~/bin/stackdown
-ln -s ~/cluster-test/stack1/bin/stackup ~/bin/stackup
-ln -s ~/cluster-test/stack1/bin/zoodown ~/bin/zoodown
-ln -s ~/cluster-test/stack1/bin/zootail ~/bin/zootail
-ln -s ~/cluster-test/stack1/bin/zooup ~/bin/zooup
-ln -s ~/cluster-test/stack1/bin/pnodedown ~/bin/pnodedown
-ln -s ~/cluster-test/stack1/bin/pnodetail ~/bin/pnodetail
-ln -s ~/cluster-test/stack1/bin/pnodeup ~/bin/pnodeup
 
-# create the non-git directories that Docker will screw up permissions on
-mkdir ~/cluster-test/stack1/bookkeeper
-mkdir ~/cluster-test/stack1/bookkeeper/data
-mkdir ~/cluster-test/stack1/bookkeeper/logs
-chgrp -R docker ~/cluster-test/stack1/bookkeeper
-
-mkdir ~/cluster-test/stack1/broker
-mkdir ~/cluster-test/stack1/broker/data
-mkdir ~/cluster-test/stack1/broker/logs
-chgrp -R docker ~/cluster-test/stack1/broker
-
+# ZooKeeper
 mkdir ~/cluster-test/stack1/zookeeper
 mkdir ~/cluster-test/stack1/zookeeper/data
 mkdir ~/cluster-test/stack1/zookeeper/logs
 chgrp -R docker ~/cluster-test/stack1/zookeeper
+ln -s ~/cluster-test/stack1/bin/zoodown ~/bin/zoodown
+ln -s ~/cluster-test/stack1/bin/zootail ~/bin/zootail
+ln -s ~/cluster-test/stack1/bin/zooup ~/bin/zooup
 
+# BookKeeper
+mkdir ~/cluster-test/stack1/bookkeeper
+mkdir ~/cluster-test/stack1/bookkeeper/data
+mkdir ~/cluster-test/stack1/bookkeeper/logs
+chgrp -R docker ~/cluster-test/stack1/bookkeeper
+ln -s ~/cluster-test/stack1/bin/bookiedown ~/bin/bookiedown
+ln -s ~/cluster-test/stack1/bin/bookietail ~/bin/bookietail
+ln -s ~/cluster-test/stack1/bin/bookieup ~/bin/bookieup
+
+# Pulsar Broker
+mkdir ~/cluster-test/stack1/broker
+mkdir ~/cluster-test/stack1/broker/data
+mkdir ~/cluster-test/stack1/broker/logs
+chgrp -R docker ~/cluster-test/stack1/broker
+ln -s ~/cluster-test/stack1/bin/brokerdown ~/bin/brokerdown
+ln -s ~/cluster-test/stack1/bin/brokertail ~/bin/brokertail
+ln -s ~/cluster-test/stack1/bin/brokerup ~/bin/brokerup
+
+# Prometheus node_exporter 
 mkdir ~/cluster-test/stack1/node_exporter
 mkdir ~/cluster-test/stack1/node_exporter/logs
+ln -s ~/cluster-test/stack1/bin/pnodedown ~/bin/pnodedown
+ln -s ~/cluster-test/stack1/bin/pnodetail ~/bin/pnodetail
+ln -s ~/cluster-test/stack1/bin/pnodeup ~/bin/pnodeup
 
+# Cassandra
 mkdir ~/cluster-test/stack1/cassandra
 mkdir ~/cluster-test/stack1/cassandra/data
 mkdir ~/cluster-test/stack1/cassandra/logs
 chgrp -R docker ~/cluster-test/stack1/cassandra
+ln -s ~/cluster-test/stack1/bin/cassdown ~/bin/cassdown
+ln -s ~/cluster-test/stack1/bin/casstail ~/bin/casstail
+ln -s ~/cluster-test/stack1/bin/cassup ~/bin/cassup
 

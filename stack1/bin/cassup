@@ -1,26 +1,36 @@
 #!/bin/bash
 
-# create the network (should already be there with an error for this)
-# one node per VM works better without a Docker network
+# Create the network (should already be there with an error for this).
+# One node per VM works better without a Docker network; bridge is the best we can do.
 netup
    
-# this could be bad, but it works for dev
+# This could be bad, but it works for dev.
 docker stop cass1
 
-# cannot recreate with the same name (docker-compose does this on "down")
-# do it on up so the logs are laying about should I want them
+# Cannot recreate with the same name (docker-compose does this on "down").
+# Do it on up so the logs are laying about should I want them.
 docker rm cass1
 
-# restart always will restart after a shutdown, if the container is running at the time
-# 7000 is the configurable storage_port
-# 7001 is the secure version ssl_storage_port
-# 9042 is the configurable native_transport_port (for clients)
+# --restart
+#   always will restart after a shutdown, if the container is running at the time.
+# --net
+#   vm-bridge is created by netup; it is what it sounds like.
+# -p
+#   7000 is the configurable storage_port
+#   7001 is the secure version ssl_storage_port
+#   9042 is the configurable native_transport_port (for clients)
+# -v
+#   make /var/lib/cassandra persistent 
+#   override /etc/cassandra for configuration; we need access to more than cassandra.yaml
+#   create /logs directory is also handy for transferring arbitrary data to/from the container
 docker run --name cass1 \
     -d \
     --restart always \
     --net=vm-bridge \
     -p 7000:7000 \
+    -p 7001:7001 \
     -p 9042:9042 \
     -v ~/cluster-test/stack1/cassandra/data:/var/lib/cassandra/ \
-    -v ~/cluster-test/stack1/conf:/conf \
-    cassandra:3.11 -Dcassandra.confg=/conf/cassandra.yaml
+    -v ~/cluster-test/stack1/conf/etccassandra:/etc/cassandra \
+    -v ~/cluster-test/stack1/cassandra/logs:/logs \
+    cassandra:3.11 

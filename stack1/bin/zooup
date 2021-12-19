@@ -1,22 +1,35 @@
 #!/bin/bash
 
-# create the network (should already be there with an error for this)
-# one node per VM works better without a Docker network
+# Create the network (should already be there with an error for this).
+# One node per VM works better without a Docker network; bridging is the next best option.
 netup
    
-# this could be bad, but it works for dev
+# This could be bad, but it works for dev.
 docker stop zoo1
 
-# cannot recreate with the same name (docker-compose does this on "down")
-# do it on up so the logs are laying about should I want them
+# Cannot recreate with the same name (docker-compose does this on "down").
+# Do it on up so the logs are laying about should I want themi.
 docker rm zoo1
 
-# need scripts for start_zk to create the myid file from ZK_ID and redirect stdout logs
-# 3888 is used internally for elections and does not seem override-able
-# 2181 is the configurable clientPort
-# 8081 is the configurable admin.serverPort (it's awful, but why not have it?)
-# 2888 is the configuralbe data synch port
-# restart always will restart after a shutdown, if the container is running at the time
+# --restart 
+#   always will restart after a shutdown, if the container is running at the time.
+# --net
+#   vm-bridge is created by netup; it is what it sounds like.
+# -p
+#   3888 is used internally for elections and does not seem override-able.
+#   2181 is the configurable clientPort.
+#   8081 is the configurable admin.serverPort (it's awful, but why not have it?).
+#   2888 is the configuralbe data synch port.
+# -v
+#   make /pulsar/data/zookeeper local for up/down persistence,
+#   create /conf for configuration - ours, not Docker's.
+#   create /scripts for the startup script (/bin is already used!).
+#   create /logs for persistent logs (and it's handy for getting files to/from the container)
+# -e
+#   point to THE configuration file (only one).
+#   set the zookeeper server id (must match the configuration),
+# command
+#   need scripts for start_zk to create the myid file from ZK_ID and redirect stdout logs
 docker run --name zoo1 \
     -d \
     --restart always \
@@ -32,5 +45,3 @@ docker run --name zoo1 \
     -e PULSAR_ZK_CONF=/conf/zookeeper.conf \
     -e ZK_ID=1 \
     apachepulsar/pulsar:2.8.1 /bin/bash /scripts/start_zk.sh
-
-# No additional environment variables; it's all in the config file

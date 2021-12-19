@@ -1,7 +1,112 @@
 # cluster-test Stack1
 
-## Common Stack Information
+This is the only stackX/README.md file with any significant content.
+
+## Table of Contents
+
+1. [Stack Common](../common/README.md)
+1. [Stack 1 Specifics](#stack1-specifics)
+    1. [bin Directory](#bin)
+        1. [Scripts](#scripts)
+        1. [Commands](#commands)
+    1. [conf Directory](#conf)
+        1. [ZooKeeper Configuration](#zookeeper-configuration)
+        1. [BookKeeper Configuration](#bookkeeper-configuration)
+        1. [Pulsar Broker Configuration](#pulsar-broker-configuration)
+        1. [Cassandra Configuration](#cassandra-configuration)
+        1. [Retrieving Docker Configuration](#retrieving-docker-configuration)
+    1. [Component Directories](#component-directories)
+1. [Stack 2 Specifics](../stack2/README.md)
+1. [Stack 3 Specifics](../stack3/README.md)
+1. [Ops Specifics](../ops/README.md)
+1. [Dev Specifics](../dev/README.md)
 
 ## Stack1 Specifics
 
+Everything is basically the same for all three stacks, with only minor tweaks. The long description is here. The other stackX/README.md files only contain differences from this documentation. 
+
 Specifics for the first node in the clusters:
+
+### bin
+
+These are all `bash` scripts, but they come in two flavors:
+
+#### Scripts
+
+In order to get persistent logs, one must override Docker's behavior. That's what the `start` .sh shell scripts do.
+
+`start_zk.sh` requires an environment variable, `ZK_ID`. Getting a ZooKeeper started requires knowing its "server id" and this is the best I could do.
+
+#### Commands
+
+Typing long `docker` commands got old, so I shortened them. That's what the not-.sh sell scripts do. Part of the buildstack process is to create links to these from the ~/bin directory. The content is different for each stack, but the names are all the same.
+
+- fooup. Starts the foo image in a container. It does *not* start the container. It wipes the container out before starting a new one.
+- foodown. `docker stop` the container. It does not remove the container so you can examine it before wiping it out on the next "up".
+- fooltail. `tail -f` the logs. The behavior is a bit different depending on which "foo".
+
+The fooup scripts are the only ones worth detailing, but see the commments in the (stack1 version) scripts, themselves. No need to repeat it all here.
+
+### conf
+
+This directory contains the configuration files. 
+
+#### ZooKeeper
+
+The main headache with ZooKeeper is that it talks to itself. It's easy to configure the *other* nodes, but configuring onesself is different.
+
+The secondary headache is that port 3888 cannot be overridden with configuration. You can, of course, map it on the `docker run` command, but that doesn't work for the "talking to onesself" connection.
+
+I had a stand-alone ZooKeeper, [dockerhub zookeeper](https://hub.docker.com/_/zookeeper). This worked fine. However, one is included with the Pulsar image and the stand-alone BookKeeper was a nightmare, so I switched to the Pulsar version.
+
+Why put that in the configuration documentation? Because the Docker image builders **change all the environment variable names!!!** This is the main reason I switched to full configuration files: Only one environment variable or mount point to deal with.
+
+#### BookKeeper
+
+The main headache with BookKeeper is that it really, really doesn't like changes. This is (probably) a good thing for production, but it can be annoying in development - especially when getting it working the first time. If you have Bookies that refuse to start with cookie errors, this is what's happening. See the [Recovery document](../cluster-test-06Recovery.md) for instructions on how to fix it.
+
+I had a stand-alone BookKeeper, [dockehub apache/bookkeeper](https://hub.docker.com/r/apache/bookkeeper), but getting to work with Pulsar was driving me nuts. I switched to the one in the Puslar image.
+
+This is another case of randomly changing environment variable names and availablity, which resulted in using the full configuration file.
+
+#### Pulsar Broker
+
+#### Cassandra
+
+Lions, tigers, and bears! Cassandra configuration is brutal.
+
+**IP Addresses** There are IP addresses in this configuration; Cassandra _requires_ it.
+
+### Retrieving Docker Configuration
+
+These are *not* the standard configuration files because the Docker packaging people screw with things. 
+You do not need to do this, because I already have. However, for future reference:
+
+All the `docker run` command map a /logs volume. The easiest way to get these files is to get *anything* started without the /conf volume mapped, whether it is functional or not, then do the following:
+
+From the documentation, find out where the configuration file is located, copy it out of the container, move it to the conf directory, edit it to your heart's content, then add the /conf volume mapping.
+
+This example is for Cassandra, since it has an entire directory of configuration files.
+
+```
+    $ cassup
+    $ docker exec -it cass1 /bin/bash
+
+    # mkdir /logs/etccassandra
+    # cp -r /etc/cassandra/* /logs/etccassandra
+    # exit
+
+    $ mkdir ~/cluster-test/stack1/conf/etccassandra
+    $ copy -r ~/cluster-test/stack1/cassandra/logs/etccassandra/* ~/cluster-test/stack1/conf/etccassandra
+```
+
+Getting the configuration for the others is much the same, but with only a single file involved. 
+
+## Component Directories
+
+We need a place for persistence. Docker does odd things with permissions and some of the components are odder, yet. You do *not* want to let these auto-create via the `docker run` command. They will, but access is often wrong.
+
+These directories are not in git. They are created (and `chgrp` / `chmod` as needed) by the buildstack script. It's in the step-by-step instructions, too.
+
+In general, your user (*stack* if you're following instructions) owns them and they are in the Docker group. There root ownership and groups scattered in subdiretories.
+
