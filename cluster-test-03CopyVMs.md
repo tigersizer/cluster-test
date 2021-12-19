@@ -13,3 +13,7 @@
 
 ## Copying the VM
 
+This is easy, but I haven't done it the second time, yet, to document it.
+
+[Prev](cluster-test-02CentOSTemplateVM.md)        [Table of Contents](#table-of-contents)     [Next](cluster-test-04Customization.md)
+

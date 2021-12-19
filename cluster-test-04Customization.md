@@ -37,7 +37,7 @@ Each virtual machine is slightly different (notably the IP addresses).
 
 We'll do this one first so it's ready to deal with DNS right away. That is the only "do this first" step, here. If you want to hurry and get the cluster up before you can monitor it - I get it. Configure bind/named then skip ahead and come back to this step.
 
-If you are configuring everything **EXACATLY** as described here, you can get all this done with one command (you did the chmod +x commands in the [common git setup](cluster-test-02-CentOSTempateVM.md#CentOS-git), right?)
+If you are configuring everything **EXACATLY** as described here, you can get all this done with one command (you did the chmod +x commands in the [common git setup](cluster-test-02-CentOSTempateVM.md#git), right?)
 
 **WARNING**: This is not idempotent. Do not run it more than once. 
 
@@ -159,7 +159,7 @@ dev	IN	A	192.168.2.210
 As long as we're dealing with names:
 
 ```
-    $ hostnamectl set-hostname ops.cluster.test
+    hostnamectl set-hostname ops.cluster.test
 ```
 
 The firewall commands at the link are not needed because the firewall is not enabled.
@@ -191,12 +191,12 @@ This is a **terrible** tool, but it exists so if you want it, it is exposed.
 
 See the [official documentation](https://zookeeper.apache.org/doc/r3.6.0/zookeeperAdmin.html#sc_adminserver) for how to use it.
 
-It is web-based, so open a browser (FireFix comes installed) and bookmark:
+It is web-based, so open a browser (Firefox comes installed) and bookmark:
 - http://zoo1.cluster.test:8081/commands
 - http://zoo2.cluster.test:8081/commands
 - http://zoo3.cluster.test:8081/commands
 
-Note that the port is configured in cluster.dev/stackX/conf/zookeeper.conf as "admin.serverPort" and exposed in the zooup "docker run" command.
+Note that the port is configured in cluster-test/stackX/conf/zookeeper.conf as "admin.serverPort" and exposed in the zooup "docker run" command.
 
 #### prettyZoo
 
@@ -212,7 +212,6 @@ It does install in an odd directory, so this is as good a place as any for this 
 
 ```
     ln -s ~/cluster-test/ops/bin/* ~/bin
-    chmod +x ~/bin/*
 ```
 
 You can configure it now or come back after starting the cluster and use this as verification.
@@ -225,7 +224,7 @@ It likes to write to stderr, so you probably want to open a new terminal tab/win
 
 Adding the ZooKeeper cluster to PrettyZoo:
 - Press the New "button" (it's flat).
-- Enter zoo1.cluster.dev for "host".
+- Enter zoo1.cluster.test for "host".
 - Enter 2181 for "port".
 - Press the Save button.
 - Repeat for the other two.
@@ -245,7 +244,7 @@ This is web-based. Open a browser (Firefox comes installed) and bookmark:
 
 There are other URLs. See the [Admin REST API](https://bookkeeper.apache.org/docs/4.11.1/admin/http/) for details.
 
-Note that the port is configured in cluster.dev/stackX/conf/bookkeeper.conf as BOTH "prometheusStatsHttpPort" and "httpServerPort" and exposed in the bookup "docker run" command.
+Note that the port is configured in cluster-test/stackX/conf/bookkeeper.conf as BOTH "prometheusStatsHttpPort" and "httpServerPort" and exposed in the bookup "docker run" command.
 
 #### Puslar Manager
 
@@ -263,17 +262,14 @@ This runs in Docker, so there is nothing to configure, but we need directories a
 
 #### Graphana
 
-This runs in Docker, so there is no thing to configure, but we need directories and links.
+This runs in Docker, so there is nothing to configure, but we need directories and links.
 
 There are [configuration instructions](https://grafana.com/docs/grafana/latest/administration/configuration/), if you want details. The [Docker configuration](https://grafana.com/docs/grafana/latest/administration/configure-docker/) is a bit different.
 
 
-Grafana has some funky user stuff going on; I just punted:
-
 ```
     mkdir -p ~/cluster-test/ops/grafana/logs
     mkdir -p ~/cluster-test/ops/grafana/data
-    chmod -R a+w ~/cluster-test/ops/grafana 
     ln -s ~/cluster-test/ops/bin/grafanaup ~/bin/grafanaup
     ln -s ~/cluster-test/ops/bin/grafanadown ~/bin/grafanadown
     ln -s ~/cluster-test/ops/bin/grafanatail ~/bin/grafanatail
@@ -296,7 +292,7 @@ Reboot and test via ping-by-name.
 If something doesn't work, try:
 
 ```
-    dig ops.cluster.dev
+    dig ops.cluster.test
 ```
 
 That will do a name lookup and should supply some helpful information.
@@ -327,7 +323,6 @@ Replace "stack1" with the appropriate value.
 
 ```
     ln -s ~/cluster-test/stack1/bin/* ~/bin
-    chmod +x ~/bin/*
 ```
 
 ### DEV VM
@@ -352,3 +347,4 @@ The user interface is awful. Use the up and down arrows and don't type much, eve
 
 If you need a token, follow the [instructions to create one](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
 
+[Prev](cluster-test-03CopyVMs.md)       [Table of Contents](#table-of-contents)     [Next](cluster-test-05FiringItUp.md)
