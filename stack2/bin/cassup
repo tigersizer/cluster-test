@@ -15,10 +15,8 @@ docker rm cass2
 docker run --name cass2 \
     -d \
     --net=vm-bridge \
-    -p 7001:7001 \
+    -p 7000:7000 \
     -p 9042:9042 \
     -v ~/cluster-test/stack2/cassandra/data:/var/lib/cassandra \
     -v ~/cluster-test/stack2/conf:/conf \
-    -v ~/cluster-test/stack2/bin:/scripts \
-    -v ~/cluster-test/stack2/cassandra/logs:/logs \
-    cassandra:3.11 -Dcassandra.config=/conf/cassandra.yaml
+    cassandra:3.11 -Dcassandra.confg=/conf/cassandra.yaml
