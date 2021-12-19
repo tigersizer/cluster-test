@@ -82,9 +82,13 @@ Lions, tigers, and bears! Cassandra configuration is brutal.
 
 **IP Addresses** There are IP addresses in this configuration; Cassandra _requires_ it.
 
-See conf/etccassandra/cassandra.yaml:
-- seed_provider. For stack1, this should be whatever cass1.cluster.test resolves to and one other. For the other stacks, both not-me.
-- broadcast_address. For stackX, this should be whatever cassX.cluster.test resolves to.
+Despite having local configuration files, the Cassandra Docker image writes to them. The `docker run` enviroment variables are *required*.
+```
+    -e CASSANDRA_BROADCAST_ADDRESS=[YOUR-NODE-IP-ADDRESS] \
+    -e CASSANDRA_SEEDS=[FIRST-CLUSTER-NODE-IP-ADDRESS] \
+```
+
+Thanks to [Ralph's Open Source Blog](https://ralph.blog.imixs.com/), in a post about [setting up a secure Docker cluster](https://ralph.blog.imixs.com/2020/06/22/setup-a-public-cassandra-cluster-with-docker/), which is a bit more than I want to bite off, just yet.
 
 The Data Center is set to "cluster.test" and the Rack to "stackX".
 
