@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# just a handy shortcut
+docker exec cass3 nodetool $*
