@@ -53,7 +53,7 @@ This directory contains the configuration files.
 
 #### ZooKeeper
 
-The main headache with ZooKeeper is that it talks to itself. It's easy to configure the *other* nodes, but configuring onesself is different.
+The main headache with ZooKeeper is that it talks to itself. It's easy to configure the *other* nodes, but configuring onesself is different. Each configuration file has one "0.0.0.0" IP address. This is for serverX, where X is the ZK_ID used on startup - but not connected; if you change ZK_ID, you must also edit the configuration.
 
 The secondary headache is that port 3888 cannot be overridden with configuration. You can, of course, map it on the `docker run` command, but that doesn't work for the "talking to onesself" connection.
 
@@ -71,11 +71,22 @@ This is another case of randomly changing environment variable names and availab
 
 #### Pulsar Broker
 
+This was the least painful, although I had gained experience by this point.
+
+
+
+
 #### Cassandra
 
 Lions, tigers, and bears! Cassandra configuration is brutal.
 
 **IP Addresses** There are IP addresses in this configuration; Cassandra _requires_ it.
+
+See conf/etccassandra/cassandra.yaml:
+- seed_provider. For stack1, this should be whatever cass1.cluster.test resolves to and one other. For the other stacks, both not-me.
+- broadcast_address. For stackX, this should be whatever cassX.cluster.test resolves to.
+
+The Data Center is set to "cluster.test" and the Rack to "stackX".
 
 ### Retrieving Docker Configuration
 
