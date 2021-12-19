@@ -57,7 +57,7 @@ It doesn't matter what you pick because the names are not used for anything.
 - Press the Next button.
 
 This brings up the Memory Size page, which has a useless slider on it.
-- Click in the box and type the desired number (4096 minium, 8192 is good, more is better).
+- Click in the box and type the desired number (8192 minium, 12288 is good, more is better).
 - Press the Next button.
 
 There are four Hard disk pages. In order, you want:
@@ -85,3 +85,4 @@ Press the Settings button:
 
 Now it's ready to fire up - [except we need that ISO...](cluster-test-02CentOSTemplateVM.md)
 
+[Prev](README.md)       [Table of Contents](#table-of-contents)     [Next](cluster-test-02CentOSTemplateVM.md)

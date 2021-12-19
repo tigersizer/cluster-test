@@ -53,11 +53,13 @@ full CentOS installation, which includes Gnome, but the cluster nodes could be h
 We will be running ZooKeeper, BookKeeper, Pulsar, and Cassandra on each node.
 The ops and dev VMs can be smaller, but they're still not tiny.
 
-The total configuration is 16 CPUs, 32GB RAM, and 400GB disk (SSD preferrably).
-- 3 cluster VMs of 4 CPU, 8GB, 100GB.
+The total configuration is 16 CPUs, 42GB RAM, and 400GB disk (SSD preferrably).
+- 3 cluster VMs of 4 CPU, 12GB, 100GB.
 - 2 support VMs of 2 CPU, 4GB, 50GB.
 
-Doubling that won't hurt anything - and the host machine still needs to function.
+And the host machine still needs to function.
+
+Note that sitting idle the cluster VMs consume about 70% of their 12GB. I started with 8GB and it just wasn't enough.
 
 **A network you control**
 
@@ -91,7 +93,7 @@ The software names are much the same:
 - broker1, broker2, and broker3 are the Puslar Broker instances.
 - cass1, cass2, and cass3 are the Cassandra instance.
 
-You can manage them as individual processes or a single block (per VM). 
+You can manage them as individual components or a single block (per VM). 
 
 The Ops VM is quite different than the cluster VMs. It runs:
 - DNS to create all of the machine and instance names (e.g. broker2.cluster.test).

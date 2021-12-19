@@ -13,7 +13,7 @@
         1. [Script the Rest](#script-the-rest)
     1. [What the script does](#what-the-script-does)
         1. [git](#git)
-        1. [Domain Name Server](#domain-name-server)
+        1. [Domain Name Server](#domain-name-server) - not yet, just planning
         1. [Prometheus Node Exporter](#prometheus-node-exporter)
         1. [Firefox](#firefox)
         1. [Docker](#docker)
@@ -73,10 +73,10 @@ The first few steps must be done manually. After that, you can decide whether or
 This is basically required to do anything. Life is much simpler without having to type a password each time. So, we'll make that happen. After this, you can forget the root password that you just configured (although I don't recommend that).
 
 ```
-    $ su root
-    password:
-    $ cd /etc
-    $ vi sudoers
+    su root
+        (password prompt appears - enter it)
+    cd /etc
+    vi sudoers
 ```
 
 Find the line that looks like this:
@@ -98,7 +98,7 @@ Remove that comment hash character. Write it and quit.
 One last step (still as root):
 
 ```
-    $ usermod -aG wheel stack
+    usermod -aG wheel stack
 ```
 
 *stack* is the user you are logged in as.
@@ -117,31 +117,31 @@ These instructions are an amalgam of a [RedHat discussion](https://access.redhat
 This is not a fast process, depending on your download speeds. If you want to walk away, use `yum -y` so it doesn't wait for you type "y".
 
 ```
-    $ sudo yum groupinstall "Development Tools"
-    $ sudo yum kernel-devel elfutils-libelf-devel
+    sudo yum groupinstall "Development Tools"
+    sudo yum install kernel-devel elfutils-libelf-devel
 ```
 
 That's from the RedHat discussion and doesn't help much, but it downloads lots of stuff you need, anyway.
 To finish it off:
 
 ```
-    $ sudo dnf install epl-release
+    sudo dnf install epl-release
 ```
 
 You want these two things to match:
 
 ```
-    $ rpm -q kernel-devel
-    kernel-devel-4.18.0-348.2.1.el8_5.x86_64
-    $ uname -r
-    4.18.0-348.2.1.el8_5.x86_64    
+    rpm -q kernel-devel
+        kernel-devel-4.18.0-348.2.1.el8_5.x86_64
+    uname -r
+        4.18.0-348.2.1.el8_5.x86_64    
 ```
 
 Those do, but I've done this already. If they do, great, skip this step:
 
 ```
-    $ sudo dnf update kernel-*
-    $ sudo reboot
+    sudo dnf update kernel-*
+    sudo reboot
 ```
 
 Now they will match. If they do not, I have no idea what to do.
@@ -168,7 +168,7 @@ See why we do this *before* copying the VM?
 If you are going to build **EXACTLY** my configuration, the rest of the setup below can be accomplished in one step:
 
 ```
-    $ cluster-test/common/bin/buildcommon
+    cluster-test/common/bin/buildcommon
 ```
 
 These "build" scripts are very dangerous to run:
@@ -184,19 +184,19 @@ Can't forget to clone this repository! It's not all typing. There are scripts an
 If you don't clone this from your home directory, there are many things in the cluster-test/stackX/bin directory that must be edited. Be good to yourself and do it from ~.
 
 ```
-    $ cd ~
-    $ git clone 
+    cd ~
+    git clone 
 ```
 
 github doesn't maintain file modes, so you'll want to do this to make life easier, later:
 
 
 ```
-    $ chmod +x cluster-test/common/bin/*
-    $ chmod +x cluster-test/ops/bin/*
-    $ chmod +x cluster-test/stack1/bin/*
-    $ chmod +x cluster-test/stack2/bin/*
-    $ chmod +x cluster-test/stack3/bin/*
+    chmod +x cluster-test/common/bin/*
+    chmod +x cluster-test/ops/bin/*
+    chmod +x cluster-test/stack1/bin/*
+    chmod +x cluster-test/stack2/bin/*
+    chmod +x cluster-test/stack3/bin/*
 ```
 
 #### Domain Name Server
@@ -242,15 +242,15 @@ In addition to generally monitoring your VMs, this provides a handy way to know 
 [Node Exporter](https://prometheus.io/docs/guides/node-exporter/) exposes Linux metrics to Prometheus. These instructions are copied directly from that link.
 
 ```
-    $ wget https://github.com/prometheus/node_exporter/releases/download/v*/node_exporter-*.*-amd64.tar.gz
-    $ tar xvfz node_exporter-*.*-amd64.tar.gz
+    wget https://github.com/prometheus/node_exporter/releases/download/v*/node_exporter-*.*-amd64.tar.gz
+    tar xvfz node_exporter-*.*-amd64.tar.gz
 ```
 https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
-You don't want to run it, yet, but it "just runs":
+You don't want to run it, yet, but it "just runs", no Docker for this.
 
 ```
-    $ cd node_exporter-*.*-amd64
-    $ ./node_exporter
+    cd node_exporter-*.*-amd64
+    ./node_exporter
 ```
 
 #### Firefox
@@ -260,7 +260,7 @@ This is not required for anything, although a browser is useful. If you want to 
 Upgrade to the most recent version:
 
 ```
-    $ sudo dnf update firefox
+    sudo dnf update firefox
 ```
 
 #### Docker
@@ -268,41 +268,40 @@ Upgrade to the most recent version:
 You want Docker on all the VMs. There is a "trick": It collides with podman, which is a CentOS container thing. So, get rid of that:
 
 ```
-    $ sudu yum erase podman buildah
+    sudu yum erase podman buildah
 ```
 
 Docker has [CentOS intallation instructions](https://docs.docker.com/engine/install/centos/); I copied them here:
 
 ```
-    $ sudo yum install -y yum-utils
-    $ sudo yum-config-manager \
+    sudo yum install -y yum-utils
+    sudo yum-config-manager \
         --add-repo \
         https://download.docker.com/linux/centos/docker-ce.repo
-    $ sudo yum install docker-ce docker-ce-cli containerd.io
-    $ sudo systemctl start docker
+    sudo yum install docker-ce docker-ce-cli containerd.io
 ```
 
 Of course, we're not done. This [post-intallation](https://docs.docker.com/engine/install/linux-postinstall/) makes it work properly:
 
 ```
-    $ sudo groupadd docker
-    (I got 'already exists')
-    $ sudo usermod -aG docker $USER
-    (must logout/in for this to take effect)
-    $ sudo systemctl enable docker.service
-    $ sudo systemctl enable containerd.service
+    sudo groupadd docker
+        (I got 'already exists')
+    sudo usermod -aG docker $USER
+        (must logout/in for this to take effect)
+    sudo systemctl enable docker.service
+    sudo systemctl enable containerd.service
 ```
 
 Docker will now start on boot. We don't need it, now, so no need to reboot or start it manually:
 
 ```
-    $ sudo systemctl start docker 
+    sudo systemctl start docker 
 ```
 
 But you can do either if you want to test it, which is probably wise:
 
 ```
-    $ docker run hello-world
+    docker run hello-world
 ```
 
 It prints a lot more than "hello word".
@@ -310,8 +309,8 @@ It prints a lot more than "hello word".
 As long as we're here, we might as well get `docker-compose`
 
 ```
-    $ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-    $ sudo chmod +x /usr/local/bin/docker-compose
+    sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
 ```
 
 Presumably, that version in the URL will change over time.
@@ -323,8 +322,8 @@ This is not required. In fact, I haven't even used it, yet. But it's handy for P
 Java first. The current version is 11 and the CentOS distribution comes with 1.8.
 
 ```
-    $ sudo yum -y install java-11-openjdk-devel
-    $ sudo alternatives --config java
+    sudo yum install -y java-11-openjdk-devel
+    sudo alternatives --config java
 ```
 
 The `alternatives` command will ask which one you want to be the default; pick the one you just installed.
@@ -332,10 +331,10 @@ The `alternatives` command will ask which one you want to be the default; pick t
 Then Eclipse (do not `sudo` this one; just install it for yourself):
 
 ```
-    $ wget http://ftp.yz.yamagata-u.ac.jp/pub/eclipse/oomph/epp/2021-09/R/eclipse-inst-linux64.tar.gz
-    $ tar xvf eclipse-inst-linux64.tar.gz
-    $ cd eclipse-installer/
-    $ ./eclipse-inst
+    wget http://ftp.yz.yamagata-u.ac.jp/pub/eclipse/oomph/epp/2021-09/R/eclipse-inst-linux64.tar.gz
+    tar xvf eclipse-inst-linux64.tar.gz
+    cd eclipse-installer/
+    ./eclipse-inst
 ```
 
 When it asks to launch Eclipse, say yes or it yells at you.
@@ -346,10 +345,10 @@ As long as you have Eclipse open...
 
 Do NOT install Python 2.x unless the world is coming to an end. Trying to manage both Python 2.x and Python 3.x is a nightmare.
 
-We want to be sure that Python 3 is the default:
+Be sure that Python 3 is the default:
 
 ```
-    $ sudo alternatives --config python
+    sudo alternatives --config python
 ```
 
 You shouldn't have a choice, but choosing the only option (Python 3) will make "python" run that one.
@@ -393,3 +392,4 @@ Open .bashrc and append:
     }
     function title { echo -en "\033]2;$1\007"; }
 ```
+[Prev](cluster-test-01VirtualBoxTemplateVM.md)      [Table of Contents](#table-of-contents)     [Next](cluster-test-03CopyVMs.md) 
