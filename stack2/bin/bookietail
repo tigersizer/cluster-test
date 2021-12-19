@@ -1,5 +1,5 @@
 #!/bin/bash
 # set the terminal window title
-echo -en "\033]2;BookKeeper: Bookie2 logs\007";
+echo -en "\033]2;BookKeeper: bookie2 logs\007";
 # this is trivial, but handy 
 tail -f ~/cluster-test/stack2/bookkeeper/logs/bookkeeper2.log
