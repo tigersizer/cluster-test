@@ -12,13 +12,15 @@ docker stop cass1
 docker rm cass1
 
 # restart always will restart after a shutdown, if the container is running at the time
+# 7000 is the configurable storage_port
+# 7001 is the secure version ssl_storage_port
+# 9042 is the configurable native_transport_port (for clients)
 docker run --name cass1 \
     -d \
     --restart always \
     --net=vm-bridge \
-    -p 7001:7001 \
+    -p 7000:7000 \
     -p 9042:9042 \
     -v ~/cluster-test/stack1/cassandra/data:/var/lib/cassandra/ \
     -v ~/cluster-test/stack1/conf:/conf \
-    -v ~/cluster-test/stack1/bin:/scripts \
     cassandra:3.11 -Dcassandra.confg=/conf/cassandra.yaml
