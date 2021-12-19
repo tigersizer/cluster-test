@@ -1,22 +1,21 @@
 #!/bin/bash
 
-# create the network (should already be there with an error for this)
-# one node per VM works better without a Docker network
+# see stack1 version for comments
 netup
-
-# this could be bad, but it works for dev
 docker stop cass2
-
-# cannot recreate with the same name (docker-compose does this on "down")
-# do it on up so the logs are laying about should I want them
 docker rm cass2
 
-# see stack1 version for comments
 docker run --name cass2 \
     -d \
     --net=vm-bridge \
     -p 7000:7000 \
+    -p 7001:7001 \
+    -p 7199:7199 \
     -p 9042:9042 \
+    -p 9160:9160 \
     -v ~/cluster-test/stack2/cassandra/data:/var/lib/cassandra \
-    -v ~/cluster-test/stack2/conf:/conf \
-    cassandra:3.11 -Dcassandra.confg=/conf/cassandra.yaml
+    -v ~/cluster-test/stack2/conf/etccassandra:/etc/cassandra \
+    -v ~/cluster-test/stack2/cassandra/logs:/logs \
+    -e CASSANDRA_BROADCAST_ADDRESS=192.168.2.202 \
+    -e CASSANDRA_SEEDS=192.168.2.201 \
+    cassandra:3.11

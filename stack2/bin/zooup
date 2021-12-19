@@ -1,17 +1,10 @@
 #!/bin/bash
 
-# create the network (should already be there with an error for this)
-# one node per VM works better without a Docker network
+# see stack1 version for more comments about this
 netup
-
-# this could be bad, but it works for dev
 docker stop zoo2
-
-# cannot recreate with the same name (docker-compose does this on "down")
-# do it on up so the logs are laying about should I want them
 docker rm zoo2
 
-# see stack1 version for more comments about this
 docker run --name zoo2 \
     -d \
     --restart always \
