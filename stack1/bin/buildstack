@@ -2,8 +2,16 @@
 # make the commands executable
 chmod +x ~/cluster-test/stack1/bin
 
-# first command required by everything
+# Prometheus OS monitor
+ln -s ~/cluster-test/stack1/bin/pnodedown ~/bin/pnodedown
+ln -s ~/cluster-test/stack1/bin/pnodeup ~/bin/pnodeup
+
+# first command required by everything Docker
 ln -s ~/cluster-test/stack1/bin/netup ~/bin/netup
+
+# Prometheus Docker moinitor
+ln -s ~/cluster-test/stack1/bin/pdockdown ~/bin/pdockdown
+ln -s ~/cluster-test/stack1/bin/pdockup ~/bin/pdockup
 
 # ZooKeeper
 mkdir ~/cluster-test/stack1/zookeeper
