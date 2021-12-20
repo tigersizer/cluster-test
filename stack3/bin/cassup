@@ -12,11 +12,13 @@ docker run --name cass3 \
     -p 7000:7000 \
     -p 7001:7001 \
     -p 7199:7199 \
+    -p 8084:8084 \
     -p 9042:9042 \
     -p 9160:9160 \
     -v ~/cluster-test/stack3/cassandra/data:/var/lib/cassandra/ \
     -v ~/cluster-test/stack3/conf/etccassandra:/etc/cassandra \
     -v ~/cluster-test/stack3/cassandra/logs:/logs \
+    -v ~/cluster-test/common/bin:/casslib \
     -e CASSANDRA_BROADCAST_ADDRESS=192.168.2.203 \
     -e CASSANDRA_SEEDS=192.168.2.201 \
     cassandra:3.11
