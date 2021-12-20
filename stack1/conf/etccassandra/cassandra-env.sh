@@ -214,6 +214,9 @@ JVM_OPTS="$JVM_OPTS -XX:CompileCommandFile=$CASSANDRA_CONF/hotspot_compiler"
 # add the jamm javaagent
 JVM_OPTS="$JVM_OPTS -javaagent:$CASSANDRA_HOME/lib/jamm-0.3.0.jar"
 
+# add the prometheus jmx agent
+JVM_OPTS="$JVM_OPTS -javaagent:/casslib/jmx_prometheus_javaagent-0.16.1.jar=8084:/etc/cassandra/jmx_exporter.yml"
+
 # set jvm HeapDumpPath with CASSANDRA_HEAPDUMP_DIR
 if [ "x$CASSANDRA_HEAPDUMP_DIR" != "x" ]; then
     JVM_OPTS="$JVM_OPTS -XX:HeapDumpPath=$CASSANDRA_HEAPDUMP_DIR/cassandra-`date +%s`-pid$$.hprof"
