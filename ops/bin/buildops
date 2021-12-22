@@ -23,7 +23,7 @@ fi
 # the ZooKeeper Admin section is just adding bookmarks to your browser
 # theoretically automatable, but I'm not going to bother
 
-# the rrettyZoo section
+# the prettyZoo section
 cd ~
 wget "https://github.com/vran-dev/PrettyZoo/releases/download/v1.9.4/prettyzoo-1.9.4-1.x86_64.rpm"
 sudo rpm -i prettyzoo-1.9.4-1.x86_64.rpm
@@ -34,20 +34,29 @@ ln -s ~/cluster-test/ops/bin/prettyZoo ~/bin/prettyZoo
 # the BookKeeper Admin section is just adding bookmarks (an "are they up?" test, mostly)
 
 # the Pulsar Manager section
+cd ~
 wget https://dist.apache.org/repos/dist/release/pulsar/pulsar-manager/pulsar-manager-0.2.0/apache-pulsar-manager-0.2.0-bin.tar.gz
 tar -zxvf apache-pulsar-manager-0.2.0-bin.tar.gz
 cd pulsar-manager
 tar -xvf pulsar-manager.tar
 cd pulsar-manager
 cp -r ../dist ui
-./bin/pulsar-manager
+#./bin/pulsar-manager
 
+# the Prometheus section
 mkdir -p ~/cluster-test/ops/prometheus/logs
 mkdir -p ~/cluster-test/ops/prometheus/data
 ln -s ~/cluster-test/ops/bin/prometheusdown ~/bin/prometheusdown
 ln -s ~/cluster-test/ops/bin/prometheustail ~/bin/prometheustail
 ln -s ~/cluster-test/ops/bin/prometheusup ~/bin/prometheusup
 
+# the Grafana section
+mkdir -p ~/cluster-test/ops/grafana/logs
+mkdir -p ~/cluster-test/ops/grafana/data
+sudo chown -R nobody:nogroup ~/cluster-test/ops/grafana
+ln -s ~/cluster-test/ops/bin/grafanaup ~/bin/grafanaup
+ln -s ~/cluster-test/ops/bin/grafanadown ~/bin/grafanadown
+ln -s ~/cluster-test/ops/bin/grafanatail ~/bin/grafanatail
 
 
 
