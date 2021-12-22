@@ -380,6 +380,13 @@ Set the authentication configuration (assuming you'll use it)
 ```
 The user interface is awful. Use the up and down arrows and don't type much, even if you think you should.
 
-If you need a token, follow the [instructions to create one](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
+If you need a token, follow the [instructions to create one](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token). Save it somewhere. I found out on rebuild that they cannot be retrieved.
+
+Set the username and email:
+
+```
+    git config --global user.name "Your Name"
+    git config --global user.email you@example.com
+```
 
 [Prev](cluster-test-03CopyVMs.md)       [Table of Contents](#table-of-contents)     [Next](cluster-test-05FiringItUp.md)
