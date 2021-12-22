@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# see the stack1 version for comments
+netup
+docker stop proxy3
+docker rm proxy3
+
+docker run --name proxy3 \
+    -d \
+    --net=vm-bridge \
+    -p 6660:6650 \
+    -p 8080:8080 \
+    -v ~/cluster-test/stack3/conf:/conf \
+    -v ~/cluster-test/stack3/bin:/scripts \
+    -v ~/cluster-test/stack3/proxy/logs:/logs \
+    -e PULSAR_PROXY_CONF=/conf/proxy.conf \
+    apachepulsar/pulsar:2.8.1 /bin/bash /scripts/start_proxy.sh
