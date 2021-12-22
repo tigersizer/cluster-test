@@ -59,3 +59,7 @@ ln -s ~/cluster-test/stack1/bin/casstail ~/bin/casstail
 ln -s ~/cluster-test/stack1/bin/cassup ~/bin/cassup
 ln -s ~/cluster-test/stack1/bin/nodetool ~/bin/nodetool
 ln -s ~/cluster-test/stack1/bin/cql ~/bin/cql
+
+# do the dangerous one last
+sudo cat ~/cluster-test/stack1/conf/ifcfg-enp0s3 > /etc/sysconfig/network-scripts/ifcfg-enp0s3
+
