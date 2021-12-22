@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Create the network (should already be there with an error for this).
+# One node per VM works better without a Docker network; bridged is the next best thing.
+netup
+   
+# This could be bad, but it works for dev.
+docker stop proxy1
+
+# Cannot recreate with the same name (docker-compose does this on "down").
+# Do it on up so the logs are laying about should I want them.
+docker rm proxy1
+
+# --restart 
+#   always will restart after a shutdown, if the container is running at the time.
+# --net
+#   vm-bridge is created by netup; it is what it sounds like.
+# -p
+#   6650 is the configurable servicePort.
+#   8080 is the configurable webServicePort.
+#       (Prometheus metrics come from here, too)
+# -v
+#   make /pulsar/data/broker persistent across up/down
+#   create /conf for configuration - our's not Docker's
+#   create /scripts for startup script (/bin is already in use!).
+#   create /logs for persistent logs (and it's handy for moving files)
+# -e
+#   set THE configuration file location.
+# command
+#   use a startups cript to redirect the logs
+docker run --name proxy1 \
+    -d \
+    --net=vm-bridge \
+    -p 6660:6650 \
+    -p 8080:8080 \
+    -v ~/cluster-test/stack1/conf:/conf \
+    -v ~/cluster-test/stack1/bin:/scripts \
+    -v ~/cluster-test/stack1/proxy/logs:/logs \
+    -e PULSAR_PROXY_CONF=/conf/proxy.conf \
+    apachepulsar/pulsar:2.8.1 /bin/bash /scripts/start_proxy.sh

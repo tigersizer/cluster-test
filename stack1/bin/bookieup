@@ -12,10 +12,11 @@ docker stop bookie1
 # do this before the run command below so prots are not in use
 docker rm bookie1
 
-# this assumes book1 always comes up first
-# if the data directory is not there, nothing has started, yet
+# this assumes bookie1 always comes up first
+# if the journal directory is not there, nothing has started, yet
 # this is actually Pulsar Broker initialization, but it does Bookie initialization, too
 # --cluster must match clusterName in broker.conf 
+#   however, this is NOT the Pulsar name; it is the BookKeeper cluster name
 if [ ! -d ~/cluster-test/stack1/bookkeeper/data/journal ]; then
     # initialize the bookie cluster with pulsar metadata
     docker run --rm \
@@ -35,9 +36,23 @@ if [ ! -d ~/cluster-test/stack1/bookkeeper/data/journal ]; then
   
 fi
    
-# 8082 is the configurable prometheusStatsHttpPort
-#   there is also an httpServerPort that should be the same
-# 3181 is the configurable bookiePort
+# --restart 
+#   always will restart after a shutdown, if the container is running at the time.
+# --net
+#   vm-bridge is created by netup; it is what it sounds like.
+# -p
+#   8082 is the configurable prometheusStatsHttpPort.
+#       there is also an httpServerPort that should be the same.
+#   3181 is the configurable bookiePort.
+# -v
+#   make /pulsar/date/bookkeeper persistent across up/down.
+#   create /conf for configuration.
+#   create /script for the startup script (/bin is in use!).
+#   create /logs for persistent logs (and it's handy for moving files to/from the contianer)
+# -e
+#   point to THE configuration file.
+# command
+#   use our own startup script (just redirects logs)
 docker run --name bookie1 \
     -d \
     --restart always \

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo -en "\033]2;Cassandra: cass1 logs\007";
+# I don't have persistent logs working, yet
+docker logs -f cass1
+

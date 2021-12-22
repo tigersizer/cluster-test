@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# this is trivial, but symmetry!
+docker stop cass3

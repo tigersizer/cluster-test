@@ -1,6 +1,9 @@
 #!/bin/bash
-# bring everything down in reverse order of up
+# bring everything up
 pnodeup
+pdockup
 zooup
 bookieup
 brokerup
+proxyup
+cassup

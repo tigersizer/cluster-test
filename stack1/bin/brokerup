@@ -1,18 +1,33 @@
 #!/bin/bash
 
-# create the network (should already be there with an error for this)
-# one node per VM works better without a Docker network
+# Create the network (should already be there with an error for this).
+# One node per VM works better without a Docker network; bridged is the next best thing.
 netup
    
-# this could be bad, but it works for dev
+# This could be bad, but it works for dev.
 docker stop broker1
 
-# cannot recreate with the same name (docker-compose does this on "down")
-# do it on up so the logs are laying about should I want them
+# Cannot recreate with the same name (docker-compose does this on "down").
+# Do it on up so the logs are laying about should I want them.
 docker rm broker1
 
-# 6650 is the configurable brokerServicePort
-# 8083 is the configurable webServicePort
+# --restart 
+#   always will restart after a shutdown, if the container is running at the time.
+# --net
+#   vm-bridge is created by netup; it is what it sounds like.
+# -p
+#   6650 is the configurable brokerServicePort.
+#   8083 is the configurable webServicePort.
+#       (Prometheus metrics come from here, too)
+# -v
+#   make /pulsar/data/broker persistent across up/down
+#   create /conf for configuration - our's not Docker's
+#   create /scripts for startup script (/bin is already in use!).
+#   create /logs for persistent logs (and it's handy for moving files)
+# -e
+#   set THE configuration file location.
+# command
+#   use a startups cript to redirect the logs
 docker run --name broker1 \
     -d \
     --net=vm-bridge \

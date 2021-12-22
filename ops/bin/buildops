@@ -1,27 +1,49 @@
 #!/bin/bash
 
+# this script corresponds to the commands in the cluster-test-04Customization.md OPS section
+
+# this is DANGEROUS if you're not me
+ 
 if [ ! -d /var/named ]; then
-    sudo dnf install bind bind-utils
+    # the BIND subsection
+    sudo dnf install -y bind bind-utils
     sudo systemctl enable named
 
-    # this is DANGEROUS if you're not me
-    # use cat - it does a better job with ownership
+    # use cat - it does a better job with ownership, sometimes
     sudo cat ~/cluster-test/ops/conf/named.conf > /etc/named.conf
     sudo cat ~/cluster-test/ops/conf/cluster.test.db > /var/named/cluster.test.db
     sudo cat ~/cluster-test/ops/conf/192.168.2.db > /var/named/192.168.2.db
+
+    # the OPS ifcfg section
     sudo cat ~/cluster-test/ops/conf/ifcfg-enp0s3 > /etc/sysconfig/network-scripts/ifcfg-enp0s3 
     hostnamectl set-hostname ops.cluster.test
     sudo reboot
 fi
 
+# the ZooKeeper Admin section is just adding bookmarks to your browser
+# theoretically automatable, but I'm not going to bother
+
+# the rrettyZoo section
 cd ~
-wget https://github.com/vran-dev/PrettyZoo/releases/download/v1.9.4/prettyzoo-1.9.4-1.x86_64.rpm
+wget "https://github.com/vran-dev/PrettyZoo/releases/download/v1.9.4/prettyzoo-1.9.4-1.x86_64.rpm"
 sudo rpm -i prettyzoo-1.9.4-1.x86_64.rpm
 
 chmod +x ~/cluster-test/ops/bin/*
-
 ln -s ~/cluster-test/ops/bin/prettyZoo ~/bin/prettyZoo
 
+# the BookKeeper Admin section is just adding bookmarks (an "are they up?" test, mostly)
+
+# the Pulsar Manager section
+wget https://dist.apache.org/repos/dist/release/pulsar/pulsar-manager/pulsar-manager-0.2.0/apache-pulsar-manager-0.2.0-bin.tar.gz
+tar -zxvf apache-pulsar-manager-0.2.0-bin.tar.gz
+cd pulsar-manager
+tar -xvf pulsar-manager.tar
+cd pulsar-manager
+cp -r ../dist ui
+./bin/pulsar-manager
+
+mkdir -p ~/cluster-test/ops/prometheus/logs
+mkdir -p ~/cluster-test/ops/prometheus/data
 ln -s ~/cluster-test/ops/bin/prometheusdown ~/bin/prometheusdown
 ln -s ~/cluster-test/ops/bin/prometheustail ~/bin/prometheustail
 ln -s ~/cluster-test/ops/bin/prometheusup ~/bin/prometheusup

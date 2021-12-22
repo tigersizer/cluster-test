@@ -1,0 +1,3 @@
+#!/bin/bash
+echo -en "\033]2;Cassandra: cass2 cql\007";
+docker run --name cqlsh -it --net=vm-bridge --rm cassandra:3.11 cqlsh cass2.cluster.test

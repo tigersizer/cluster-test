@@ -1,17 +1,10 @@
 #!/bin/bash
 
-# create the network (should already be there with an error for this)
-# one node per VM works better without a Docker network
+# see stack1 version for comments
 netup
-
-# this could be bad, but it works for dev
 docker stop broker2
-
-# cannot recreate with the same name (docker-compose does this on "down")
-# do it on up so the logs are laying about should I want them
 docker rm broker2
 
-# see stack1 version for comments
 docker run --name broker2 \
     -d \
     --net=vm-bridge \
