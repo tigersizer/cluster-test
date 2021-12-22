@@ -48,5 +48,8 @@ scrape_configs:
       static_configs:
           - targets: ["broker1.cluster.test:8083", "broker2.cluster.test:8083", "broker3.cluster.test:8083"]
 
-    # hopefully this will work:
-    # - job_name: "casses"
+    - job_name: "casses"
+      metrics_path: /
+      static_configs:
+          - targets: ["cass1.cluster.test:8084", "cass2.cluster.test:8084", "cass3.cluster.test:8084"]
+

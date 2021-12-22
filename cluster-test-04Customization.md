@@ -249,6 +249,8 @@ Note that the port is configured in cluster.dev/stackX/conf/bookkeeper.conf as B
 
 #### Puslar Manager
 
+This thing is nasty! Circling back to it once I have a clean cluster.
+
 #### Prometheus
 
 This runs in Docker, so there is nothing to configure, but we need directories and links:
@@ -280,6 +282,8 @@ Grafana has some funky user stuff going on; I just punted:
 ```
 
 The default admin user and password are - what else? - "admin" and "admin"
+
+There are dashboards to import in ops/conf/grafana
 
 #### Elasticsearch
 
