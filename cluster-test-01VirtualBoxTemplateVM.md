@@ -50,7 +50,7 @@ These settings are (mostly) changeable at-will. Since we're creating three VMs o
 
 This is very simple. Press the New button and the first wizard page appears:
 - Enter the name. I chose CentOS-S0 for the operations machine, -S1 thru -S3 for the cluster nodes, and -Dev for the dev machine.
-It doesn't matter what you pick because the names are not used for anything.
+It doesn't matter what you pick because the names are not used for anything. I started with CentOS-OPS.
 - Enter the Machine Folder. If you haven't done this before, the default is probably fine. You really want an SSD for this.
 - Enter the Type (Linux), if necessary. Typing "CentOS" as the beginning of the name set this for me.
 - Enter the Version (RedHat 64-bit), if necessary. This also auto-filled for me.
@@ -72,7 +72,7 @@ Press the Settings button:
 - General settings
     - Advanced tab. Set "Shared Clipboard" to "Bidirectional" (this is just handy)
 - System settings
-    - Processor tab. This slider is useful. Set the desired number (4 is minimum, 8 is good, more is better).
+    - Processor tab. This slider is useful. Set the desired number (4 is good).
     - The "Enable Nested VT-x/AMD-V" checkbox allows you to run VMs inside your VMs. We don't need it, but I wondered what it did.
 - Display settings
     - Screen tab. Crank up the "Video Memory" to 128MB (slider works fine for this).

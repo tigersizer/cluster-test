@@ -55,7 +55,7 @@ You want to do this BEFORE changing your network configuration because it requir
 This is almost word-for-word of a [fedingo post](https://fedingo.com/how-to-configure-dns-server-on-centos-rhel/) on installing BIND.
 
 ```
-    sudo dnf install bind bind-utils
+    sudo dnf install -y bind bind-utils
     sudo vi /etc/named.conf
 ```
 
@@ -116,19 +116,19 @@ stack1	IN	A 	192.168.2.201
 zoo1	IN	A	192.168.2.201
 bookie1	IN	A	192.168.2.201
 broker1	IN	A	192.168.2.201
-pulsar1	IN	A	192.168.2.201
+proxy1	IN	A	192.168.2.201
 cass1	IN	A	192.168.2.201
 stack2	IN	A 	192.168.2.202
 zoo2	IN	A	192.168.2.202
 bookie2	IN	A	192.168.2.202
 broker2	IN	A	192.168.2.202
-pulsar2	IN	A	192.168.2.201
+proxy2	IN	A	192.168.2.201
 cass2	IN	A	192.168.2.202
 stack3	IN	A 	192.168.2.203
 zoo3	IN	A	192.168.2.203
 bookie3	IN	A	192.168.2.203
 broker3	IN	A	192.168.2.203
-pulsar3	IN	A	192.168.2.201
+proxy3	IN	A	192.168.2.201
 cass3	IN	A	192.168.2.203
 dev	IN	A	192.168.2.210
 ```
@@ -162,7 +162,12 @@ As long as we're dealing with names:
     hostnamectl set-hostname ops.cluster.test
 ```
 
-The firewall commands at the link are not needed because the firewall is not enabled.
+The firewall commands are needed - I have no idea why, but I'll guess the < 1024 port.
+
+```
+    firewall-cmd --permantent --add-port=53/udp
+    firewall-cmd --reload
+```
 
 #### OPS ifcfg
 
@@ -191,6 +196,8 @@ This is a **terrible** tool, but it exists so if you want it, it is exposed.
 
 See the [official documentation](https://zookeeper.apache.org/doc/r3.6.0/zookeeperAdmin.html#sc_adminserver) for how to use it.
 
+This doesn't work well until the cluster is up because the URLs generate errors.
+
 It is web-based, so open a browser (Firefox comes installed) and bookmark:
 - http://zoo1.cluster.test:8081/commands
 - http://zoo2.cluster.test:8081/commands
@@ -203,6 +210,7 @@ Note that the port is configured in cluster-test/stackX/conf/zookeeper.conf as "
 Download the rpm from the [github page](https://github.com/vran-dev/PrettyZoo/releases) and install it:
 
 ```
+    cd ~
     wget https://github.com/vran-dev/PrettyZoo/releases/download/v1.9.4/prettyzoo-1.9.4-1.x86_64.rpm
     sudo rpm -i prettyzoo-1.9.4-1.x86_64.rpm 
 ```
@@ -237,6 +245,8 @@ Note that the port is configured in cluster.dev/stackX/conf/zookeeper.conf as "c
 
 #### BookKeeper Admin
 
+This doesn't work very well until the BookKeeper is up because the URLs generate errors.
+
 This is web-based. Open a browser (Firefox comes installed) and bookmark:
 - http://bookie1.cluster.test:8082/metrics
 - http://bookie2.cluster.test:8082/metrics
@@ -248,22 +258,21 @@ Note that the port is configured in cluster-test/stackX/conf/bookkeeper.conf as 
 
 #### Puslar Manager
 
+Do NOT run this until the cluster is up. It writes bad data that requires wiping everything. After the cluster is up, then:
+
 [Pulsar Manager](https://github.com/apache/pulsar-manager) supposedly can run in a container, but the configuration is not well documented. I haven't gotten there, yet.
 
 Way down at the bottom of the [Apache Pulsar Downloads](https://pulsar.apache.org/en/download/) page, there's a tarball. You do **not** want to wget that. Follow the instructions on the Pulsar Manager page.
 
 ```
-wget https://dist.apache.org/repos/dist/release/pulsar/pulsar-manager/pulsar-manager-0.2.0/apache-pulsar-manager-0.2.0-bin.tar.gz
-tar -zxvf apache-pulsar-manager-0.2.0-bin.tar.gz
-cd pulsar-manager
-tar -xvf pulsar-manager.tar
-cd pulsar-manager
-cp -r ../dist ui
-cp ~/cluster-test/ops/conf/application.parameters .
+    wget https://dist.apache.org/repos/dist/release/pulsar/pulsar-manager/pulsar-manager-0.2.0/apache-pulsar-manager-0.2.0-bin.tar.gz
+    tar -zxvf apache-pulsar-manager-0.2.0-bin.tar.gz
+    cd pulsar-manager
+    tar -xvf pulsar-manager.tar
+    cd pulsar-manager
+    cp -r ../dist ui
+    cp ~/cluster-test/ops/conf/application.parameters .
 ```
-
-Do NOT run this until the cluster is up. It writes bad data that requires wiping everything. After the cluster is up, then:
-
 
 #### Prometheus
 
@@ -287,11 +296,13 @@ There are [configuration instructions](https://grafana.com/docs/grafana/latest/a
 ```
     mkdir -p ~/cluster-test/ops/grafana/logs
     mkdir -p ~/cluster-test/ops/grafana/data
-    sudo chown -R nobody:nogroup ~/cluster-test/ops/grafana
+    sudo chown -R 65534:65534 ~/cluster-test/ops/grafana
     ln -s ~/cluster-test/ops/bin/grafanaup ~/bin/grafanaup
     ln -s ~/cluster-test/ops/bin/grafanadown ~/bin/grafanadown
     ln -s ~/cluster-test/ops/bin/grafanatail ~/bin/grafanatail
 ```
+
+The owner and group are nobody and nogrp, but the symbolic versions don't work. I have no idea why Grafan requires this, but it does (or you can run it as root).
 
 The default admin user and password are - what else? - "admin" and "admin"
 
@@ -300,6 +311,12 @@ The default admin user and password are - what else? - "admin" and "admin"
 #### Kibana
 
 ### STACK VMs
+
+Set the hostnames (it's just pretty):
+
+```
+    hostnamectl set-hostname stackX.cluster.test
+```
 
 #### STACK ifcfg
 
