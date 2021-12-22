@@ -185,10 +185,10 @@ If you don't clone this from your home directory, there are many things in the c
 
 ```
     cd ~
-    git clone 
+    git clone https://github.com/tigersizer/cluster-test
 ```
 
-github doesn't maintain file modes, so you'll want to do this to make life easier, later:
+github doesn't always maintain file modes, so you'll want to do this to make life easier, later:
 
 
 ```
@@ -235,23 +235,30 @@ If you want to create a separate address space and routing, you're on your own. 
 
 Note that it was originally going to be cluster.dev, but Google has broken the ".dev" top level domain for almost all browsers. It is hard-coded into the browsers - even Microsoft browsers - to use TLS (aka https://) connections to all .dev domains. This breaks many of the admin tools. ".test" is supposed to be reserved and seems to work fine.
 
-#### Prometheus Node Exporter
+#### Prometheus
+
+##### Node Exporter
 
 In addition to generally monitoring your VMs, this provides a handy way to know they're all connected and working.
 
 [Node Exporter](https://prometheus.io/docs/guides/node-exporter/) exposes Linux metrics to Prometheus. These instructions are copied directly from that link.
 
 ```
+    cd ~
     wget https://github.com/prometheus/node_exporter/releases/download/v*/node_exporter-*.*-amd64.tar.gz
     tar xvfz node_exporter-*.*-amd64.tar.gz
 ```
-https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
-You don't want to run it, yet, but it "just runs", no Docker for this.
+
+##### Java Agent
+
+This is required to hook Cassandra up to Prometheus, but it generically JMX-based.
 
 ```
-    cd node_exporter-*.*-amd64
-    ./node_exporter
+    cd ~/cluster-test/common/bin
+    wget "https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.16.1/jmx_prometheus_javaagent-0.16.1.jar"
 ```
+
+So far, it's the only library, so stuffing it in `bin` rather than creating a lib directory just for one thing.
 
 #### Firefox
 

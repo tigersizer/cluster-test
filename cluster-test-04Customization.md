@@ -208,10 +208,10 @@ Download the rpm from the [github page](https://github.com/vran-dev/PrettyZoo/re
 ```
 
 
-It does install in an odd directory, so this is as good a place as any for this step:
+It does install in an odd directory, so let's start the painful linking process:
 
 ```
-    ln -s ~/cluster-test/ops/bin/* ~/bin
+    ln -s ~/cluster-test/ops/bin/prettyZoo ~/bin/prettyZoo
 ```
 
 You can configure it now or come back after starting the cluster and use this as verification.
@@ -247,6 +247,23 @@ There are other URLs. See the [Admin REST API](https://bookkeeper.apache.org/doc
 Note that the port is configured in cluster-test/stackX/conf/bookkeeper.conf as BOTH "prometheusStatsHttpPort" and "httpServerPort" and exposed in the bookup "docker run" command.
 
 #### Puslar Manager
+
+[Pulsar Manager](https://github.com/apache/pulsar-manager) supposedly can run in a container, but the configuration is not well documented. I haven't gotten there, yet.
+
+Way down at the bottom of the [Apache Pulsar Downloads](https://pulsar.apache.org/en/download/) page, there's a tarball. You do **not** want to wget that. Follow the instructions on the Pulsar Manager page.
+
+```
+wget https://dist.apache.org/repos/dist/release/pulsar/pulsar-manager/pulsar-manager-0.2.0/apache-pulsar-manager-0.2.0-bin.tar.gz
+tar -zxvf apache-pulsar-manager-0.2.0-bin.tar.gz
+cd pulsar-manager
+tar -xvf pulsar-manager.tar
+cd pulsar-manager
+cp -r ../dist ui
+cp ~/cluster-test/ops/conf/application.parameters .
+```
+
+Do NOT run this until the cluster is up. It writes bad data that requires wiping everything. After the cluster is up, then:
+
 
 #### Prometheus
 
