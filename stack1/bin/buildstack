@@ -3,6 +3,9 @@
 chmod +x ~/cluster-test/stack1/bin
 
 # Prometheus OS monitor
+mkdir ~/cluster-test/stack1/node_exporter
+mkdir ~/cluster-test/stack1/node_exporter/logs
+ln -s ~/cluster-test/stack1/bin/pnodeup ~/bin/pnodeup
 ln -s ~/cluster-test/stack1/bin/pnodedown ~/bin/pnodedown
 ln -s ~/cluster-test/stack1/bin/pnodeup ~/bin/pnodeup
 
@@ -11,6 +14,7 @@ ln -s ~/cluster-test/stack1/bin/netup ~/bin/netup
 
 # Prometheus Docker moinitor
 ln -s ~/cluster-test/stack1/bin/pdockdown ~/bin/pdockdown
+# it doesn't write logs so no pdocktail
 ln -s ~/cluster-test/stack1/bin/pdockup ~/bin/pdockup
 
 # ZooKeeper
@@ -40,12 +44,10 @@ ln -s ~/cluster-test/stack1/bin/brokerdown ~/bin/brokerdown
 ln -s ~/cluster-test/stack1/bin/brokertail ~/bin/brokertail
 ln -s ~/cluster-test/stack1/bin/brokerup ~/bin/brokerup
 
-# Prometheus node_exporter 
-mkdir ~/cluster-test/stack1/node_exporter
-mkdir ~/cluster-test/stack1/node_exporter/logs
-ln -s ~/cluster-test/stack1/bin/pnodedown ~/bin/pnodedown
-ln -s ~/cluster-test/stack1/bin/pnodetail ~/bin/pnodetail
-ln -s ~/cluster-test/stack1/bin/pnodeup ~/bin/pnodeup
+# Pulsar Proxy
+ln -s ~/cluster-test/stack1/bin/proxydown ~/bin/proxydown
+ln -s ~/cluster-test/stack1/bin/proxytail ~/bin/proxytail
+ln -s ~/cluster-test/stack1/bin/proxyup ~/bin/proxyup
 
 # Cassandra
 mkdir ~/cluster-test/stack1/cassandra
