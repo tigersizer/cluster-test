@@ -1,6 +1,7 @@
 #!/bin/bash
 # bring everything up
 pnodeup
+pdockup
 zooup
 bookieup
 brokerup

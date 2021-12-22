@@ -3,50 +3,63 @@
 # This script is fairly innocuous, but it is NOT idempotent.
 # If you run this more than once, it will screw things up.
 
-# The Firefox section of cluster-test-02CentOSTemplateVM.md
+# These are all commands in cluster-test-02CentOSTemplateVM.md
+
+# The git section
+cd ~
+git clone https://github.com/tigersizer/cluster-test
+chmod +x cluster-test/common/bin/*
+chmod +x cluster-test/ops/bin/*
+chmod +x cluster-test/stack1/bin/*
+chmod +x cluster-test/stack2/bin/*
+chmod +x cluster-test/stack3/bin/*
+
+# The DNS section
+# nothing to do here, just a cross-reference
+
+#The Prometheus section
+cd ~
+wget "https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz"
+tar xvfz node_exporter-*.*-amd64.tar.gz
+
+# The Firefox section
 sudo dnf update firefox
 
-# The Docker section of cluster-test-02CentOSTemplateVM.md
+cd ~/cluster-test/common/bin
+wget "https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.16.1/jmx_prometheus_javaagent-0.16.1.jar"
+
+# The Docker section
 sudo yum erase podman buildah
 sudo yum install -y yum-utils
 sudo yum-config-manager \
     --add-repo \
     https://download.docker.com/linux/centos/docker-ce.repo
-sudo yum install docker-ce docker-ce-cli containerd.io
+sudo yum install -y docker-ce docker-ce-cli containerd.io
 sudo groupadd docker
 sudo usermod -aG docker $USER
 sudo systemctl enable docker.service
 sudo systemctl enable containerd.service
-sudo systemctl start docker
-dockerr run hello-world
+
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 
-# The Docker section of cluster-test-02CentOSTemplateVM.md
-sudo yum install java-11-openjdk-devel
+# The Eclipse and Java section 
+sudo yum install -y java-11-openjdk-devel
 sudo alternatives --config java
 
-# The Eclipse and Java section of cluster-test-02CentOSTemplateVM.md
 cd ~
-wget http://ftp.yz.yamagata-u.ac.jp/pub/eclipse/oomph/epp/2021-09/R/eclipse-inst-linux64.tar.gz
+wget "http://ftp.yz.yamagata-u.ac.jp/pub/eclipse/oomph/epp/2021-09/R/eclipse-inst-linux64.tar.gz"
 tar xvf eclipse-inst-linux64.tar.gz
 cd eclipse-installer/
 ./eclipse-inst
 
-#The Prometheus section of cluster-test02CentOSTemplateVM.md
-cd ~
-wget "https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz"
-tar xvfz node_exporter-*.*-amd64.tar.gz
-cd ~/cluster-test/common/bin
-wget "https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.16.1/jmx_prometheus_javaagent-0.16.1.jar"
-
-# The Python section of cluster-test-02CentOSTemplateVM.md
+# The Python section
 sudo alternatives --config python
 
-# The vi section of cluster-test-02CentOSTemplateVM.md
+# The vi section
 cat ~/cluster-test/common/conf/vi.vimrc >> ~/.vimrc
 
-# The vi section of cluster-test-02CentOSTemplateVM.md
+# The vi section
 cat ~/cluster-test/common/conf/sh.bashrc >> ~/.bashrc
 
 ln -s ~/cluster-test/common/bin/stackup ~/bin/stackup
