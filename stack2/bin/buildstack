@@ -1,9 +1,13 @@
 #!/bin/bash
+
 # make the commands executable
 chmod +x ~/cluster-test/stack2/bin
 
 # Prometheus OS monitor
+mkdir ~/cluster-test/stack2/node_exporter
+mkdir ~/cluster-test/stack2/node_exporter/logs
 ln -s ~/cluster-test/stack2/bin/pnodedown ~/bin/pnodedown
+ln -s ~/cluster-test/stack2/bin/pnodetail ~/bin/pnodetail
 ln -s ~/cluster-test/stack2/bin/pnodeup ~/bin/pnodeup
 
 # first command required by everything
@@ -40,12 +44,10 @@ ln -s ~/cluster-test/stack2/bin/brokerdown ~/bin/brokerdown
 ln -s ~/cluster-test/stack2/bin/brokertail ~/bin/brokertail
 ln -s ~/cluster-test/stack2/bin/brokerup ~/bin/brokerup
 
-# Prometheus node_exporter
-mkdir ~/cluster-test/stack2/node_exporter
-mkdir ~/cluster-test/stack2/node_exporter/logs
-ln -s ~/cluster-test/stack2/bin/pnodedown ~/bin/pnodedown
-ln -s ~/cluster-test/stack2/bin/pnodetail ~/bin/pnodetail
-ln -s ~/cluster-test/stack2/bin/pnodeup ~/bin/pnodeup
+# Pulsar Proxy
+ln -s ~/cluster-test/stack2/bin/proxydown ~/bin/proxydown
+ln -s ~/cluster-test/stack2/bin/proxytail ~/bin/proxytail
+ln -s ~/cluster-test/stack2/bin/proxyup ~/bin/proxyup
 
 # Cassandra
 mkdir ~/cluster-test/stack2/cassandra
@@ -57,3 +59,6 @@ ln -s ~/cluster-test/stack2/bin/casstail ~/bin/casstail
 ln -s ~/cluster-test/stack2/bin/cassup ~/bin/cassup
 ln -s ~/cluster-test/stack2/bin/nodetool ~/bin/nodetool
 ln -s ~/cluster-test/stack2/bin/cql ~/bin/cql
+
+# do the dangerous one last 
+sudo cat ~/cluster-test/stack2/conf/ifcfg-enp0s3 > /etc/sysconfig/network-scripts/ifcfg-enp0s3

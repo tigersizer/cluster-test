@@ -1,5 +1,5 @@
 #!/bin/bash
 # set the terminal window title
-echo -en "\033]2;Pulsar: proxy1 logs\007";
+echo -en "\033]2;Pulsar: proxy2 logs\007";
 # this is trivial, but handy
-tail -f ~/cluster-test/stack1/proxy/logs/proxy1.log
+tail -f ~/cluster-test/stack2/proxy/logs/proxy2.log
