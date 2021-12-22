@@ -1,6 +1,7 @@
 #!/bin/bash
 # bring everything down in reverse order of up
 cassdown
+proxydown
 brokerdown
 bookiedown
 zoodown
