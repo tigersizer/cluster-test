@@ -287,6 +287,7 @@ There are [configuration instructions](https://grafana.com/docs/grafana/latest/a
 ```
     mkdir -p ~/cluster-test/ops/grafana/logs
     mkdir -p ~/cluster-test/ops/grafana/data
+    sudo chown -R nobody:nogroup ~/cluster-test/ops/grafana
     ln -s ~/cluster-test/ops/bin/grafanaup ~/bin/grafanaup
     ln -s ~/cluster-test/ops/bin/grafanadown ~/bin/grafanadown
     ln -s ~/cluster-test/ops/bin/grafanatail ~/bin/grafanatail
