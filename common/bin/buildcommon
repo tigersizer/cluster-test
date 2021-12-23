@@ -50,6 +50,7 @@ sudo alternatives --config java
 cd ~
 wget "http://ftp.yz.yamagata-u.ac.jp/pub/eclipse/oomph/epp/2021-09/R/eclipse-inst-linux64.tar.gz"
 tar xvf eclipse-inst-linux64.tar.gz
+rm eclipse-inst-linux64.tar.gz
 cd eclipse-installer/
 ./eclipse-inst
 
