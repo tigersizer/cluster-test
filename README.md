@@ -27,6 +27,8 @@ There is a lot of manual, mostly command-line, work. But it's all simple, short,
 
 ## Introduction
 
+Update on making the repo public: This is presented as-is with nothing implied - warranty, fitness, support, or even sanity.
+
 This is very long document. Feel free to skip the sections you do not need.
 
 However, from what I've seen, this is not at all normal. Skipping sections may break things, later.
@@ -55,7 +57,7 @@ The ops and dev VMs can be smaller, but they're still not tiny.
 
 The total configuration is 16 CPUs, 42GB RAM, and 400GB disk (SSD preferrably).
 - 3 cluster VMs of 4 CPU, 12GB, 100GB.
-- 2 support VMs of 2 CPU, 4GB, 50GB.
+- 2 support VMs of 2 CPU, 4GB and 8GB, 50GB.
 
 And the host machine still needs to function.
 
@@ -80,7 +82,7 @@ The same ideas may work elsewhere, since all the configuration is in the virtual
 
 ## Design
 
-This is all software I use at work, but from a very high level. I wanted to understand how it worked in detail and be able to play with it without creating problems for others. I have a beast of a computer that I bought not least out of spite (it's banned in Colorado, from which I had just moved) and I wanted to stretch it a bit. So why not? I figured it would be a weekend project. Hah! It turns out that lots of people do parts of this, but no one (internet-search-able) has done it all. I was taking copious notes and had many links to other helpful people, so why not publicize the result?
+I wanted to understand how "this stuff" worked in detail and be able to play with it without creating problems for others. I have a beast of a computer that I bought, not least out of spite (it's banned in Colorado, from which I had just moved), and I wanted to stretch it a bit. So why not? I figured it would be a weekend project. Hah! It turns out that lots of people do parts of this, but no one (internet-search-able) has done it all. I was taking copious notes and had many links to other helpful people, so why not publicize the result?
 
 That result is five virtual machines:
 
@@ -106,6 +108,6 @@ The .md files have excruciating amounts of detail on how to set everything up, s
 
 If you want to cheat, there are "build" scripts for each machine that just do it all in one fell swoop. Albeit asking lots of questions along the way (mostly answered "Y").
 
-**WARNING:** Doing it that way is *very* dangerous. You may end up with broken networking and no way to access the internet for help fixing it. More likely, you will just need to rebuild the VM(s). But, if you foolishly decide that the host OS will play the Ops VM role, the danger is real.
+**WARNING:** Configuring the network, which is its own set of scripts for isolation, that way is *very* dangerous. You may end up with broken networking and no way to access the internet for help fixing it. More likely, you will just need to rebuild the VM(s). But, if you foolishly decide that the host OS will play the Ops VM role, the danger is real.
 
 All of the instructions are in this directory's .md files. The VM-specific directories' README.md files explain what files are there and why - but no instructions.

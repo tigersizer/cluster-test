@@ -38,7 +38,7 @@ Each virtual machine is slightly different (notably the IP addresses).
 We'll do this one first so it's ready to deal with DNS right away. That is the only "do this first" step, here. If you want to hurry and get the cluster up before you can monitor it - I get it. Configure bind/named then skip ahead and come back to this step.
 
 There are two scripts for this:
-- `buildnet` configures BIND/named and the enp0s3 exactly as mine are; you probably want to do these steps manually so you can change things.
+- `setnet` configures BIND/named and the enp0s3 exactly as mine are; you probably want to do these steps manually so you can change things.
 - `buildops` does the rest; this is safe enough that you can just run it - you don't even need to read any of the documentation.
 
 #### BIND
@@ -46,7 +46,7 @@ There are two scripts for this:
 The dangerous way, which will reboot at the end:
 
 ```
-    .~/cluster-test/ops/bin/buildnet
+    .~/cluster-test/ops/bin/setnet
 ```
 
 You want to do this BEFORE changing your network configuration because it requires access to the Internet and changing your network configuration may break that.

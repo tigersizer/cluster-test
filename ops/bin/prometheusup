@@ -19,7 +19,7 @@ docker run --name prometheus \
     --restart always \
     --net=vm-bridge \
     -p 9090:9090 \
-    -v ~/cluster-test/ops/prometheus/data:/prometheus \
+    -v ~/cluster-test/ops/prometheus/data:/data \
     -v ~/cluster-test/ops/conf/:/conf \
     -v ~/cluster-test/ops/bin:/scripts \
     -v ~/cluster-test/ops/prometheus/logs:/logs \

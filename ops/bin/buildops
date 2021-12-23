@@ -1,24 +1,7 @@
 #!/bin/bash
 
 # this script corresponds to the commands in the cluster-test-04Customization.md OPS section
-
-# this is DANGEROUS if you're not me
- 
-if [ ! -d /var/named ]; then
-    # the BIND subsection
-    sudo dnf install -y bind bind-utils
-    sudo systemctl enable named
-
-    # use cat - it does a better job with ownership, sometimes
-    sudo cat ~/cluster-test/ops/conf/named.conf > /etc/named.conf
-    sudo cat ~/cluster-test/ops/conf/cluster.test.db > /var/named/cluster.test.db
-    sudo cat ~/cluster-test/ops/conf/192.168.2.db > /var/named/192.168.2.db
-
-    # the OPS ifcfg section
-    sudo cat ~/cluster-test/ops/conf/ifcfg-enp0s3 > /etc/sysconfig/network-scripts/ifcfg-enp0s3 
-    hostnamectl set-hostname ops.cluster.test
-    sudo reboot
-fi
+# the safe sections
 
 # the ZooKeeper Admin section is just adding bookmarks to your browser
 # theoretically automatable, but I'm not going to bother
@@ -41,11 +24,14 @@ cd pulsar-manager
 tar -xvf pulsar-manager.tar
 cd pulsar-manager
 cp -r ../dist ui
+# do NOT run this before cluster is up!!
 #./bin/pulsar-manager
 
 # the Prometheus section
 mkdir -p ~/cluster-test/ops/prometheus/logs
 mkdir -p ~/cluster-test/ops/prometheus/data
+chgrp -R docker ~/cluster-test/ops/prometheus
+chmod -R g+w ~/cluster-test/ops/prometheus
 ln -s ~/cluster-test/ops/bin/prometheusdown ~/bin/prometheusdown
 ln -s ~/cluster-test/ops/bin/prometheustail ~/bin/prometheustail
 ln -s ~/cluster-test/ops/bin/prometheusup ~/bin/prometheusup
@@ -57,6 +43,4 @@ sudo chown -R nobody:nogroup ~/cluster-test/ops/grafana
 ln -s ~/cluster-test/ops/bin/grafanaup ~/bin/grafanaup
 ln -s ~/cluster-test/ops/bin/grafanadown ~/bin/grafanadown
 ln -s ~/cluster-test/ops/bin/grafanatail ~/bin/grafanatail
-
-
 

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# this script corresponds to the commands in the cluster-test-04Customization.md OPS sections
+# BIND and ifcfg
+
+# this is DANGEROUS if you're not me
+ 
+if [ ! -d /var/named ]; then
+    # the BIND subsection
+    sudo dnf install -y bind bind-utils
+    sudo systemctl enable named
+
+    sudo cp ~/cluster-test/ops/conf/named.conf /etc/named.conf
+    sudo cp ~/cluster-test/ops/conf/cluster.test.db /var/named/cluster.test.db
+    sudo cp ~/cluster-test/ops/conf/192.168.2.db /var/named/192.168.2.db
+
+    # the OPS ifcfg section
+    sudo cp ~/cluster-test/ops/conf/ifcfg-enp0s3 /etc/sysconfig/network-scripts/ifcfg-enp0s3 
+    hostnamectl set-hostname ops.cluster.test
+    sudo reboot
+fi
+
