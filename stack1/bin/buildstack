@@ -5,12 +5,11 @@ chmod +x ~/cluster-test/stack1/bin
 # Prometheus OS monitor
 mkdir ~/cluster-test/stack1/node_exporter
 mkdir ~/cluster-test/stack1/node_exporter/logs
+chgrp -R docker ~/cluster-test/stack1/node_exporter
+chmod -R g+w ~/cluster-test/stack1/node_exporter
 ln -s ~/cluster-test/stack1/bin/pnodeup ~/bin/pnodeup
 ln -s ~/cluster-test/stack1/bin/pnodedown ~/bin/pnodedown
 ln -s ~/cluster-test/stack1/bin/pnodeup ~/bin/pnodeup
-
-# first command required by everything Docker
-ln -s ~/cluster-test/stack1/bin/netup ~/bin/netup
 
 # Prometheus Docker moinitor
 ln -s ~/cluster-test/stack1/bin/pdockdown ~/bin/pdockdown
@@ -22,6 +21,7 @@ mkdir ~/cluster-test/stack1/zookeeper
 mkdir ~/cluster-test/stack1/zookeeper/data
 mkdir ~/cluster-test/stack1/zookeeper/logs
 chgrp -R docker ~/cluster-test/stack1/zookeeper
+chmod -R g+w ~/cluster-test/stack1/zookeeper
 ln -s ~/cluster-test/stack1/bin/zoodown ~/bin/zoodown
 ln -s ~/cluster-test/stack1/bin/zootail ~/bin/zootail
 ln -s ~/cluster-test/stack1/bin/zooup ~/bin/zooup
@@ -31,6 +31,7 @@ mkdir ~/cluster-test/stack1/bookkeeper
 mkdir ~/cluster-test/stack1/bookkeeper/data
 mkdir ~/cluster-test/stack1/bookkeeper/logs
 chgrp -R docker ~/cluster-test/stack1/bookkeeper
+chmod -R g+w ~/cluster-test/stack1/bookkeeper
 ln -s ~/cluster-test/stack1/bin/bookiedown ~/bin/bookiedown
 ln -s ~/cluster-test/stack1/bin/bookietail ~/bin/bookietail
 ln -s ~/cluster-test/stack1/bin/bookieup ~/bin/bookieup
@@ -40,11 +41,16 @@ mkdir ~/cluster-test/stack1/broker
 mkdir ~/cluster-test/stack1/broker/data
 mkdir ~/cluster-test/stack1/broker/logs
 chgrp -R docker ~/cluster-test/stack1/broker
+chmod -R g+w ~/cluster-test/stack1/broker
 ln -s ~/cluster-test/stack1/bin/brokerdown ~/bin/brokerdown
 ln -s ~/cluster-test/stack1/bin/brokertail ~/bin/brokertail
 ln -s ~/cluster-test/stack1/bin/brokerup ~/bin/brokerup
 
 # Pulsar Proxy
+mkdir ~/clustert-test/stack1/proxy
+mkdir ~/cluster-test/stack1/proxy/logs
+chgrp -R docker ~/cluster-test/stack1/proxy
+chmod -R g+w ~/cluster-test/stack1/proxy
 ln -s ~/cluster-test/stack1/bin/proxydown ~/bin/proxydown
 ln -s ~/cluster-test/stack1/bin/proxytail ~/bin/proxytail
 ln -s ~/cluster-test/stack1/bin/proxyup ~/bin/proxyup
@@ -59,7 +65,3 @@ ln -s ~/cluster-test/stack1/bin/casstail ~/bin/casstail
 ln -s ~/cluster-test/stack1/bin/cassup ~/bin/cassup
 ln -s ~/cluster-test/stack1/bin/nodetool ~/bin/nodetool
 ln -s ~/cluster-test/stack1/bin/cql ~/bin/cql
-
-# do the dangerous one last
-sudo cat ~/cluster-test/stack1/conf/ifcfg-enp0s3 > /etc/sysconfig/network-scripts/ifcfg-enp0s3
-
