@@ -10,11 +10,11 @@
     1. [Manual Setup](#centos-manual-setup)
         1. [sudo](#sudo)
         1. [VirtualBox Guest Additions](#virtualbox-guest-additions)
+        1. [git](#git)
         1. [Script the Rest](#script-the-rest)
     1. [What the script does](#what-the-script-does)
-        1. [git](#git)
-        1. [Domain Name Server](#domain-name-server) - not yet, just planning
-        1. [Prometheus Node Exporter](#prometheus-node-exporter)
+        1. [Prometheus Node Exporter](#node-exporter)
+        1. [Prometheus JMX Agent](#jmx-agent)
         1. [Firefox](#firefox)
         1. [Docker](#docker)
         1. [Eclipse and Java](#eclipse-and-java)
@@ -192,31 +192,12 @@ I don't like the Blank Screen it does after 5 minutes and the installer never ge
 - Activities
 - Type Setting
 - Select Settings
-- And now the options are gone. I wonder what happened. So much for those instructions.
-
-#### Script the Rest
-
-If you are going to build **EXACTLY** my configuration, the rest of the setup below can be accomplished in one step:
-
-```
-    cluster-test/common/bin/buildcommon
-```
-
-These "build" scripts are very dangerous to run:
-- They are *NOT* idempotent. Run them only once.
-- They create *EXCATLY* what is documented, here. If you want *anything* different, run them at your own risk.
-
-### What the script does
-
-Note that copy/paste is working, now, so you don't have to type all of this.
-
-One random thing:
-
-```
-    mkdir ~/bin
-```
-
-.bashrc puts it in your path by default, but it does not exist by default.
+- Click Power on the left
+    - Set Blank screen to whatever you want (mine is Never)
+- At the bottom left, click Details
+- Click Date & Time
+    - Click on Time Zone
+    - Click the rigth spot on the map
 
 #### git
 
@@ -242,41 +223,17 @@ github doesn't always maintain file modes, so you'll want to do this to make lif
 
 There is nothing in cluster-test/dev/bin
 
-#### Domain Name Server
+#### Script the Rest
 
-We only want a DNS server on the operations VM, so we don't want to do that, yet. 
+Nothing network-y is done here, so you can safely just run this:
 
-Each VM will have its own ifcfg, so we don't want to do that, yet, either.
+```
+    cluster-test/common/bin/buildcommon
+```
 
-However, it's worth spending some time thinking about names. These instructions will create a `cluster.test` zone and the following names:
-- ops
-- stack1
-    - zoo1
-    - bookie1
-    - broker1
-    - proxy1
-    - cass1
-- stack2
-    - zoo2
-    - bookie2
-    - broker2
-    - proxy2
-    - cass2
-- stack3
-    - zoo3
-    - bookie3
-    - broker3
-    - proxy3
-    - cass3
-- dev
+### What the script does
 
-The five IPs will be 192.168.2.200, .201, .202, 203, and .210.
-
-You do not need to do that. In fact, it is unlikely that your network, which we are **not** routing to but a part of, is using the 192.168.2.0/24 address space (aka class C network).
-
-If you want to create a separate address space and routing, you're on your own. The DNS setup should work, though.
-
-Note that it was originally going to be cluster.dev, but Google has broken the ".dev" top level domain for almost all browsers. It is hard-coded into the browsers - even Microsoft browsers - to use TLS (aka https://) connections to all .dev domains. This breaks many of the admin tools. ".test" is supposed to be reserved and seems to work fine.
+Note that copy/paste is working, now, so you don't have to type all of this.
 
 #### Prometheus
 
@@ -293,7 +250,7 @@ In addition to generally monitoring your VMs, this provides a handy way to know 
     rm node_exporter-1.3.1.linux-amd64.tar.gz
 ```
 
-##### Java Agent
+##### JMX Agent
 
 This is required to hook Cassandra up to Prometheus, but it generically JMX-based.
 
@@ -452,4 +409,16 @@ Open .bashrc and append:
     }
     function title { echo -en "\033]2;$1\007"; }
 ```
+
+This counts as "bash", right?
+
+.bashrc puts ~/bin in your path by default, but it does not exist by default.
+
+```
+    mkdir ~/bin
+    ln -s ~/cluster-test/common/bin/netup ~/bin/netup
+    ln -s ~/cluster-test/common/bin/stackup ~/bin/stackup
+    ln -s ~/cluster-test/common/bin/stackdown ~/bin/stackdown
+```
+
 [Prev](cluster-test-01VirtualBoxTemplateVM.md)      [Table of Contents](#table-of-contents)     [Next](cluster-test-03CopyVMs.md) 

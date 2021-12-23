@@ -37,17 +37,17 @@ Each virtual machine is slightly different (notably the IP addresses).
 
 We'll do this one first so it's ready to deal with DNS right away. That is the only "do this first" step, here. If you want to hurry and get the cluster up before you can monitor it - I get it. Configure bind/named then skip ahead and come back to this step.
 
-If you are configuring everything **EXACATLY** as described here, you can get all this done with one command (you did the chmod +x commands in the [common git setup](cluster-test-02-CentOSTempateVM.md#git), right?)
-
-**WARNING**: This is not idempotent. Do not run it more than once. 
-
-**WARNING**: This will create *exactly* what's documented here - particularly IP addresses, but also including some of my settings that are *not* expected to be configured here because the NIC configuration is copied in full. If you break networking, it's painful to get it restored - and you're on your own without Internet assistance.
-
-```
-    ~/cluster-test/ops/bin/buildops
-```
+There are two scripts for this:
+- `buildnet` configures BIND/named and the enp0s3 exactly as mine are; you probably want to do these steps manually so you can change things.
+- `buildops` does the rest; this is safe enough that you can just run it - you don't even need to read any of the documentation.
 
 #### BIND
+
+The dangerous way, which will reboot at the end:
+
+```
+    .~/cluster-test/ops/bin/buildnet
+```
 
 You want to do this BEFORE changing your network configuration because it requires access to the Internet and changing your network configuration may break that.
 
@@ -171,6 +171,8 @@ The firewall commands are needed - I have no idea why, but I'll guess the < 1024
 
 #### OPS ifcfg
 
+If you ran the `buildnet` script, this has been done.
+
 The same change is made to all of the VMs, with just the IPADDR being different: Replace DHCP with a static IP and associated configuration.
 
 I don't know where `enp0s3` came from. The VMs only have one NIC, so edit whatever is there.
@@ -192,7 +194,13 @@ And reboot. Be sure you can still connect to the Internet. If you cannot, I have
 
 #### ZooKeeper Admin
 
-This is a **terrible** tool, but it exists so if you want it, it is exposed.
+Everything from here down can be done with:
+
+```
+    .~/cluster-test/ops/bin/buildops
+```
+
+This is a **terrible** tool, but it exists. If you want it, it is exposed.
 
 See the [official documentation](https://zookeeper.apache.org/doc/r3.6.0/zookeeperAdmin.html#sc_adminserver) for how to use it.
 
@@ -302,7 +310,7 @@ There are [configuration instructions](https://grafana.com/docs/grafana/latest/a
     ln -s ~/cluster-test/ops/bin/grafanatail ~/bin/grafanatail
 ```
 
-The owner and group are nobody and nogrp, but the symbolic versions don't work. I have no idea why Grafan requires this, but it does (or you can run it as root).
+The owner and group are nobody and nogroup, but the symbolic versions don't work. I have no idea why Grafan requires this, but it does (or you can run it as root).
 
 The default admin user and password are - what else? - "admin" and "admin"
 
@@ -320,6 +328,16 @@ Set the hostnames (it's just pretty):
 
 #### STACK ifcfg
 
+This is in an isolated script everything else can be scripted *except* this.
+
+If you're feeling lucky (or you're me):
+
+```
+    setifcfg
+```
+
+or do it by hand:
+
 This is the same change as for the [ops machine](#ops-ifcfg). Be sure to give each VM a unique IP and, if diverging from these instructions, that it matches the DNS zone files.
 
 Reboot and test via ping-by-name.
@@ -336,29 +354,42 @@ The most likely problems are:
 - zone file doesn't match ifcfg values
 - a typo somewhere; check VERY closely.
 
-#### directory permissions
+#### directories and links
 
-Docker does weird things with root and directory ownership. Everything was "clean" when pushed into git, but just in case:
-
-Remember "stack" is your login; if you used something different, change the ownership appropriately.
+This is BY FAR easier to do via script:
 
 ```
-    sudo chown -R stack cluster-test
-    chgrp -R docker cluster-test
+    buildstack
+```
+
+It's so much easier, that I'm not going to type it all out.
+
+The script does two things: Directory permissions and symbolic links.
+
+**Directory Permissions**
+Docker does weird things with root and directory ownership. Everything was "clean" when pushed into git, but just in case (and to have it handy for copy/paste if things need to be fixed, later):
+
+```
+    chgrp -R docker cluster-test/stack1/node_exporter
+    chgrp -R docker cluster-test/stack1/zookeeper
+    chgrp -R docker cluster-test/stack1/bookkeeper
+    chgrp -R docker cluster-test/stack1/broker
+    chgrp -R docker cluster-test/stack1/cassandra
     chmod -R g+w cluster-test
 ```
 
-That's a bit excessive, but it's the least typing.
+Repeat for stack2 and stack3.
 
-#### script locations
+**Symbolic Links**
 
 There are scripts for each node. We need to put them somewhere useful.
 
-Replace "stack1" with the appropriate value.
 
 ```
     ln -s ~/cluster-test/stack1/bin/* ~/bin
 ```
+
+Repeat for stack2 and stack3.
 
 ### DEV VM
 
@@ -388,5 +419,13 @@ Set the username and email:
     git config --global user.name "Your Name"
     git config --global user.email you@example.com
 ```
+
+The pull preference is best set per-repo, but it should be set (so git doesn't nag you):
+
+```
+    cd ~/cluster-test
+    git config pull.ff only
+```
+
 
 [Prev](cluster-test-03CopyVMs.md)       [Table of Contents](#table-of-contents)     [Next](cluster-test-05FiringItUp.md)

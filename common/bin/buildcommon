@@ -62,5 +62,7 @@ cat ~/cluster-test/common/conf/vi.vimrc >> ~/.vimrc
 # The vi section
 cat ~/cluster-test/common/conf/sh.bashrc >> ~/.bashrc
 
+mkdir ~/bin
+ln -s ~/cluster-test/common/bin/netup ~/bin/netup
 ln -s ~/cluster-test/common/bin/stackup ~/bin/stackup
 ln -s ~/cluster-test/common/bin/stackdown ~/bin/stackdown
