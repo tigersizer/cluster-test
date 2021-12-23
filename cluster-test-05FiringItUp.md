@@ -33,7 +33,7 @@ If you're not logged into all the cluster nodes, do so.
 
 Unless you are **far** more confident than I, I recommend bringing everything up the first time component-by-stack-by-component.
 
-That is, one each stack machine - going through each one for each step. I recommend doing most of these in its own terminal window tab so you can leave the tails running.
+That is, one component on each stack machine - going through each one for each step. I recommend doing most of these in its own terminal window tab so you can leave the tails running.
 
 If any of these commands do not work, there was an `ln -s` step missed. They're all in the stackX/bin directory. You can figure out what's missing and link it or run them from there with the "./" prefix.
 
@@ -47,7 +47,8 @@ If any of these commands do not work, there was an `ln -s` step missed. They're 
 It's short. If all is working it ends with:
 
 ```
-    ts=long-ISO-date/time caller=node_exporter.go:199 level=info msg="Listening on" address=0.0.0.0:9090
+    ts=long-ISO-dateZtime caller=node_exporter.go:199 level=info msg="Listening on" address=0.0.0.0:9090
+    ts=long-ISO-dateZtime caller=tls_config.go:195 level=info msg="TLS is disabled." http2=false
 ```
 
 There is not much point in saving this one. Just break out of the tail (ctrl-C) and keep going.
@@ -58,8 +59,22 @@ There is not much point in saving this one. Just break out of the tail (ctrl-C) 
     pdockup
 ```
 
-Nothing to tail for this one. You need to satified with no `docker run` errors. Testing it can be done with Prometheus on the Ops machine.
+The output will be something like this:
 
+```
+    d5f790405535198233def55048f3f4b0d6193d4d4c4f6eb61d0c6fa36e70c250
+    Error response from daemon: No such container: pdock1
+    Error: No such container: pdock1
+    Unable to find image 'cAdvisor' locally
+```
+
+- the large hex number is the docker id of the network (created by netup)
+- the first error is the `docker stop` command, but it does not yet exist to be stopped.
+- the second error is the `docker rm` command, but it does not yet exist to be removed.
+
+Followed by a bunch of downloading status/information and finally another large hex number.
+
+Nothing to tail for this one. You need to satified with no `docker run` errors. Testing it can be done with Prometheus on the Ops machine.
 
 **ZooKeeper**
 
@@ -68,10 +83,28 @@ Nothing to tail for this one. You need to satified with no `docker run` errors. 
     zootail
 ```
 
-You want to see messages with LEADER and/or FOLLOWER in them. There may be the occasional exception stack dump; that seems to be normal. Note that is only the first time. If you're bring up normally, you will see a message with UPTODATE in it:
+The `zooup` output will be very similar to the `pdockup` output, for the same reaons, with the first line being:
+
+```
+    Error response from daemon: network with name vm-bridge already exists
+```
+
+Because `netup` has already been run.
+
+You will see:
+
+```
+    java.net.NoRouteToHostException: No route to host (Host unreachable)
+```
+
+and its stack trace until the other zoos come up. Nothing to worry about.
+
+
+You want to see messages with UPTODATE in it:
 
 ```
     timestamp [QuorumPeer[myid=1](plain=0.0.0.0:2181)(secure=disabled)] INFO  org.apache.zookeeper.server.quorum.Learner - Learner received UPTODATE message
+    timestamp [QuorumPeer[myid=1](plain=0.0.0.0:2181)(secure=disabled)] INFO  org.apache.zookeeper.server.quorum.QuorumPeer - Peer state changed: following - broadcast
 ```
 
 Things go very sideways if ZooKeeper is unhappy. It's worth jumping over to the Ops machine and [firing up prettyZoo](#prettyzoo) to see if they're all working.
@@ -80,15 +113,24 @@ Things go very sideways if ZooKeeper is unhappy. It's worth jumping over to the 
 
 Do **NOT** do this unless the ZooKeepers are happy. [Recovery is unpleasant](cluster-test-06Recovery.md).
 
+bookie1 has some Pulsar cluster intialization code it runs the first time. This spews out messages. It should all work, but it's hard to tell. I've never had a problem with it, so I haven't bother saving the output for later analysis.
+
 ```
     bookieup
     bookietail
 ```
 
+The by-now usual docker complaints. 
 You want to see:
 
 ```
     timestamp [main] INFO  org.apache.bookkeeper.common.component.ComponentStarter - Started component bookie-server.
+```
+
+as more nodes come up, you will see:
+
+```
+    timestamp [BookKeeperClientScheduler-OrderedScheduler-0-0] INFO  org.apache.bookkeeper.net.NetworkTopologyImpl - Adding a new node: /default-rack/bookie3.cluster.test:3181
 ```
 
 **Pulsar Brokers**
@@ -98,7 +140,7 @@ You want to see:
     brokertail
 ```
 
-You want to see:
+After the usual docker messages, you want to see:
 
 ```
     timestamp [main] INFO  org.apache.pulsar.PulsarBrokerStarter - PulsarService started.
@@ -134,7 +176,21 @@ You want to see:
     INFO  [main] timestamp CassandraDaemon.java:650 - Startup complete
 ```
 
-It may take a while.
+It may take a while. As the not-first nodes are coming up, you will see things such as this:
+
+```
+    INFO  [HANDSHAKE-/192.168.2.202] timestamp OutboundTcpConnection.java:561 - Handshaking version with /192.168.2.202
+```
+
+on the up nodes and on the coming up node:
+
+```
+INFO  [main] timestamp StorageService.java:1564 - JOINING: Finish joining ring
+INFO  [main] timestamp Gossiper.java:1832 - Waiting for gossip to settle...
+INFO  [main] timestamp StorageService.java:1564 - JOINING: sleeping 30000 ms for pending range setup
+INFO  [HANDSHAKE-/192.168.2.203] timestamp OutboundTcpConnection.java:561 - Handshaking version with /192.168.2.203
+INFO  [GossipStage:1] timestamp Gossiper.java:1163 - Node /192.168.2.203 is now part of the cluster
+```
 
 After all the Cassandra nodes are up, double-check it:
 
@@ -173,12 +229,97 @@ If you're not monitoring, you don't need the Prometheus pieces. I do recommend b
 
 Short version: opsup
 
-
 #### prettyZoo
+
+I love this tool because it is so simple and easy to use. See the [OPS Customization](cluster-test-04Customization.md#prettyzoo) document for how to configure it.
+
+```
+    prettyZoo &
+```
+
+Runs it. It is very chatty on stderr, so there isn't much point in running in the background.
 
 #### Pulsar Manager
 
+This thing is a bear to get running. Do NOT make a mistake or you'll be starting over.
+
 #### Prometheus
+
+```
+    prometheusup
+    promethetail
+```
+
+I hope you've gotten the hang of that by now. You want to see:
+
+```
+    ts=long-ISO-dateZtime caller=main.go:897 level=info msg="Server is ready to receive web requests."
+```
+
+Open a browser and go to prometheus.cluster.test:9090.
+
+If you're doing this in order, go to Status/Targets. There will be a list of all the systems from which metrics are gathered.
+
+You want to see:
+- bookies (3/3 up)
+- brokers (3/3 up)
+- casses (3/3 up)
+- dockers (3/3 up)
+- prometheus (1/1 up)
+- stacks (3/3 up)
+
+Click on the links and explore; that's the point.
+
+The query "language" is a bit odd, but once you get used it, it's quite nice. Grafana uses it more-or-less directly, so you can test out pieces of you Grafana queries here.
+
+The documentation is good. [Start here](https://prometheus.io/docs/prometheus/latest/querying/basics/).
+
+#### Grafana
+
+```
+    grafanaup
+    grafanatali
+```
+
+You want to see:
+
+```
+    t=long-ISO-dateZtime lvl=info msg="HTTP Server Listen" logger=http.server address=[::]:3000 protocol=http subUrl= socket=
+```
+
+Open a browser and go to grafana.cluster.test:3000
+
+The default login is "admin"/"admin"; it asks you to change it right away, but isn't pissy about what you type.
+
+The first thing to do is learn icon-ese. The intellectual triumph that is the phonetic alphabet is uselss in the Grafana UI. On the bright side, hovering the mouse over the icons is usually helpful.
+
+The first useful thing to do is add Prometheus as a Data source.
+- Hover the mouse over the gear-looking thing on the left.
+- "Configuration" will show up.
+- Click "Data sources".
+- Click "Add data sources"
+- Prometheus shows up near the top; Pick it
+- The URL is all that must be set: http://prometheus.cluster.test:9090
+- Scroll the the bottom and press the Save & test button.
+
+You want "Successfully tested" popupy thing. It will fade away on its own.
+
+The Dashboards can now be imported:
+- Press the plus-sign thing on the left.
+- "Create" will show up.
+- Click "Import".
+- Click the "Upload JSON file" button.
+- Navigate to ctest/cluster-test/ops/conf/grafana.
+- Pick one.
+- Open it.
+- Press the "Import" button.
+
+And this is where it breaks for me. The dashboard shows up with no data.
+
+If you edit one (click on where a title bar would be, if there were one), you can copy the query text, delete the query, add a new query, paste the text in, and it works fine.
+
+Something goes sideways, but I have no idea what, yet.
+
 
 ### DEV VM
 
