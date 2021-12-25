@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# do the dangerous bit in isolation so all the rest of it can be automated
+sudo cp ~/cluster-test/dev/conf/ifcfg-enp0s3 /etc/sysconfig/network-scripts/ifcfg-enp0s3
+
