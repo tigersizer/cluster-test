@@ -52,7 +52,7 @@ The installer pretty much "just works".
 - Set all the desired things
     - My Time & Date settings never stick, but you can try.
     - Turn on the network. This is not entirely obvious. In the network setup, there is an on/off slider that defaults to off. Slide it "on". This will connect to the DHCP server and assign you an IP address. We need network access for further installations.
-    - Note the name in parentheses fater "Ethernet". If it is not "enp0s3", the setup scripts will not work and you will need to configure the staic IPs manually.
+    - Note the name in parentheses after "Ethernet". If it is not "enp0s3", the setup scripts will not work and you will need to configure the staic IPs manually.
     - Create your user. This can be done later, but why not do it from the start? The rest of this document calls that user *ctest*.
 
 Finish the installer, by pressing "Begin Installation...", which will reboot. 
@@ -67,13 +67,13 @@ A Getting Starting help page will fill your screen. Close it.
 
 ### Setup
 
-There are a number of things that are less than ideal about a bare installation. This section describes the things *I* like. Feel free to customize your heart out before we start copying this VM. Everything you do here is one less thing to be done multiple times, later.
+There are a number of things that are less than ideal about a bare installation. This section describes the things *I* like. Feel free to customize your heart out before copying this VM. Everything you do here is one less thing to be done multiple times, later.
 
-After rebooting, login as *ctest* and open a terminal window (click Activities in the upper left and select the bottom icon).
+After rebooting, login as *ctest* and open a terminal window (click Activities in the upper left and select the second-from-bottom icon).
 
 You will notice that resizing the VM window doesn't resize what's inside. We'll get to that.
 
-Oh, I assume you know how to edit using something. I use `vi` because it is always there.
+I assume you know how to edit using something. I use `vi` because it is always there.
 
 ### Manual Setup
 
@@ -87,7 +87,7 @@ This is basically required to do anything. Life is much simpler without having t
 
 ```
     su root
-        (password prompt appears - enter it)
+        (password prompt appears; enter it)
     cd /etc
     vi sudoers
 ```
@@ -177,6 +177,8 @@ See why we do this *before* copying the VM?
 
 This is not required, but if you've not used CentOS, it might be helpful to know how to do these things.
 
+This is also a good network connectivity test: "Gnome Tweaks" will not show up and an error will appear, if you don't have Internet connectivity.
+
 **Gnome Tweaks**
 I think the default font (11 point) is way too big. Gnome Tweaks lets you change it (easily).
 - Click on Activities (upper left)
@@ -219,9 +221,8 @@ github doesn't always maintain file modes, so you'll want to do this to make lif
     chmod +x cluster-test/stack1/bin/*
     chmod +x cluster-test/stack2/bin/*
     chmod +x cluster-test/stack3/bin/*
+    chmod +x cluster-test/dev/bin/*
 ```
-
-There is nothing in cluster-test/dev/bin
 
 #### Script the Rest
 
@@ -408,7 +409,12 @@ Open .bashrc and append:
       PS1=${ORIG}${TITLE}
     }
     function title { echo -en "\033]2;$1\007"; }
+
+    # start the Prometheus OS monitor
+    .~/bin/pnodeup
 ```
+
+Note that last one will not work until the "buildX" script is run. It's not Docker so it will not restart itself, so that starts it on login.
 
 This counts as "bash", right?
 

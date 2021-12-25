@@ -217,26 +217,26 @@ And you're up and running!
 
 #### Nominal Usage
 
-That entire process can be shortcut with the `stackup` command. It all the xxxup commands above one after the other.
+That entire process can be shortcut with the `stackup` command. It executes all the xxxup commands above one after the other.
 
 Not everything must be running all the time. 
 
 Pulsar is the hog, requiring: zooup, bookie, and brokerup (proxyup in many cases).
 
-Cassandra will run by itself.
+Cassandra will run by itself, but eats memory like mad.
 
 If you're not monitoring, you don't need the Prometheus pieces. I do recommend building at least one Grafana dashboard, even if it's useless, just to see what's involved so if you ask for one from the operations folks, you understand the work involved. Unless you've moved the BIND/named service to one of the stack machines, you have the Ops machine built, play with it, too. That's why *I* built it in the first place.
 
 ### OPS VM
 
-Short version: opsup
+Short version: `opsup`
 
 #### prettyZoo
 
 I love this tool because it is so simple and easy to use. See the [OPS Customization](cluster-test-04Customization.md#prettyzoo) document for how to configure it.
 
 ```
-    prettyZoo &
+    prettyZoo
 ```
 
 Runs it. It is very chatty on stderr, so there isn't much point in running in the background.
@@ -247,7 +247,7 @@ This thing is a bear to get running. Do NOT make a mistake or you'll be [startin
 
 Be SURE the cluster is running (e.g. check Prometheus metrics or the Grafana dashboard).
 
-Copy our configuration into it, start it and start it
+Copy our configuration into it, start it and start it (you MUST be in that directory):
 
 ```
     cp ~/cluster-test/ops/conf/application.properties ~/pulsar-manager/pulsar-manager
@@ -255,7 +255,7 @@ Copy our configuration into it, start it and start it
     ./bin/pulsar-manager
 ```
 
-Generate the super-user. This is VERY finicky. Most particularly it validates the email address, somehow, and does NOT validate the password, but the login UI does: 6 characters or [recover from it](cluster-test-06Recovery.md#pulsar-manager).
+Generate the super-user. This is VERY finicky. In particular, it validates the email address, somehow, and does NOT validate the password, but the login UI does: more than 6 characters or [recover from it](cluster-test-06Recovery.md#pulsar-manager).
 
 ```
     CSRF_TOKEN=$(curl http://ops.cluster.test:7750/pulsar-manager/csrf-token)
@@ -312,9 +312,9 @@ You want to see:
 - bookies (3/3 up)
 - brokers (3/3 up)
 - casses (3/3 up)
-- dockers (3/3 up)
+- dockers (4/4 up)
 - prometheus (1/1 up)
-- stacks (3/3 up)
+- VMs (4/4 up)
 
 Click on the links and explore; that's the point.
 
@@ -339,9 +339,7 @@ Open a browser and go to grafana.cluster.test:3000
 
 The default login is "admin"/"admin"; it asks you to change it right away, but isn't pissy about what you type.
 
-The first thing to do is learn icon-ese. The intellectual triumph that is the phonetic alphabet is uselss in the Grafana UI. On the bright side, hovering the mouse over the icons is usually helpful.
-
-The first useful thing to do is add Prometheus as a Data source.
+The first thing to do is add Prometheus as a Data source.
 - Hover the mouse over the gear-looking thing on the left.
 - "Configuration" will show up.
 - Click "Data sources".
@@ -362,13 +360,6 @@ The Dashboards can now be imported:
 - Open it.
 - Press the "Import" button.
 
-And this is where it breaks for me. The dashboard shows up with no data.
-
-If you edit one (click on where a title bar would be, if there were one), you can copy the query text, delete the query, add a new query, paste the text in, and it works fine.
-
-Something goes sideways, but I have no idea what, yet.
-
-
 ### DEV VM
 
 The entire point of this machine is that nothing runs on it. You can do whatever you want to it.
@@ -385,3 +376,22 @@ To be sure this is all working, there is a CQL script that writes to cass1 and a
 ```
 
 You should see a list of the machines in the ops/conf/cluster.test.db file.
+
+#### Testing Pulsar
+
+The "all default" Python connections work strangely. Start the subscriber first. To kill it, press ctrl-C, then send a message from the publisher.
+
+You want two terminal windows for this. In one:
+
+```
+    python ~/cluster-test/dev/pulsartest/subscriber.py
+```
+
+In the other:
+
+```
+    python ~/cluster-test/dev/pulsartest/publisher.py
+```
+
+Type messages into the publisher and they will show up on the subscriber. You can watch the Broker dashboard and Pulsar Manager to see things changing.
+

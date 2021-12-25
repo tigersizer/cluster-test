@@ -73,6 +73,15 @@ You want to comment out two lines in options and change one:
 
 "any" is not the best choice, but names in local Docker containers need to resolve and adding "127.0.0.11" - the Docker DNS address - was insufficient.
 
+In the same file, you need to turn recursion on. Most (as in "nearly all, everywhere") DNS clients do not respond well to "go look elsewhere" replies, so this server must do it on their behalf.
+
+Find "recursion: no" and change it to:
+
+```
+    recursion yes;
+    allow-recursion { any; };
+```
+
 Right after the "." zone, add the new zone:
 
 ```
@@ -194,6 +203,8 @@ The next line should be "DEFROUTE=yes". Leave the rest of the file alone.
 
 And reboot. Be sure you can still connect to the Internet. If you cannot, I have no idea what might be wrong; it just worked for me.
 
+Note that after running for several days, I did lose external connectivity. After searching high and low for the problem, I shut everything down and rebooted the host Windows machine. It all started working, again. There was a Windows Update pending; I do not know if that was related or not.
+
 #### ZooKeeper Admin
 
 Everything from here down can be done with:
@@ -235,10 +246,10 @@ It does install in an odd directory, so let's start the painful linking process:
 You can configure it now or come back after starting the cluster and use this as verification.
 
 ```
-    prettyZoo &
+    prettyZoo
 ```
 
-It likes to write to stderr, so you probably want to open a new terminal tab/window even though it's running in the background.
+That script titles the window and runs it the foreground because it likes to write to stderr.
 
 Adding the ZooKeeper cluster to PrettyZoo:
 - Press the New "button" (it's flat).
@@ -262,7 +273,7 @@ This is web-based. Open a browser (Firefox comes installed) and bookmark:
 - http://bookie2.cluster.test:8082/metrics
 - http://bookie3.cluster.test:8082/metrics
 
-There are other URLs. See the [Admin REST API](https://bookkeeper.apache.org/docs/4.11.1/admin/http/) for details.
+There are other URLs, but those are handy for testing bookie up-ness and Prometheus configuration. See the [Admin REST API](https://bookkeeper.apache.org/docs/4.11.1/admin/http/) for details.
 
 Note that the port is configured in cluster-test/stackX/conf/bookkeeper.conf as BOTH "prometheusStatsHttpPort" and "httpServerPort" and exposed in the bookup "docker run" command.
 
@@ -285,6 +296,8 @@ This runs in Docker, so there is nothing to configure, but we need directories a
 ```
     mkdir -p ~/cluster-test/ops/prometheus/logs
     mkdir -p ~/cluster-test/ops/prometheus/data
+    chgrp -R docker ~/cluster-test/ops/prometheus
+    chown g+w ~/cluster-test/ops/prometheus
     ln -s ~/cluster-test/ops/bin/prometheusup ~/bin/prometheusup
     ln -s ~/cluster-test/ops/bin/prometheusdown ~/bin/prometheusdown
     ln -s ~/cluster-test/ops/bin/prometheustail ~/bin/prometheustail
@@ -478,8 +491,6 @@ This installs the Python Cassandra driver, too. If you're not installing cqlsh a
 ```
     sudo pip3 install cassandra-driver
 ```
-
-You can verify it works with:
 
 
 [Prev](cluster-test-03CopyVMs.md)       [Table of Contents](#table-of-contents)     [Next](cluster-test-05FiringItUp.md)
