@@ -243,7 +243,53 @@ Runs it. It is very chatty on stderr, so there isn't much point in running in th
 
 #### Pulsar Manager
 
-This thing is a bear to get running. Do NOT make a mistake or you'll be starting over.
+This thing is a bear to get running. Do NOT make a mistake or you'll be [starting over](cluster-test-06Recovery.md#pulsar-manager).
+
+Be SURE the cluster is running (e.g. check Prometheus metrics or the Grafana dashboard).
+
+Copy our configuration into it, start it and start it
+
+```
+    cp ~/cluster-test/ops/conf/application.properties ~/pulsar-manager/pulsar-manager
+    cd ~/pulsar-manager/pulsar-manager
+    ./bin/pulsar-manager
+```
+
+Generate the super-user. This is VERY finicky. Most particularly it validates the email address, somehow, and does NOT validate the password, but the login UI does: 6 characters or [recover from it](cluster-test-06Recovery.md#pulsar-manager).
+
+```
+    CSRF_TOKEN=$(curl http://ops.cluster.test:7750/pulsar-manager/csrf-token)
+    curl \
+    -H "X-XSRF-TOKEN: $CSRF_TOKEN" \
+    -H "Cookie: XSRF-TOKEN=$CSRF_TOKEN;" \
+    -H 'Content-Type: application/json' \
+    -X PUT http://ops.cluster.test:7750/pulsar-manager/users/superuser \
+    -d '{"name": "admin", "password": "cluster-test", "description": "cluster.test test cluster", "email": "ctest@test.org"}'
+```
+
+You very much want to see:
+
+```
+    {"message":"Add super user success, please login"}
+```
+
+Open a browser and 
+- Go to `http://ops.cluster.test:7750/ui/index.html`.
+- It will redirect to a login page.
+- Login with credentials from above.
+- Boookmark where you end up.
+
+When creating new environments, note that the "Service URL" is a broker URL, which is http://brokerX.cluster.test:8083/
+
+Create the "environment":
+- Press the button
+- Enter whatever for the name (e.g. ClusterTest).
+- Enter a broker URL (e.g. http://broker1.cluster.test:8083/).
+
+Clicking on the environment name will show you what's inside.
+
+You want see "pulsar-cluster-test" twice: Once for the pulsar tenant and once for the public tenant.
+
 
 #### Prometheus
 

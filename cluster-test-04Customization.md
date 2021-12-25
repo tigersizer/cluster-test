@@ -25,6 +25,8 @@ This is all manual, mostly command-line, work. But it's all simple, short, and c
     1. [DEV VM](#dev-vm)
         1. [ifcfg](#dev-ifcfg)
         1. [github](#github)
+        1. [Python Pulsar Client](#pulsar-client)
+        1. [cqlsh](#cqlqsh)
 1. [Firing it all up](cluster-test-05FiringItUp.md)
 1. [Recovering from Mistakes](cluster-test-06Recovery.md)
 1. [Testing Failure Modes](cluster-test-07Testing.md)
@@ -273,6 +275,7 @@ Do NOT run this until the cluster is up. It writes bad data that requires wiping
 Way down at the bottom of the [Apache Pulsar Downloads](https://pulsar.apache.org/en/download/) page, there's a tarball. You do **not** want to wget that. Follow the instructions on the Pulsar Manager page.
 
 ```
+    cd ~
     wget https://dist.apache.org/repos/dist/release/pulsar/pulsar-manager/pulsar-manager-0.2.0/apache-pulsar-manager-0.2.0-bin.tar.gz
     tar -zxvf apache-pulsar-manager-0.2.0-bin.tar.gz
     cd pulsar-manager
