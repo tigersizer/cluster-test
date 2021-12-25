@@ -45,7 +45,7 @@ fi
 #       there is also an httpServerPort that should be the same.
 #   3181 is the configurable bookiePort.
 # -v
-#   make /pulsar/date/bookkeeper persistent across up/down.
+#   make /pulsar/data/bookkeeper persistent across up/down.
 #   create /conf for configuration.
 #   create /script for the startup script (/bin is in use!).
 #   create /logs for persistent logs (and it's handy for moving files to/from the contianer)

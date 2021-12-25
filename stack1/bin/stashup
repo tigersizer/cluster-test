@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# create the network (should already be there with an error for this)
+# one node per VM works better without a Docker network
+netup
+
+# this could be bad, but it works for dev
+docker stop stash1
+
+# cannot recreate with the same name (docker-compose does this on "down")
+# do it on up so the logs are laying about should I want them
+# do this before the run command below so prots are not in use
+docker rm stash1
+
+# --restart 
+#   always will restart after a shutdown, if the container is running at the time.
+# --net
+#   vm-bridge is created by netup; it is what it sounds like.
+# -p
+# -v
+#   /usr/share/logstash is the root path for everything
+#   make data/ persistent across up/down.
+#   map config/ for our configuration.
+#   map logs/ just because that's what we do
+#       (note that pipelines with stdout will still go to docker logs)
+#   map pipelines/ for all the component pipelines
+#   map all the log file mounts for the other components
+# image
+#   Using the dockerhub image; docker.elastic.co/logstash/logstash:7.16.2 is also an option
+docker run --name stash1 \
+    -d \
+    --restart always \
+    --net=vm-bridge \
+    -v ~/cluster-test/stack1/logstash/data:/usr/share/logstash/data/ \
+    -v ~/cluster-test/stack1/conf/logstash/config:/usr/share/logstash/config \
+    -v ~/cluster-test/stack1/conf/logstash/pipeline:/usr/share/logstash/pipeline \
+    -v ~/cluster-test/stack1/logstash/logs:/usr/share/logstash/logs \
+    -v ~/cluster-test/stack1/zookeeper/logs:zookeeperlogs \
+    -v ~/cluster-test/stack1/bookkeeper/logs:bookkeeperlogs \
+    -v ~/cluster-test/stack1/broker/logs:brokerlogs \
+    -v ~/cluster-test/stack1/cassandra/logs:cassandralogs \
+    logstash:7.16.2

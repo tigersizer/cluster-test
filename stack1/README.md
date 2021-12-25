@@ -10,10 +10,11 @@ This is the only stackX/README.md file with any significant content.
         1. [Scripts](#scripts)
         1. [Commands](#commands)
     1. [conf Directory](#conf)
-        1. [ZooKeeper Configuration](#zookeeper-configuration)
-        1. [BookKeeper Configuration](#bookkeeper-configuration)
-        1. [Pulsar Broker Configuration](#pulsar-broker-configuration)
-        1. [Cassandra Configuration](#cassandra-configuration)
+        1. [ZooKeeper Configuration](#zookeeper)
+        1. [BookKeeper Configuration](#bookkeeper)
+        1. [Pulsar Broker Configuration](#pulsar-broker)
+        1. [Cassandra Configuration](#cassandra)
+        1. [Logstash Configuration](#logstash)
         1. [Retrieving Docker Configuration](#retrieving-docker-configuration)
     1. [Component Directories](#component-directories)
 1. [Stack 2 Specifics](../stack2/README.md)
@@ -124,6 +125,10 @@ The changes:
 - I _tried_ to edit `cassandra.yaml` but Cassandra itself insist up rewriting it. 
 
 The as-I-write-this current options result in Cassandra committing, but not using, a tremendous amount of memory. I want to reconfigure that, but I haven't gotten to it, yet.
+
+### logstash
+
+See the [README.md file](conf/logstash/README.md)
 
 ### Retrieving Docker Configuration
 
