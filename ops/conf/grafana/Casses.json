@@ -459,7 +459,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "sum by (instance) (irate(process_cpu_seconds_total{job=\"casses\"}[1m])) / 60 ",
+          "expr": "sum by (instance) (irate(process_cpu_seconds_total{job=\"casses\"}[1m]))",
           "hide": false,
           "interval": "",
           "legendFormat": "{{instance}}",
@@ -637,7 +637,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "( sum by (instance) (irate(process_cpu_seconds_total{job=\"casses\"}[1m])) / 60 ) * 100",
+          "expr": "sum by (instance) (irate(process_cpu_seconds_total{job=\"casses\"}[1m])) * 100",
           "hide": false,
           "interval": "",
           "legendFormat": "{{instance}}",
@@ -743,6 +743,6 @@
   "timezone": "",
   "title": "Casses",
   "uid": "EMMH1ponk",
-  "version": 2,
+  "version": 3,
   "weekStart": ""
 }

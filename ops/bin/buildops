@@ -28,6 +28,18 @@ cp -r ../dist ui
 #./bin/pulsar-manager
 
 # the Prometheus section
+# OS monitor
+mkdir -p ~/cluster-test/ops/node_exporter/logs
+ln -s ~/cluster-test/ops/bin/pnodedown ~/bin/pnodedown
+ln -s ~/cluster-test/ops/bin/pnodetail ~/bin/pnodetail
+ln -s ~/cluster-test/ops/bin/pnodeup ~/bin/pnodeup
+
+# Docker monitor
+ln -s ~/cluster-test/stack1/bin/pdockdown ~/bin/pdockdown
+# it doesn't write logs so no pdocktail
+ln -s ~/cluster-test/stack1/bin/pdockup ~/bin/pdockup
+
+# itself
 mkdir -p ~/cluster-test/ops/prometheus/logs
 mkdir -p ~/cluster-test/ops/prometheus/data
 chgrp -R docker ~/cluster-test/ops/prometheus

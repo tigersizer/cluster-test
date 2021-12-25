@@ -55,6 +55,7 @@
       }
     ]
   },
+  "description": "Virtual Machine OS Metrics",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
@@ -653,7 +654,7 @@
               }
             ]
           },
-          "unit": "percentunit"
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -684,7 +685,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "( ( sum by (instance) (irate(node_cpu_seconds_total{mode=\"system\"}[1m])) + sum by (instance) (irate(node_cpu_seconds_total{mode=\"user\"}[1m])) ) / 60 ) * 100",
+          "expr": "( sum by (instance) (irate(node_cpu_seconds_total{mode=\"system\"}[1m])) + sum by (instance) (irate(node_cpu_seconds_total{mode=\"user\"}[1m])) ) * 100\n",
           "hide": false,
           "interval": "",
           "legendFormat": "{{instance}}",
@@ -789,8 +790,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Stacks",
+  "title": "VMs",
   "uid": "N3AmAOTnk",
-  "version": 4,
+  "version": 8,
   "weekStart": ""
 }

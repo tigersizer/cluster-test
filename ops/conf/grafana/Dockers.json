@@ -115,8 +115,104 @@
       },
       "gridPos": {
         "h": 12,
-        "w": 8,
+        "w": 6,
         "x": 0,
+        "y": 0
+      },
+      "id": 18,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "exemplar": true,
+          "expr": "(sum by (name) (irate(container_fs_reads_bytes_total{job=\"dockers\", instance=\"ops.cluster.test:9092\", name=~\".+\"}[1m]))) / 1024 / 60",
+          "interval": "",
+          "legendFormat": "r: {{name}}",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "exemplar": true,
+          "expr": "(sum by (name) (irate(container_fs_writes_bytes_total{job=\"dockers\", instance=\"ops.cluster.test:9092\", name=~\".+\"}[1m]))) / 1024 / 60",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "w: {{name}}",
+          "refId": "B"
+        }
+      ],
+      "title": "docker0 Disk I/O (KB/s)",
+      "type": "timeseries"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 6,
+        "x": 6,
         "y": 0
       },
       "id": 4,
@@ -137,7 +233,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "(sum by (name) (irate(container_fs_reads_bytes_total{job=\"dockers\", instance=\"stack1.cluster.test:9092\"}[1m]))) / 1024 / 60",
+          "expr": "(sum by (name) (irate(container_fs_reads_bytes_total{job=\"dockers\", instance=\"stack1.cluster.test:9092\", name=~\".+\"}[1m]))) / 1024 / 60",
           "hide": false,
           "interval": "",
           "legendFormat": "r: {{name}}",
@@ -149,7 +245,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "(sum by (name) (irate(container_fs_writes_bytes_total{job=\"dockers\", instance=\"stack1.cluster.test:9092\"}[1m]))) / 1024 / 60",
+          "expr": "(sum by (name) (irate(container_fs_writes_bytes_total{job=\"dockers\", instance=\"stack1.cluster.test:9092\", name=~\".+\"}[1m]))) / 1024 / 60",
           "hide": false,
           "interval": "",
           "legendFormat": "w: {{name}}",
@@ -221,8 +317,8 @@
       },
       "gridPos": {
         "h": 12,
-        "w": 8,
-        "x": 8,
+        "w": 6,
+        "x": 12,
         "y": 0
       },
       "id": 6,
@@ -243,7 +339,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "(sum by (name) (irate(container_fs_reads_bytes_total{job=\"dockers\", instance=\"stack2.cluster.test:9092\"}[1m]))) / 1024 / 60",
+          "expr": "(sum by (name) (irate(container_fs_reads_bytes_total{job=\"dockers\", instance=\"stack2.cluster.test:9092\", name=~\".+\"}[1m]))) / 1024 / 60",
           "hide": false,
           "interval": "",
           "legendFormat": "r: {{name}}",
@@ -255,7 +351,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "(sum by (name) (irate(container_fs_writes_bytes_total{job=\"dockers\", instance=\"stack2.cluster.test:9092\"}[1m]))) / 1024 / 60",
+          "expr": "(sum by (name) (irate(container_fs_writes_bytes_total{job=\"dockers\", instance=\"stack2.cluster.test:9092\", name=~\".+\"}[1m]))) / 1024 / 60",
           "hide": false,
           "interval": "",
           "legendFormat": "w: {{name}}",
@@ -318,8 +414,8 @@
       },
       "gridPos": {
         "h": 12,
-        "w": 8,
-        "x": 16,
+        "w": 6,
+        "x": 18,
         "y": 0
       },
       "id": 8,
@@ -340,7 +436,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "(sum by (name) (irate(container_fs_reads_bytes_total{job=\"dockers\", instance=\"stack3.cluster.test:9092\"}[1m]))) / 1024 / 60",
+          "expr": "(sum by (name) (irate(container_fs_reads_bytes_total{job=\"dockers\", instance=\"stack3.cluster.test:9092\", name=~\".+\"}[1m]))) / 1024 / 60",
           "hide": false,
           "interval": "",
           "legendFormat": "r: {{name}}",
@@ -352,7 +448,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "(sum by (name) (irate(container_fs_writes_bytes_total{job=\"dockers\", instance=\"stack2.cluster.test:9092\"}[1m]))) / 1024 / 60",
+          "expr": "(sum by (name) (irate(container_fs_writes_bytes_total{job=\"dockers\", instance=\"stack2.cluster.test:9092\", name=~\".+\"}[1m]))) / 1024 / 60",
           "hide": false,
           "interval": "",
           "legendFormat": "w: {{name}}",
@@ -415,8 +511,113 @@
       },
       "gridPos": {
         "h": 11,
-        "w": 8,
+        "w": 6,
         "x": 0,
+        "y": 12
+      },
+      "id": 20,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "exemplar": true,
+          "expr": "container_memory_max_usage_bytes{id=\"/docker\", job=\"dockers\", instance=\"ops.cluster.test:9092\"} / 1048576",
+          "interval": "",
+          "legendFormat": "{{instance}}",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "exemplar": true,
+          "expr": "container_memory_max_usage_bytes{id=~\"/docker.+\", job=\"dockers\", instance=\"ops.cluster.test:9092\", name=~\".*\"} / 1048576",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{name}}",
+          "refId": "B"
+        }
+      ],
+      "title": "docker0 Mem Usage (MB)",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "ops.*",
+            "renamePattern": "ops"
+          }
+        }
+      ],
+      "type": "timeseries"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 6,
+        "x": 6,
         "y": 12
       },
       "id": 10,
@@ -450,7 +651,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "container_memory_max_usage_bytes{id=~\"/docker.+\", job=\"dockers\", instance=\"stack1.cluster.test:9092\"} / 1048576",
+          "expr": "container_memory_max_usage_bytes{id=~\"/docker.+\", job=\"dockers\", instance=\"stack1.cluster.test:9092\", name=~\".*\"} / 1048576",
           "hide": false,
           "interval": "",
           "legendFormat": "{{name}}",
@@ -522,8 +723,8 @@
       },
       "gridPos": {
         "h": 11,
-        "w": 8,
-        "x": 8,
+        "w": 6,
+        "x": 12,
         "y": 12
       },
       "id": 14,
@@ -556,7 +757,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "container_memory_max_usage_bytes{id=~\"/docker.+\", job=\"dockers\", instance=\"stack2.cluster.test:9092\"} / 1048576",
+          "expr": "container_memory_max_usage_bytes{id=~\"/docker.+\", job=\"dockers\", instance=\"stack2.cluster.test:9092\", name=~\".+\"} / 1048576",
           "hide": false,
           "interval": "",
           "legendFormat": "{{name}}",
@@ -628,8 +829,8 @@
       },
       "gridPos": {
         "h": 11,
-        "w": 8,
-        "x": 16,
+        "w": 6,
+        "x": 18,
         "y": 12
       },
       "id": 16,
@@ -662,7 +863,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "container_memory_max_usage_bytes{id=~\"/docker.+\", job=\"dockers\", instance=\"stack3.cluster.test:9092\"} / 1048576",
+          "expr": "container_memory_max_usage_bytes{id=~\"/docker.+\", job=\"dockers\", instance=\"stack3.cluster.test:9092\", name=~\".*\"} / 1048576",
           "hide": false,
           "interval": "",
           "legendFormat": "{{name}}",
@@ -734,7 +935,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "(sum by (instance) (irate(container_cpu_system_seconds_total{id=\"/docker\", job=\"dockers\"}[1m])) / 60 ) * 100",
+          "expr": "sum by (instance) (irate(container_cpu_system_seconds_total{id=\"/docker\", job=\"dockers\"}[1m])) * 100",
           "hide": false,
           "interval": "",
           "legendFormat": "{{instance}}",
@@ -748,6 +949,13 @@
           "options": {
             "regex": "stack(.).*",
             "renamePattern": "docker$1"
+          }
+        },
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "ops.*",
+            "renamePattern": "docker0"
           }
         }
       ],
@@ -806,35 +1014,11 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "((container_memory_usage_bytes{id=\"/docker\", job=\"dockers\", instance=\"stack1.cluster.test:9092\"}) / (12*1024*1024*1024) ) * 100",
+          "expr": "((container_memory_usage_bytes{id=\"/docker\", job=\"dockers\"}) / (12*1024*1024*1024) ) * 100",
           "hide": false,
           "interval": "",
           "legendFormat": "{{instance}}",
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "exemplar": true,
-          "expr": "((container_memory_usage_bytes{id=\"/docker\", job=\"dockers\", instance=\"stack2.cluster.test:9092\"}) / (12*1024*1024*1024) ) * 100",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "{{instance}}",
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "exemplar": true,
-          "expr": "((container_memory_usage_bytes{id=\"/docker\", job=\"dockers\", instance=\"stack3.cluster.test:9092\"}) / (12*1024*1024*1024) ) * 100",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "{{instance}}",
-          "refId": "C"
         }
       ],
       "title": "Memory %",
@@ -844,6 +1028,13 @@
           "options": {
             "regex": "stack(.).*",
             "renamePattern": "docker$1"
+          }
+        },
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "ops.*",
+            "renamePattern": "docker0"
           }
         }
       ],
@@ -864,6 +1055,6 @@
   "timezone": "",
   "title": "Dockers",
   "uid": "cIyxjto7z",
-  "version": 2,
+  "version": 4,
   "weekStart": ""
 }

@@ -1,0 +1,31 @@
+#!/bin/bash
+
+netup
+docker stop pdock0
+docker rm pdock0
+
+# --restart 
+#   always will restart after a shutdown, if the container is running at the time.
+# --net
+#   vm-bridge is created by netup; it is what it sounds like.
+# --privileged
+#   copied from instrutions (probably runs as root)
+# --device
+#   no idea
+# -p
+#   8080 is the default port, using 9091 for symmetry with node_export
+# -v
+#   blindly copied from the instructions: https://github.com/google/cadvisor
+docker run --name pdock0 \
+    -d \
+    --restart always \
+    --net=vm-bridge \
+    --privileged \
+    --device=/dev/kmsg \
+    -p 9092:8080 \
+    -v /:/rootfs:ro \
+    -v /var/run:/var/run:rw \
+    -v /sys:/sys:ro \
+    -v /var/lib/docker:/var/lib/docker:ro \
+    -v /dev/disk/:/dev/disk:ro \
+    gcr.io/cadvisor/cadvisor
