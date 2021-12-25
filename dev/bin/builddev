@@ -2,9 +2,16 @@
 
 # This executes all the commands in cluster-test05Customization.md#DEV
 
+# assuming you followed instructions, this is no longer needed
+cd
+rm -rf eclipse-installer
+
 # github
 sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
 sudo dnf install gh
+
+# pulsar client
+sudo pip3 install pulsar-client
 
 # cqlsh
 sudo pip3 install -U cqlsh
