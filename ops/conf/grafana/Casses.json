@@ -729,6 +729,7 @@
       "type": "gauge"
     }
   ],
+  "refresh": "30s",
   "schemaVersion": 34,
   "style": "dark",
   "tags": [],
@@ -743,6 +744,6 @@
   "timezone": "",
   "title": "Casses",
   "uid": "EMMH1ponk",
-  "version": 3,
+  "version": 4,
   "weekStart": ""
 }
