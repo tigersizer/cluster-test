@@ -1,1 +1,5 @@
-/opt/prettyzoo/bin/prettyZoo
+#!/bin/bash
+# set the terminal window title since it writes to stderr so much
+echo -en "\033]2;PrettyZoo stderr\007";
+
+/opt/prettyzoo/bin/prettyZoo 
