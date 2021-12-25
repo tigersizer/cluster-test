@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# until I get the Docker version working...
+# MUST be in this directory or it goes insane
+cd ~/pulsar-manager/pulsar-manager
+# log files are configured by stderr goes nuts; just title the window
+echo -en "\033]2;Pulsar Manager stderr\007";
+./bin/pulsar-manager

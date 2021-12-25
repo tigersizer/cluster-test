@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# don't want these in Elasticsearch, so just leave Docker alone
+docker logs -f pman
