@@ -1,8 +1,26 @@
 #!/bin/bash
 
-# until I get the Docker version working...
-# MUST be in this directory or it goes insane
-cd ~/pulsar-manager/pulsar-manager
-# log files are configured by stderr goes nuts; just title the window
-echo -en "\033]2;Pulsar Manager stderr\007";
-./bin/pulsar-manager
+netup
+docker stop pman
+docker rm pman
+
+# --restart 
+#   always will restart after a shutdown, if the container is running at the time.
+# --net
+#   vm-bridge is created by netup; it is what it sounds like.
+# -p
+#   9527 - no idea
+#   7750 is the web UI port
+# -v
+#   mount our configuration at /conf
+# -e
+#   tell it where the configuration is
+docker run --name pman \
+    -d \
+    --restart always \
+    --net=vm-bridge \
+    -p 9527:9527 \
+    -p 7750:7750 \
+    -v ~/cluster-test/ops/conf:/conf \
+    -e SPRING_CONFIGURATION_FILE=/conf/application.properties \
+    apachepulsar/pulsar-manager

@@ -270,19 +270,12 @@ Note that the port is configured in cluster-test/stackX/conf/bookkeeper.conf as 
 
 Do NOT run this until the cluster is up. It writes bad data that requires wiping everything. After the cluster is up, then:
 
-[Pulsar Manager](https://github.com/apache/pulsar-manager) supposedly can run in a container, but the configuration is not well documented. I haven't gotten there, yet.
-
-Way down at the bottom of the [Apache Pulsar Downloads](https://pulsar.apache.org/en/download/) page, there's a tarball. You do **not** want to wget that. Follow the instructions on the Pulsar Manager page.
+It runs in Docker, so the usual shortcuts:
 
 ```
-    cd ~
-    wget https://dist.apache.org/repos/dist/release/pulsar/pulsar-manager/pulsar-manager-0.2.0/apache-pulsar-manager-0.2.0-bin.tar.gz
-    tar -zxvf apache-pulsar-manager-0.2.0-bin.tar.gz
-    cd pulsar-manager
-    tar -xvf pulsar-manager.tar
-    cd pulsar-manager
-    cp -r ../dist ui
-    cp ~/cluster-test/ops/conf/application.parameters .
+    ln -s ~/cluster-test/ops/bin/pmandown ~/bin/pmandown
+    ln -s ~/cluster-test/ops/bin/pmantail ~/bin/pmantail
+    ln -s ~/cluster-test/ops/bin/pmanup ~/bin/pmanup
 ```
 
 #### Prometheus
