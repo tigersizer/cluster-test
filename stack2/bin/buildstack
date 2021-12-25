@@ -6,8 +6,6 @@ chmod +x ~/cluster-test/stack2/bin
 # Prometheus OS monitor
 mkdir ~/cluster-test/stack2/node_exporter
 mkdir ~/cluster-test/stack2/node_exporter/logs
-chgrp -R docker ~/cluster-test/stack2/node_exporter
-chmod -R g+w ~/cluster-test/stack2/node_exporter
 ln -s ~/cluster-test/stack2/bin/pnodedown ~/bin/pnodedown
 ln -s ~/cluster-test/stack2/bin/pnodetail ~/bin/pnodetail
 ln -s ~/cluster-test/stack2/bin/pnodeup ~/bin/pnodeup

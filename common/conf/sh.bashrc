@@ -7,3 +7,5 @@
     }
     function title { echo -en "\033]2;$1\007"; }
 
+# start the Prometheus OS monitor
+.~/bin/pnodeup
