@@ -9,10 +9,17 @@ rm -rf eclipse-installer
 # github
 sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
 sudo dnf install gh
+# too interactive (and me-based) to run in the script
+# gh auth login
+
+# commented out because you don't want to be me (although nothing stops you)
+# but I want a convenient reference
+#    git config --global user.name "Tiger"
+#    git config --global user.email tigersizer@gmail.com
 
 # pulsar client
 sudo pip3 install pulsar-client
 
-# cqlsh
+# cqlsh (no idea what -U does, just copied)
 sudo pip3 install -U cqlsh
 

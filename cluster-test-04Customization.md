@@ -41,15 +41,17 @@ We'll do this one first so it's ready to deal with DNS right away. That is the o
 
 There are two scripts for this:
 - `setnet` configures BIND/named and the enp0s3 exactly as mine are; you probably want to do these steps manually so you can change things.
-- `buildops` does the rest; this is safe enough that you can just run it - you don't even need to read any of the documentation.
+- `buildops` does the rest (from ZooKeeper Admin down); this is safe enough that you can just run it - you don't even need to read any of the documentation.
 
 #### BIND
 
-The dangerous way, which will reboot at the end:
+The **dangerous way**, which will reboot at the end:
 
 ```
-    .~/cluster-test/ops/bin/setnet
+    ~/cluster-test/ops/bin/setnet
 ```
+
+The **manual way**, which is not exactly "safe", but it's under your control:
 
 You want to do this BEFORE changing your network configuration because it requires access to the Internet and changing your network configuration may break that.
 
@@ -182,7 +184,7 @@ The firewall commands are needed - I have no idea why, but I'll guess the < 1024
 
 #### OPS ifcfg
 
-If you ran the `buildnet` script, this has been done.
+If you ran the `setnet` script, this has been done.
 
 The same change is made to all of the VMs, with just the IPADDR being different: Replace DHCP with a static IP and associated configuration.
 
@@ -210,7 +212,7 @@ Note that after running for several days, I did lose external connectivity. Afte
 Everything from here down can be done with:
 
 ```
-    .~/cluster-test/ops/bin/buildops
+    ~/cluster-test/ops/bin/buildops
 ```
 
 This is a **terrible** tool, but it exists. If you want it, it is exposed.
@@ -235,7 +237,6 @@ Download the rpm from the [github page](https://github.com/vran-dev/PrettyZoo/re
     wget https://github.com/vran-dev/PrettyZoo/releases/download/v1.9.4/prettyzoo-1.9.4-1.x86_64.rpm
     sudo rpm -i prettyzoo-1.9.4-1.x86_64.rpm 
 ```
-
 
 It does install in an odd directory, so let's start the painful linking process:
 
@@ -388,34 +389,28 @@ This is BY FAR easier to do via script:
     buildstack
 ```
 
+Repeat on stack1, stack2, and stack3.
+
 It's so much easier, that I'm not going to type it all out.
 
-The script does two things: Directory permissions and symbolic links.
+The script does three things: Create diectories, set directory permissions and create symbolic links in ~/bin.
+
+**Create Directories**
+We need directories because we want to:
+- persist data between Docker runs
+- persist logs during Docker runs for logstash
+- the component directories are not node-number decorated
+- the log file names are
+
+There are no "stable" files in these directories to put into github.
 
 **Directory Permissions**
-Docker does weird things with root and directory ownership. Everything was "clean" when pushed into git, but just in case (and to have it handy for copy/paste if things need to be fixed, later):
-
-```
-    chgrp -R docker cluster-test/stack1/node_exporter
-    chgrp -R docker cluster-test/stack1/zookeeper
-    chgrp -R docker cluster-test/stack1/bookkeeper
-    chgrp -R docker cluster-test/stack1/broker
-    chgrp -R docker cluster-test/stack1/cassandra
-    chmod -R g+w cluster-test
-```
-
-Repeat for stack2 and stack3.
+Docker does weird things with root and directory ownership. Different images expect different things from their mounted volumes. Generally, "docker" group membership and group write permissions does it. There are some exceptions.
 
 **Symbolic Links**
+The up/down/tail commands for each component are the only things that are not decorated with the node number. That is, "zooup" exists for each node, but it does something different. Symbolic links are created in the ~/bin directory so the commands are the same on each node.
 
-There are scripts for each node. We need to put them somewhere useful.
-
-
-```
-    ln -s ~/cluster-test/stack1/bin/* ~/bin
-```
-
-Repeat for stack2 and stack3.
+See the [stack1 README.md](stack1/README.md) for details.
 
 ### DEV VM
 
@@ -463,7 +458,7 @@ Install [gh](https://github.com/cli/cli/blob/trunk/docs/install_linux.md)
     sudo dnf install gh 
 ```
 
-Set the authentication configuration (assuming you'll use it)
+Set the authentication configuration (assuming you'll use it). This is interactive, so the script does not run it.
 
 ```
     gh auth login

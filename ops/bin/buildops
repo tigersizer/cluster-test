@@ -64,7 +64,7 @@ ln -s ~/cluster-test/ops/bin/prometheusup ~/bin/prometheusup
 # the Grafana section
 mkdir -p ~/cluster-test/ops/grafana/logs
 mkdir -p ~/cluster-test/ops/grafana/data
-sudo chown -R nobody:nogroup ~/cluster-test/ops/grafana
+sudo chown -R 65534:65534 ~/cluster-test/ops/grafana
 ln -s ~/cluster-test/ops/bin/grafanaup ~/bin/grafanaup
 ln -s ~/cluster-test/ops/bin/grafanadown ~/bin/grafanadown
 ln -s ~/cluster-test/ops/bin/grafanatail ~/bin/grafanatail

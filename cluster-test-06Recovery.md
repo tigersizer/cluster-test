@@ -22,7 +22,9 @@ require starting Pulsar from scratch, too.
 Cassandra also likes its redundancy and bringing the cluster up and down moves a lot of data. If you're doing
 Cassandra work, I recommend leaving it running and putting the host to "sleep" rather than powering it down.
 
-### BookKeeper Changes
+### BookKeeper 
+
+#### BookKeeper Changes
 
 BookKeeper has two cookies: One locally in the data directory and one in ZooKeeper. When those cookies do not match, it refuses to start. The error message will look like this:
 
@@ -46,7 +48,7 @@ Delete the ZooKeeper cookie. You can either use [prettyZoo](cluster.dev-04Custom
 To remove them via prettyZoo, fire it up (on ops.cluster.dev):
 
 ```
-    $ prettyZoo &
+    $ prettyZoo 
 ```
 
 - Connect to any node in the cluster. If you haven't configured it, see the link above.
@@ -56,4 +58,45 @@ To remove them via prettyZoo, fire it up (on ops.cluster.dev):
 - Delete it, by right-clicking and choosing the "delete" option.
 - Confirm the deletion.
 
+### Pulsar Manager
+
+#### Blank Web Page
+
+The most likely reason for this is starting it outside it's home directory. It really, really wants to start from ~/pulsar-manager/pulsar-manager.
+
+#### Pulsar Admin Exceptions
+
+The metadata initiation step, which is performed on the first bookie1 startup, is probably wrong.
+
+### Prometheus
+
+Almost everything that goes wrong with Prometheus, itself, is a bad port.
+
+Double-check that the configured web ports and the docker run port mapping is correct.
+
+### PromQL
+
+This lives between Prometheus and Grafana because it applies to both.
+
+#### regex
+
+There both positive and negative regular expression matches.
+
+**Positive Regex**
+Look at `container_memory_max_usage_bytes` in Prometheus. It has named and unnamed metrics. To display only the named ones, use `name=~".*"` - i.e. name is anything.
+
+**Negative Regex**
+Look at `pulsar_producers_count` in Prometheus. It has topiced and untopiced metrics. To display only the unnamed ones, use `topc!~".0"` - i.e. no name attribute.
+
+### Grafana
+
+#### Extra Docker Metrics
+
+The metrics, themselves, contain a docker id; it is not displayed. If you up/down/up the component, it gets a different docker id, even though it has the same name. This results in apparently duplicated legend entries in Grafana.
+
+#### Horrible Legend Names
+
+First step, use braces to shorten it without losing context. For example, `pulsar_producers_count` has instance values such as `instance="broker1.cluster.test:8083"` set the legend to {{instance}} and the instance name will replace the super-long metric attribute string.
+
+Use a Transform, Rename with regex. The dashboards are full of these. The nominal `instance` value is `instance="broker1.cluster.test:8083"`. Create a Transform, which is a per-panel thing, to shorten it: `(broker.)\..*` maps to `$1`
 
