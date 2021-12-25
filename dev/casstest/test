@@ -1,0 +1,3 @@
+#!/bin/bash
+cqlsh cass1.cluster.test -f test.cql
+python test.py

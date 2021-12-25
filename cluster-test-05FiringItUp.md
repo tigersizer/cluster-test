@@ -15,7 +15,9 @@
         1. [prettyZoo](#prettyzoo)
         1. [Puslar Manager](#pulsar-manager)
         1. [Prometheus](#prometheus)
+        1. [Grafana](#grafana)
     1. [DEV VM](#dev-vm)
+        1. [Testing Cassandra](#testing-cassandra)
 1. [Recovering from Mistakes](cluster-test-06Recovery.md)
 1. [Testing Failure Modes](cluster-test-07Testing.md)
 
@@ -326,3 +328,14 @@ Something goes sideways, but I have no idea what, yet.
 The entire point of this machine is that nothing runs on it. You can do whatever you want to it.
 
 Have fun!
+
+#### Testing Cassandra
+
+To be sure this is all working, there is a CQL script that writes to cass1 and a silly Python test program that reads back from cass3.
+
+```
+    cd ~/cluster-test/dev/casstest
+    ./test
+```
+
+You should see a list of the machines in the ops/conf/cluster.test.db file.
