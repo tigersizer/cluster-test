@@ -6,9 +6,9 @@ This is a full set of instructions for installing and running five virtual machi
 - VirtualBox as the VM manager
 - Three VM nodes for Puslar and Cassandra clusters using Docker
 - An operations VM to monitor the clusters with BLEK (Beats, Logstash, Elasticsearch, Kibana), Prometheus, and Grafana
-- A development VM in which to use it all
+- A development VM on which to use it all
 
-There is a lot of manual setup work before the included scripts will function.
+There is some of manual setup work before the included scripts will function.
 
 ## Table of Contents
 
@@ -17,6 +17,7 @@ There is a lot of manual, mostly command-line, work. But it's all simple, short,
 1. [Introduction](#introduction)
     1. [System Requirements](#system-requirements)
     1. [Design](#design)
+    1. [git commits](#git-commits)
 1. [VirtualBox](cluster-test-01VirtualBoxTemplateVM.md) - template VM creation
 1. [CentOS](cluster-test-02CentOSTemplateVM.md) - template VM configuration
 1. [Copying the VM](cluster-test-03CopyVMs.md)
@@ -27,9 +28,9 @@ There is a lot of manual, mostly command-line, work. But it's all simple, short,
 
 ## Introduction
 
-Update on making the repo public: This is presented as-is with nothing implied - warranty, fitness, support, or even sanity.
+Update on making the repo public: This is presented as-is with nothing implied: warranty, fitness, support, or even sanity.
 
-This is very long document. Feel free to skip the sections you do not need.
+The .md files are a very long document. Feel free to skip the sections you do not need.
 
 However, from what I've seen, this is not at all normal. Skipping sections may break things, later.
 
@@ -37,7 +38,7 @@ Read the [System Requirements](#system-requirements) section to see if the confi
 defined here is compatible with your needs and resources. It may very well not be.
 
 Most of this can be done via putty, which comes configured. I assume a GUI per VM with the
-full CentOS installation, which includes Gnome, but the cluster nodes could be headless.
+full CentOS installation, which includes Gnome, but the *stackX* machines could be headless.
 
 ## System Requirements
 
@@ -54,7 +55,9 @@ I tried to get the OPS machine running in 8GB and it had crazy memory pressure.
 
 And the host machine still needs to function.
 
-Note that sitting idle the cluster VMs consume about 70% of their 12GB. I started with 8GB and it just wasn't enough.
+Note that sitting idle the cluster VMs consume over 90% of their 12GB. I started with 8GB and it just wasn't enough.
+
+Update: Now that I've got monitoring up (particularly the various memory metrics), I plan to work on reducing the footprint (particularly Cassandra), but it's not pressing because four 12GB VMs fit on my host just fine.
 
 **A network you control**
 
@@ -75,9 +78,9 @@ The same ideas may work elsewhere, since all the configuration is in the virtual
 
 ## Design
 
-I wanted to understand how "this stuff" worked in detail and be able to play with it without creating problems for others. I have a beast of a computer that I bought, not least out of spite (it's banned in Colorado, from which I had just moved), and I wanted to stretch it a bit. So why not? I figured it would be a weekend project. Hah! It turns out that lots of people do parts of this, but no one (internet-search-able) has done it all. I was taking copious notes and had many links to other helpful people, so why not publicize the result?
+I wanted to understand in detail how "this stuff" worked and be able to play with it without creating problems for others. I have a beast of a computer that I bought, not least out of spite (it's banned in Colorado, from which I had just moved), and I wanted to stretch it a bit. So why not? I figured it would be a weekend project. Hah! It turns out that lots of people do parts of this, but no one (internet-search-able) has done it all. I was taking copious notes and had many links to other helpful people, so why not publicize the result?
 
-I purposefully did not use Docker Swarm or Kubernetes for this because of the amount of customization required to get the virtual machines functional. I wouldn't hold my breath, but a follow-up for Kubernetes seems likely.
+I purposefully did not use Docker Swarm or Kubernetes for this because of the amount of customization required to get the virtual machines functional and the lack of documentation. I wouldn't hold my breath, but a follow-up for Kubernetes seems likely.
 
 That result is five virtual machines:
 
@@ -97,12 +100,18 @@ The Ops VM is quite different than the cluster VMs. It runs:
 - Prometheus and Grapha for metrics.
 - Elasticsearch and Kibana for analysis.
 
-The Dev VM is barely defined. It is yours to play with.
+The Dev VM is barely defined with Java and Python. C++ is planned. It is yours to play with.
 
-The .md files have excruciating amounts of detail on how to set everything up, starting from nothing. One should be able to follow these instructions knowing very little about Linux and nothing about the software being installed - because that's how I started.
+The .md files have excruciating amounts of detail on how to set everything up, starting from nothing. One should be able to follow these instructions knowing very little about Linux and nothing about the software being installed - because that's how I started. For what's not in the .md files, check the scripts for stack1 (and/or ops).
 
 If you want to cheat, there are "build" scripts for each machine that just do it all in one fell swoop.
 
-**WARNING:** Configuring the network, which is its own set of scripts for isolation, that way is *very* dangerous. You may end up with broken networking and no way to access the internet for help fixing it. More likely, you will just need to rebuild the VM(s). But, if you foolishly decide that the host OS will play the Ops VM role, the danger is real.
+**WARNING:** Configuring the network, which has its own set of scripts for isolation, via script is *very* dangerous. You may end up with broken networking and no way to access the internet for help fixing it. More likely, you will just need to rebuild the VM(s). But, if you foolishly decide that the host OS will play the Ops VM role, the danger is real.
 
 All of the instructions are in this directory's .md files. The VM-specific directories' README.md files explain what files are there and why - but no instructions.
+
+### git commits
+
+These look a bit odd because I'm working on all five machines in at the same time. For example, it's handy to edit stack2's buildstack script while actually testing the work on stack1. Or writing the ops documentation on the dev machine while doing the work on the ops machine.
+
+From github, you cannot see this. That makes the commit/push trail a bit confusing to sort out.
