@@ -283,6 +283,9 @@ Way down at the bottom of the [Apache Pulsar Downloads](https://pulsar.apache.or
     cd pulsar-manager
     cp -r ../dist ui
     cp ~/cluster-test/ops/conf/application.parameters .
+    cp ~/cluster-test/ops/conf/bkvm.conf .
+    mkdir -p ~/cluster-test/ops/pulsar-manager/logs
+
 ```
 
 #### Prometheus
