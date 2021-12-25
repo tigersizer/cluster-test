@@ -36,15 +36,6 @@ However, from what I've seen, this is not at all normal. Skipping sections may b
 Read the [System Requirements](#system-requirements) section to see if the configuration
 defined here is compatible with your needs and resources. It may very well not be.
 
-I had a very difficult time making this work, so I thought I'd write it all down in one place 
-to save other people the trouble (and to be able to recreate what I had done). Where I made
-notes, I am including the links. This does not imply an endorsement on my part or theirs, but 
-rather the giving of credit to those who helped me, unknowingly.
-
-I purposefully did not use Docker Swarm or Kubernetes for this because of the amount of 
-customization required to get the virtual machines functional. I wouldn't hold my breath, but a
-follow-up for Kubernetes seems likely.
-
 Most of this can be done via putty, which comes configured. I assume a GUI per VM with the
 full CentOS installation, which includes Gnome, but the cluster nodes could be headless.
 
@@ -84,6 +75,8 @@ The same ideas may work elsewhere, since all the configuration is in the virtual
 
 I wanted to understand how "this stuff" worked in detail and be able to play with it without creating problems for others. I have a beast of a computer that I bought, not least out of spite (it's banned in Colorado, from which I had just moved), and I wanted to stretch it a bit. So why not? I figured it would be a weekend project. Hah! It turns out that lots of people do parts of this, but no one (internet-search-able) has done it all. I was taking copious notes and had many links to other helpful people, so why not publicize the result?
 
+I purposefully did not use Docker Swarm or Kubernetes for this because of the amount of customization required to get the virtual machines functional. I wouldn't hold my breath, but a follow-up for Kubernetes seems likely.
+
 That result is five virtual machines:
 
 The three cluster VMs look the same, but with numbers. 
@@ -106,7 +99,7 @@ The Dev VM is barely defined. It is yours to play with.
 
 The .md files have excruciating amounts of detail on how to set everything up, starting from nothing. One should be able to follow these instructions knowing very little about Linux and nothing about the software being installed - because that's how I started.
 
-If you want to cheat, there are "build" scripts for each machine that just do it all in one fell swoop. Albeit asking lots of questions along the way (mostly answered "Y").
+If you want to cheat, there are "build" scripts for each machine that just do it all in one fell swoop.
 
 **WARNING:** Configuring the network, which is its own set of scripts for isolation, that way is *very* dangerous. You may end up with broken networking and no way to access the internet for help fixing it. More likely, you will just need to rebuild the VM(s). But, if you foolishly decide that the host OS will play the Ops VM role, the danger is real.
 
