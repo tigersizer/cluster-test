@@ -30,7 +30,7 @@ if [ ! -d ~/cluster-test/stack1/bookkeeper/data/journal ]; then
         apachepulsar/pulsar:2.8.1 bin/pulsar initialize-cluster-metadata \
           --cluster pulsar-cluster-test \
           --zookeeper zoo1.cluster.test:2181 \
-          --web-service-url broker1.cluster.test:8083 \
+          --web-service-url http://broker1.cluster.test:8083 \
           --configuration-store zoo1.cluster.test:2181 \
           --broker-service-url pulsar://broker1.cluster.test:6650 
   
