@@ -453,6 +453,14 @@ Set the username and email:
     git config --global user.email you@example.com
 ```
 
+#### pulsar-client
+
+The Python Package Index has the [Pulsar Client library](https://pypi.org/project/pulsar-client/)
+
+```
+    sudo pip3 install pulsar-client
+```
+
 #### cqlsh
 
 Install cqlsh - but *not* from DataStax. Currently (Dec 2021), all the internet searches point to one that requires Python 2.7. You do not want Python 2, if you can possibly help it.
