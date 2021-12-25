@@ -1,4 +1,41 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_PROMETHEUS",
+      "label": "Prometheus",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
+  "__elements": [],
+  "__requires": [
+    {
+      "type": "panel",
+      "id": "gauge",
+      "name": "Gauge",
+      "version": ""
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "8.3.3"
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -21,7 +58,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 6,
+  "id": null,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -29,11 +66,37 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "mappings": [],
-          "max": 100,
-          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -46,524 +109,15 @@
                 "value": 80
               }
             ]
-          },
-          "unit": "percent"
+          }
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
-        "w": 24,
+        "h": 12,
+        "w": 8,
         "x": 0,
         "y": 0
-      },
-      "id": 2,
-      "options": {
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
-      },
-      "pluginVersion": "8.3.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "cvBecOT7k"
-          },
-          "exemplar": true,
-          "expr": "(sum by (instance) (irate(container_cpu_system_seconds_total{id=\"/docker\", job=\"dockers\"}[1m])) / 60 ) * 100",
-          "interval": "",
-          "legendFormat": "{{instance}}",
-          "refId": "A"
-        }
-      ],
-      "title": "CPU %",
-      "transformations": [
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": "stack(.).*",
-            "renamePattern": "docker$1"
-          }
-        }
-      ],
-      "type": "gauge"
-    },
-    {
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "max": 100,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 24,
-        "x": 0,
-        "y": 4
-      },
-      "id": 12,
-      "options": {
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
-      },
-      "pluginVersion": "8.3.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "cvBecOT7k"
-          },
-          "exemplar": true,
-          "expr": "(container_memory_usage_bytes{id=\"/docker\", job=\"dockers\", instance=\"stack1.cluster.test:9092\"}) / (container_memory_max_usage_bytes{id=\"/docker\", job=\"dockers\", instance=\"stack1.cluster.test:9092\"}) * 100",
-          "interval": "",
-          "legendFormat": "{{instance}}",
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "cvBecOT7k"
-          },
-          "exemplar": true,
-          "expr": "(container_memory_usage_bytes{id=\"/docker\", job=\"dockers\", instance=\"stack2.cluster.test:9092\"}) / (container_memory_max_usage_bytes{id=\"/docker\", job=\"dockers\", instance=\"stack2.cluster.test:9092\"}) * 100",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "{{instance}}",
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "cvBecOT7k"
-          },
-          "exemplar": true,
-          "expr": "(container_memory_usage_bytes{id=\"/docker\", job=\"dockers\", instance=\"stack3.cluster.test:9092\"}) / (container_memory_max_usage_bytes{id=\"/docker\", job=\"dockers\", instance=\"stack3.cluster.test:9092\"}) * 100",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "{{instance}}",
-          "refId": "C"
-        }
-      ],
-      "title": "Memory %",
-      "transformations": [
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": "stack(.).*",
-            "renamePattern": "docker$1"
-          }
-        }
-      ],
-      "type": "gauge"
-    },
-    {
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 0,
-        "y": 8
-      },
-      "id": 10,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single"
-        }
-      },
-      "pluginVersion": "8.3.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "cvBecOT7k"
-          },
-          "exemplar": true,
-          "expr": "container_memory_max_usage_bytes{id=\"/docker\", job=\"dockers\", instance=\"stack1.cluster.test:9092\"} / 1048576",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "{{instance}}",
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "cvBecOT7k"
-          },
-          "exemplar": true,
-          "expr": "container_memory_max_usage_bytes{job=\"dockers\", id=~\"/docker.+\", instance=\"stack1.cluster.test:9092\"} / 1048576",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "{{name}}",
-          "refId": "A"
-        }
-      ],
-      "title": "docker1 Mem Usage (MB)",
-      "transformations": [
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": "stack(.).*",
-            "renamePattern": "docker$1"
-          }
-        }
-      ],
-      "type": "timeseries"
-    },
-    {
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 8,
-        "y": 8
-      },
-      "id": 14,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "cvBecOT7k"
-          },
-          "exemplar": true,
-          "expr": "container_memory_max_usage_bytes{id=\"/docker\", job=\"dockers\", instance=\"stack2.cluster.test:9092\"} / 1048576",
-          "interval": "",
-          "legendFormat": "{{instance}}",
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "cvBecOT7k"
-          },
-          "exemplar": true,
-          "expr": "container_memory_max_usage_bytes{id=~\"/docker.+\", job=\"dockers\", instance=\"stack2.cluster.test:9092\"} / 1048576",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "{{name}}",
-          "refId": "B"
-        }
-      ],
-      "title": "docker2 Memory (MB)",
-      "transformations": [
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": "stack(.).*",
-            "renamePattern": "docker$1"
-          }
-        }
-      ],
-      "type": "timeseries"
-    },
-    {
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 16,
-        "y": 8
-      },
-      "id": 16,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "cvBecOT7k"
-          },
-          "exemplar": true,
-          "expr": "container_memory_max_usage_bytes{id=\"/docker\", job=\"dockers\", instance=\"stack3.cluster.test:9092\"} / 1048576",
-          "interval": "",
-          "legendFormat": "{{instance}}",
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "cvBecOT7k"
-          },
-          "exemplar": true,
-          "expr": "container_memory_max_usage_bytes{id=~\"/docker.+\", job=\"dockers\", instance=\"stack3.cluster.test:9092\"} / 1048576",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "{{name}}",
-          "refId": "B"
-        }
-      ],
-      "title": "docker3 Memory Usage (MB)",
-      "transformations": [
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": "stack(.).*",
-            "renamePattern": "docker$1"
-          }
-        }
-      ],
-      "type": "timeseries"
-    },
-    {
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 0,
-        "y": 16
       },
       "id": 4,
       "options": {
@@ -580,10 +134,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "cvBecOT7k"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "(sum by (name) (irate(container_fs_reads_bytes_total{job=\"dockers\", instance=\"stack1.cluster.test:9092\"}[1m]))) / 1024 / 60",
+          "hide": false,
           "interval": "",
           "legendFormat": "r: {{name}}",
           "refId": "A"
@@ -591,7 +146,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "cvBecOT7k"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "(sum by (name) (irate(container_fs_writes_bytes_total{job=\"dockers\", instance=\"stack1.cluster.test:9092\"}[1m]))) / 1024 / 60",
@@ -665,10 +220,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
+        "h": 12,
         "w": 8,
         "x": 8,
-        "y": 16
+        "y": 0
       },
       "id": 6,
       "options": {
@@ -685,10 +240,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "cvBecOT7k"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "(sum by (name) (irate(container_fs_reads_bytes_total{job=\"dockers\", instance=\"stack2.cluster.test:9092\"}[1m]))) / 1024 / 60",
+          "hide": false,
           "interval": "",
           "legendFormat": "r: {{name}}",
           "refId": "A"
@@ -696,7 +252,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "cvBecOT7k"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "(sum by (name) (irate(container_fs_writes_bytes_total{job=\"dockers\", instance=\"stack2.cluster.test:9092\"}[1m]))) / 1024 / 60",
@@ -761,10 +317,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
+        "h": 12,
         "w": 8,
         "x": 16,
-        "y": 16
+        "y": 0
       },
       "id": 8,
       "options": {
@@ -781,10 +337,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "cvBecOT7k"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "(sum by (name) (irate(container_fs_reads_bytes_total{job=\"dockers\", instance=\"stack3.cluster.test:9092\"}[1m]))) / 1024 / 60",
+          "hide": false,
           "interval": "",
           "legendFormat": "r: {{name}}",
           "refId": "A"
@@ -792,7 +349,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "cvBecOT7k"
+            "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
           "expr": "(sum by (name) (irate(container_fs_writes_bytes_total{job=\"dockers\", instance=\"stack2.cluster.test:9092\"}[1m]))) / 1024 / 60",
@@ -804,6 +361,493 @@
       ],
       "title": "docker3 Disk I/O (KB/s)",
       "type": "timeseries"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 8,
+        "x": 0,
+        "y": 12
+      },
+      "id": 10,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "exemplar": true,
+          "expr": "container_memory_max_usage_bytes{id=\"/docker\", job=\"dockers\", instance=\"stack1.cluster.test:9092\"} / 1048576",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{instance}}",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "exemplar": true,
+          "expr": "container_memory_max_usage_bytes{id=~\"/docker.+\", job=\"dockers\", instance=\"stack1.cluster.test:9092\"} / 1048576",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{name}}",
+          "refId": "B"
+        }
+      ],
+      "title": "docker1 Mem Usage (MB)",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "stack(.).*",
+            "renamePattern": "docker$1"
+          }
+        }
+      ],
+      "type": "timeseries"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 8,
+        "x": 8,
+        "y": 12
+      },
+      "id": 14,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "exemplar": true,
+          "expr": "container_memory_max_usage_bytes{id=\"/docker\", job=\"dockers\", instance=\"stack2.cluster.test:9092\"} / 1048576",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{instance}}",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "exemplar": true,
+          "expr": "container_memory_max_usage_bytes{id=~\"/docker.+\", job=\"dockers\", instance=\"stack2.cluster.test:9092\"} / 1048576",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{name}}",
+          "refId": "B"
+        }
+      ],
+      "title": "docker2 Memory (MB)",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "stack(.).*",
+            "renamePattern": "docker$1"
+          }
+        }
+      ],
+      "type": "timeseries"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 8,
+        "x": 16,
+        "y": 12
+      },
+      "id": 16,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "exemplar": true,
+          "expr": "container_memory_max_usage_bytes{id=\"/docker\", job=\"dockers\", instance=\"stack3.cluster.test:9092\"} / 1048576",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{instance}}",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "exemplar": true,
+          "expr": "container_memory_max_usage_bytes{id=~\"/docker.+\", job=\"dockers\", instance=\"stack3.cluster.test:9092\"} / 1048576",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{name}}",
+          "refId": "B"
+        }
+      ],
+      "title": "docker3 Memory Usage (MB)",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "stack(.).*",
+            "renamePattern": "docker$1"
+          }
+        }
+      ],
+      "type": "timeseries"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 24,
+        "x": 0,
+        "y": 23
+      },
+      "id": 2,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "exemplar": true,
+          "expr": "(sum by (instance) (irate(container_cpu_system_seconds_total{id=\"/docker\", job=\"dockers\"}[1m])) / 60 ) * 100",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{instance}}",
+          "refId": "A"
+        }
+      ],
+      "title": "CPU %",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "stack(.).*",
+            "renamePattern": "docker$1"
+          }
+        }
+      ],
+      "type": "gauge"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 24,
+        "x": 0,
+        "y": 27
+      },
+      "id": 12,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "exemplar": true,
+          "expr": "((container_memory_usage_bytes{id=\"/docker\", job=\"dockers\", instance=\"stack1.cluster.test:9092\"}) / (12*1024*1024*1024) ) * 100",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{instance}}",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "exemplar": true,
+          "expr": "((container_memory_usage_bytes{id=\"/docker\", job=\"dockers\", instance=\"stack2.cluster.test:9092\"}) / (12*1024*1024*1024) ) * 100",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{instance}}",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "exemplar": true,
+          "expr": "((container_memory_usage_bytes{id=\"/docker\", job=\"dockers\", instance=\"stack3.cluster.test:9092\"}) / (12*1024*1024*1024) ) * 100",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{instance}}",
+          "refId": "C"
+        }
+      ],
+      "title": "Memory %",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "stack(.).*",
+            "renamePattern": "docker$1"
+          }
+        }
+      ],
+      "type": "gauge"
     }
   ],
   "schemaVersion": 34,
@@ -820,6 +864,6 @@
   "timezone": "",
   "title": "Dockers",
   "uid": "cIyxjto7z",
-  "version": 1,
+  "version": 2,
   "weekStart": ""
 }
