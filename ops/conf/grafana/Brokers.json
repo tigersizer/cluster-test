@@ -115,11 +115,11 @@
       },
       "gridPos": {
         "h": 12,
-        "w": 6,
+        "w": 12,
         "x": 0,
         "y": 0
       },
-      "id": 18,
+      "id": 12,
       "options": {
         "legend": {
           "calcs": [],
@@ -137,128 +137,19 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "(sum by (name) (irate(container_fs_reads_bytes_total{job=\"dockers\", instance=\"ops.cluster.test:9092\", name=~\".+\"}[1m]))) / 1024 / 60",
+          "expr": "pulsar_subscriptions_count",
           "interval": "",
-          "legendFormat": "r: {{name}}",
+          "legendFormat": "{{instance}}:{{cluster}}",
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "exemplar": true,
-          "expr": "(sum by (name) (irate(container_fs_writes_bytes_total{job=\"dockers\", instance=\"ops.cluster.test:9092\", name=~\".+\"}[1m]))) / 1024 / 60",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "w: {{name}}",
-          "refId": "B"
         }
       ],
-      "title": "docker0 Disk I/O (KB/s)",
-      "type": "timeseries"
-    },
-    {
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 12,
-        "w": 6,
-        "x": 6,
-        "y": 0
-      },
-      "id": 4,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "exemplar": true,
-          "expr": "(sum by (name) (irate(container_fs_reads_bytes_total{job=\"dockers\", instance=\"stack1.cluster.test:9092\", name=~\".+\"}[1m]))) / 1024 / 60",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "r: {{name}}",
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "exemplar": true,
-          "expr": "(sum by (name) (irate(container_fs_writes_bytes_total{job=\"dockers\", instance=\"stack1.cluster.test:9092\", name=~\".+\"}[1m]))) / 1024 / 60",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "w: {{name}}",
-          "refId": "B"
-        }
-      ],
-      "title": "docker1 Disk I/O (KB/s)",
+      "title": "Cluster Subscriber Count",
       "transformations": [
         {
           "id": "renameByRegex",
           "options": {
-            "regex": "^$",
-            "renamePattern": "docker1"
+            "regex": "(broker.)\\..*:.*:(.*)",
+            "renamePattern": "$1: $2"
           }
         }
       ],
@@ -316,416 +207,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 12,
-        "w": 6,
+        "h": 8,
+        "w": 12,
         "x": 12,
         "y": 0
-      },
-      "id": 6,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "exemplar": true,
-          "expr": "(sum by (name) (irate(container_fs_reads_bytes_total{job=\"dockers\", instance=\"stack2.cluster.test:9092\", name=~\".+\"}[1m]))) / 1024 / 60",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "r: {{name}}",
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "exemplar": true,
-          "expr": "(sum by (name) (irate(container_fs_writes_bytes_total{job=\"dockers\", instance=\"stack2.cluster.test:9092\", name=~\".+\"}[1m]))) / 1024 / 60",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "w: {{name}}",
-          "refId": "B"
-        }
-      ],
-      "title": "docker2 Disk I/O (KB/s)",
-      "type": "timeseries"
-    },
-    {
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 12,
-        "w": 6,
-        "x": 18,
-        "y": 0
-      },
-      "id": 8,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "exemplar": true,
-          "expr": "(sum by (name) (irate(container_fs_reads_bytes_total{job=\"dockers\", instance=\"stack3.cluster.test:9092\", name=~\".+\"}[1m]))) / 1024 / 60",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "r: {{name}}",
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "exemplar": true,
-          "expr": "(sum by (name) (irate(container_fs_writes_bytes_total{job=\"dockers\", instance=\"stack2.cluster.test:9092\", name=~\".+\"}[1m]))) / 1024 / 60",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "w: {{name}}",
-          "refId": "B"
-        }
-      ],
-      "title": "docker3 Disk I/O (KB/s)",
-      "type": "timeseries"
-    },
-    {
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 11,
-        "w": 6,
-        "x": 0,
-        "y": 12
-      },
-      "id": 20,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "exemplar": true,
-          "expr": "container_memory_max_usage_bytes{id=\"/docker\", job=\"dockers\", instance=\"ops.cluster.test:9092\"} / 1048576",
-          "interval": "",
-          "legendFormat": "{{instance}}",
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "exemplar": true,
-          "expr": "container_memory_max_usage_bytes{id=~\"/docker.+\", job=\"dockers\", instance=\"ops.cluster.test:9092\", name=~\".*\"} / 1048576",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "{{name}}",
-          "refId": "B"
-        }
-      ],
-      "title": "docker0 Mem Usage (MB)",
-      "transformations": [
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": "ops.*",
-            "renamePattern": "ops"
-          }
-        }
-      ],
-      "type": "timeseries"
-    },
-    {
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 11,
-        "w": 6,
-        "x": 6,
-        "y": 12
-      },
-      "id": 10,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single"
-        }
-      },
-      "pluginVersion": "8.3.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "exemplar": true,
-          "expr": "container_memory_max_usage_bytes{id=\"/docker\", job=\"dockers\", instance=\"stack1.cluster.test:9092\"} / 1048576",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "{{instance}}",
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "exemplar": true,
-          "expr": "container_memory_max_usage_bytes{id=~\"/docker.+\", job=\"dockers\", instance=\"stack1.cluster.test:9092\", name=~\".*\"} / 1048576",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "{{name}}",
-          "refId": "B"
-        }
-      ],
-      "title": "docker1 Mem Usage (MB)",
-      "transformations": [
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": "stack(.).*",
-            "renamePattern": "docker$1"
-          }
-        }
-      ],
-      "type": "timeseries"
-    },
-    {
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 11,
-        "w": 6,
-        "x": 12,
-        "y": 12
       },
       "id": 14,
       "options": {
@@ -745,32 +230,19 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "container_memory_max_usage_bytes{id=\"/docker\", job=\"dockers\", instance=\"stack2.cluster.test:9092\"} / 1048576",
-          "hide": false,
+          "expr": "pulsar_topics_count",
           "interval": "",
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{instance}}:{{cluster}}",
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "exemplar": true,
-          "expr": "container_memory_max_usage_bytes{id=~\"/docker.+\", job=\"dockers\", instance=\"stack2.cluster.test:9092\", name=~\".+\"} / 1048576",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "{{name}}",
-          "refId": "B"
         }
       ],
-      "title": "docker2 Memory (MB)",
+      "title": "Cluster Topic Count",
       "transformations": [
         {
           "id": "renameByRegex",
           "options": {
-            "regex": "stack(.).*",
-            "renamePattern": "docker$1"
+            "regex": "(broker.)\\..*:.*:(.*)",
+            "renamePattern": "$1: $2"
           }
         }
       ],
@@ -829,9 +301,9 @@
       },
       "gridPos": {
         "h": 11,
-        "w": 6,
-        "x": 18,
-        "y": 12
+        "w": 12,
+        "x": 12,
+        "y": 8
       },
       "id": 16,
       "options": {
@@ -851,10 +323,9 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "container_memory_max_usage_bytes{id=\"/docker\", job=\"dockers\", instance=\"stack3.cluster.test:9092\"} / 1048576",
-          "hide": false,
+          "expr": "pulsar_storage_read_rate",
           "interval": "",
-          "legendFormat": "{{instance}}",
+          "legendFormat": "r: {{instance}}:{{cluster}}",
           "refId": "A"
         },
         {
@@ -863,24 +334,286 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "container_memory_max_usage_bytes{id=~\"/docker.+\", job=\"dockers\", instance=\"stack3.cluster.test:9092\", name=~\".*\"} / 1048576",
+          "expr": "pulsar_storage_read_rate",
           "hide": false,
           "interval": "",
-          "legendFormat": "{{name}}",
+          "legendFormat": "w: {{instance}}:{{cluster}}",
           "refId": "B"
         }
       ],
-      "title": "docker3 Memory Usage (MB)",
+      "title": "Cluster I/O",
       "transformations": [
         {
           "id": "renameByRegex",
           "options": {
-            "regex": "stack(.).*",
-            "renamePattern": "docker$1"
+            "regex": "(.*)(broker.)\\..*:.*:(.*)",
+            "renamePattern": "$1$2: $3"
           }
         }
       ],
       "type": "timeseries"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 12,
+        "x": 0,
+        "y": 12
+      },
+      "id": 10,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "exemplar": true,
+          "expr": "pulsar_producers_count",
+          "interval": "",
+          "legendFormat": "{{instance}}:{{cluster}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Cluster Producer Count",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "(broker.)\\..*:.*:(.*)",
+            "renamePattern": "$1: $2"
+          }
+        }
+      ],
+      "type": "timeseries"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 19
+      },
+      "id": 6,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "exemplar": true,
+          "expr": "jvm_memory_bytes_used{job=\"brokers\", area=\"heap\"} / 1048576",
+          "interval": "",
+          "legendFormat": "used: {{instance}}",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "exemplar": true,
+          "expr": "jvm_memory_bytes_committed{job=\"brokers\", area=\"heap\"} / 1048576",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "cmmt: {{instance}}",
+          "refId": "B"
+        }
+      ],
+      "title": "Heap Memory Used (MB)",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "(broker.)\\.(.*)",
+            "renamePattern": "$1"
+          }
+        }
+      ],
+      "type": "timeseries"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 12,
+        "x": 0,
+        "y": 23
+      },
+      "id": 8,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "8.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "exemplar": true,
+          "expr": "jvm_threads_current{job=\"brokers\"}",
+          "interval": "",
+          "legendFormat": "{{instance}}:{{cluster}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Cluster Threads",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "(broker.)\\..*:.*:(.*)",
+            "renamePattern": "$1: $2"
+          }
+        }
+      ],
+      "type": "gauge"
     },
     {
       "fieldConfig": {
@@ -910,9 +643,9 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 24,
+        "w": 12,
         "x": 0,
-        "y": 23
+        "y": 27
       },
       "id": 2,
       "options": {
@@ -935,8 +668,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "sum by (instance) (irate(container_cpu_system_seconds_total{id=\"/docker\", job=\"dockers\"}[1m])) * 100",
-          "hide": false,
+          "expr": "sum by (instance) (irate(process_cpu_seconds_total{job=\"brokers\"}[1m])) * 100",
           "interval": "",
           "legendFormat": "{{instance}}",
           "refId": "A"
@@ -947,15 +679,8 @@
         {
           "id": "renameByRegex",
           "options": {
-            "regex": "stack(.).*",
-            "renamePattern": "docker$1"
-          }
-        },
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": "ops.*",
-            "renamePattern": "docker0"
+            "regex": "(broker.)\\.(.*)",
+            "renamePattern": "$1"
           }
         }
       ],
@@ -989,11 +714,11 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 24,
-        "x": 0,
+        "w": 12,
+        "x": 12,
         "y": 27
       },
-      "id": 12,
+      "id": 4,
       "options": {
         "orientation": "auto",
         "reduceOptions": {
@@ -1014,46 +739,25 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "((container_memory_usage_bytes{id=\"/docker\", job=\"dockers\", instance=~\"ops.+\"}) / (8*1024*1024*1024) ) * 100",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "{{instance}}",
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "exemplar": true,
-          "expr": "((container_memory_usage_bytes{id=\"/docker\", job=\"dockers\", instance=~\"stack.+\"}) / (12*1024*1024*1024) ) * 100",
-          "hide": false,
+          "expr": "(jvm_memory_bytes_used{job=\"brokers\", area=\"heap\"} / jvm_memory_bytes_max{job=\"brokers\", area=\"heap\"}) * 100",
           "interval": "",
           "legendFormat": "{{instance}}",
           "refId": "A"
         }
       ],
-      "title": "Memory %",
+      "title": "Heap Memory %",
       "transformations": [
         {
           "id": "renameByRegex",
           "options": {
-            "regex": "stack(.).*",
-            "renamePattern": "docker$1"
-          }
-        },
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": "ops.*",
-            "renamePattern": "docker0"
+            "regex": "(broker.)\\.(.*)",
+            "renamePattern": "$1"
           }
         }
       ],
       "type": "gauge"
     }
   ],
-  "refresh": "30s",
   "schemaVersion": 34,
   "style": "dark",
   "tags": [],
@@ -1066,8 +770,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Dockers",
-  "uid": "cIyxjto7z",
-  "version": 5,
+  "title": "Brokers",
+  "uid": "rGtR6_onk",
+  "version": 2,
   "weekStart": ""
 }
