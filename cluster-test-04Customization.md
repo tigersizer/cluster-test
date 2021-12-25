@@ -393,7 +393,40 @@ Repeat for stack2 and stack3.
 
 ### DEV VM
 
+As usual, everything except the network configuration can be done via
+
+```
+    builddev
+```
+
 #### DEV ifcfg
+
+This is in an isolated script everything else can be scripted *except* this.
+
+If you're feeling lucky (or you're me):
+
+```
+    setifcfg
+```
+
+or do it by hand:
+
+This is the same change as for the [ops machine](#ops-ifcfg). Be sure to give each VM a unique IP and, if diverging from these instructions, that it matches the DNS zone files.
+
+Reboot and test via ping-by-name.
+
+If something doesn't work, try:
+
+```
+    dig ops.cluster.test
+```
+
+That will do a name lookup and should supply some helpful information.
+
+The most likely problems are:
+- zone file doesn't match ifcfg values
+- a typo somewhere; check VERY closely.
+
 
 #### github
 
@@ -420,12 +453,29 @@ Set the username and email:
     git config --global user.email you@example.com
 ```
 
-The pull preference is best set per-repo, but it should be set (so git doesn't nag you):
+#### cqlsh
+
+Install cqlsh - but *not* from DataStax. Currently (Dec 2021), all the internet searches point to one that requires Python 2.7. You do not want Python 2, if you can possibly help it.
+
+The Python Package Index [has cqlsh](https://pypi.org/project/cqlsh/).
+
+Not having version 2, pip and pip3 *should* do the same thing, but pip3 is installed and pip is not, so pip3 it is.
 
 ```
-    cd ~/cluster-test
-    git config pull.ff only
+    sudo pip3 install -U cqlsh
 ```
+
+This causes issues with the "describe" command. In 3.11, which is what the cluster is running (unless you changed it), it is a client-side command. In 4.x, which is what the Python 3 cqlsh is, it is a server-side command. 
+
+The "cql" command on the cluster nodes runs locally so the versions always match.
+
+This installs the Python Cassandra driver, too. If you're not installing cqlsh and want the driver:
+
+```
+    sudo pip3 install cassandra-driver
+```
+
+You can verify it works with:
 
 
 [Prev](cluster-test-03CopyVMs.md)       [Table of Contents](#table-of-contents)     [Next](cluster-test-05FiringItUp.md)
