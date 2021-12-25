@@ -16,6 +16,7 @@
         1. [Puslar Manager](#pulsar-manager)
         1. [Prometheus](#prometheus)
         1. [Grafana](#grafana)
+        1. [Elasticsearch](#elasticsearch)
     1. [DEV VM](#dev-vm)
         1. [Testing Cassandra](#testing-cassandra)
 1. [Recovering from Mistakes](cluster-test-06Recovery.md)
@@ -359,6 +360,28 @@ The Dashboards can now be imported:
 - Pick one.
 - Open it.
 - Press the "Import" button.
+
+These are very tall dashboards. I wanted the green/red stuff across my screen. The top of the windows have inches of header information; the bottom does not. So I made the VM window full-screen height and the Firefox windows inside it full height, too. I can then open other stuff over the top of it and the gauges stay visible without cluttering up the screen with title bars, tabs, and menus.
+
+#### Elasticsearch
+
+This is copied almost exactly from the [Elasticsearch instructions](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html).
+```
+    elasticup
+    elastictail
+```
+
+It doesn't seem to have a good "I'm up" log statemnt. This seems likely:
+
+```
+{"type": "server", "timestamp": "2021-12-25T20:31:35,446Z", "level": "INFO", "component": "o.e.c.r.a.AllocationService", "cluster.name": "docker-cluster", "node.name": "8760a5894785", "message": "Cluster health status changed from [YELLOW] to [GREEN] (reason: [shards started [[.ds-ilm-history-5-2021.12.25-000001][0]]]).", "cluster.uuid": "DmHz4SkKQge_MN7jg_oc5A", "node.id": "SxwXP3vhSxSO2rF_09eE7w"  }
+```
+
+You can test it with:
+
+```
+curl -X GET "localhost:9200/_cat/nodes?v=true&pretty"
+```
 
 ### DEV VM
 

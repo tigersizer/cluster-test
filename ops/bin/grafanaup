@@ -14,16 +14,21 @@ docker rm grafana
 # Grafana has some funky user issues
 ID=$(id -u)
 
-# 3000 is the http server 
-# /var/lib/grafana is the data directory 
+# -net
+#   the common bridged network
+# --user 
+#   this is just crazy but required
+# -p
+#   3000 is the http server 
+# -v
+#   mount a persistent version of /var/lib/grafana - the data directory 
+#   mount our configuration at /etc/grafana/grafana.ini
+#   ~/cluster-test/ops/grafana/logs:/var/log/grafana but who cares?
 docker run --name grafana \
     -d \
     --net=vm-bridge \
     --user $ID \
     -p 3000:3000 \
-    -e "GF_LOG_MODE=console file" \
     -v ~/cluster-test/ops/grafana/data:/var/lib/grafana \
     -v ~/cluster-test/ops/conf/grafana.ini:/etc/grafana/grafana.ini \
-    -v ~/cluster-test/ops/bin:/scripts \
-    -v ~/cluster-test/ops/grafana/logs:/var/log/grafana \
     grafana/grafana-enterprise

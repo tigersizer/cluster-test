@@ -325,6 +325,23 @@ The default admin user and password are - what else? - "admin" and "admin"
 
 #### Elasticsearch
 
+This also runs in Docker, so we just need the usual, with a bit of [crazy group-ness](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html), about halfway down the page.
+
+Note that the paths on that page are correct. The ones on the linked "Important Elasticsearch configuration" are not.
+
+
+```
+    mkdir -p ~/cluster-test/ops/elastic/data
+    mkdir -p ~/cluster-test/ops/elastic/logs
+    chgrp -R 0 ~/cluster-test/ops/elastic
+    chmod -R g+rwx ~/cluster-test/ops/elastic
+    chgrp -R 0 ~/cluster-test/ops/conf/elasticsearchconfig
+    chmod -R g+rwx ~/cluster-test/ops/conf/elasticsearchconfig
+    ln -s ~/cluster-test/ops/bin/elasticup ~/bin/elasticup
+    ln -s ~/cluster-test/ops/bin/elasticdown ~/bin/elasticdown
+    ln -s ~/cluster-test/ops/bin/elastictail ~/bin/elastictail
+```
+
 #### Kibana
 
 ### STACK VMs

@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# create the network (should already be there with an error for this)
+# one node per VM works better without a Docker network, but this is second-best
+netup
+   
+# this could be bad, but it works for dev
+docker stop elastic
+
+# cannot recreate with the same name (docker-compose does this on "down")
+# do it on up so the logs are laying about should I want them
+docker rm elastic
+
+# --net
+#   the common bridge network
+# -p
+#   9200 
+#   9300
+# -e
+#   discovery.type=single-node is as opposed to a cluster
+#       (I don't care enough about this to cluster it)
+# -v
+#   ignore the documentation about "/var" directories, /usr/share/elasticsearch is correct.
+#   mount the data volume for persistence
+#   mount the log volume, just in case
+#   mount our own configuration directory (copied out of the image the tweaked).
+#
+# Note the gamble on the latest version: It's direct from Elasticsearch.
+docker run --name elastic \
+    -d \
+    --net=vm-bridge \
+    -p 9200:9200 \
+    -p 9300:9300 \
+    -e discovery.type=single-node \
+    -e ES_JAVA_OPTS="-Xms512m -Xmx512m" \
+    -v ~/cluster-test/ops/elastic/data:/usr/share/elasticsearch/data \
+    -v ~/cluster-test/ops/elastic/logs:/usr/share/elasticsearch/logs \
+    -v ~/cluster-test/ops/conf/elasticsearchconfig:/usr/share/elasticsearch/config \
+    docker.elastic.co/elasticsearch/elasticsearch:7.16.2

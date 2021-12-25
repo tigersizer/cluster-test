@@ -48,7 +48,9 @@ The ops and dev VMs can be smaller, but they're still not tiny.
 
 The total configuration is 16 CPUs, 42GB RAM, and 400GB disk (SSD preferrably).
 - 3 cluster VMs of 4 CPU, 12GB, 100GB.
-- 2 support VMs of 2 CPU, 4GB and 8GB, 50GB.
+- 2 support VMs of 2 CPU, 4GB and 12GB, 50GB/100GB.
+
+I tried to get the OPS machine running in 8GB and it had crazy memory pressure.
 
 And the host machine still needs to function.
 
