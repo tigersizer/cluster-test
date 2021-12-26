@@ -1,0 +1,12 @@
+# This file is where you define your pipelines. You can define multiple.
+# For more information on multiple pipelines, see the documentation:
+#   https://www.elastic.co/guide/en/logstash/current/multiple-pipelines.html
+
+- pipeline.id: zoo2
+  path.config: "pipeline/zoo2.conf"
+#- pipeline.id: bookie2
+#  path.config: "pipeline/bookie2.conf"
+#- pipeline.id: broker2
+#  path.config: "pipeline/broker2.conf"
+#- pipeline.id: cass2
+#  path.config: "pipeline/cass2.conf"

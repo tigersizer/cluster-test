@@ -72,10 +72,6 @@ ln -s ~/cluster-test/stack2/bin/cql ~/bin/cql
 mkdir -p ~/cluster-test/stack2/logstash/logs
 mkdir ~/cluster-test/stack2/logstash/data
 chgrp -R docker ~/cluster-test/stack2/logstash
-# this doesn't work; try the Grafana nobody:nogroup trick
-#sudo chown -R 1000 ~/cluster-test/stack2/logstash
-#sudo chown -R 65534:65534 ~/cluster-test/stack2/logstash
-# that doesn't work, either; brute force it
 sudo chmod -R a+w ~/cluster-test/stack2/logstash
 chmod -R a+r ~/cluster-test/stack2/conf/logstash
 ln -s ~/cluster-test/stack2/bin/stashdown ~/bin/stashdown

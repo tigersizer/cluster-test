@@ -1,0 +1,5 @@
+#!/bin/bash
+# set the terminal window title
+echo -en "\033]2;Logstash: stash2 logs\007";
+# we don't want them persistent, so this will do nicely
+docker logs -f stash2
