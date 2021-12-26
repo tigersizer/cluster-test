@@ -1,0 +1,20 @@
+#!/bin/bash
+
+netup
+docker stop stash3
+docker rm stash3
+
+docker run --name stash3 \
+    -d \
+    --restart always \
+    --net=vm-bridge \
+    -p 9600:9600 \
+    -v ~/cluster-test/stack3/logstash/data:/usr/share/logstash/data/ \
+    -v ~/cluster-test/stack3/conf/logstash/config:/usr/share/logstash/config \
+    -v ~/cluster-test/stack3/conf/logstash/pipeline:/usr/share/logstash/pipeline \
+    -v ~/cluster-test/stack3/logstash/logs:/usr/share/logstash/logs \
+    -v ~/cluster-test/stack3/zookeeper/logs:/zookeeperlogs \
+    -v ~/cluster-test/stack3/bookkeeper/logs:/bookkeeperlogs \
+    -v ~/cluster-test/stack3/broker/logs:/brokerlogs \
+    -v ~/cluster-test/stack3/cassandra/logs:/cassandralogs \
+    logstash:7.16.2

@@ -66,3 +66,13 @@ ln -s ~/cluster-test/stack3/bin/casstail ~/bin/casstail
 ln -s ~/cluster-test/stack3/bin/cassup ~/bin/cassup
 ln -s ~/cluster-test/stack3/bin/nodetool ~/bin/nodetool
 ln -s ~/cluster-test/stack3/bin/cql ~/bin/cql
+
+# Logstash
+mkdir -p ~/cluster-test/stack3/logstash/logs
+mkdir ~/cluster-test/stack3/logstash/data
+chgrp -R docker ~/cluster-test/stack3/logstash
+sudo chmod -R a+w ~/cluster-test/stack3/logstash
+chmod -R a+r ~/cluster-test/stack3/conf/logstash
+ln -s ~/cluster-test/stack3/bin/stashdown ~/bin/stashdown
+ln -s ~/cluster-test/stack3/bin/stashtail ~/bin/stashtail
+ln -s ~/cluster-test/stack3/bin/stashup ~/bin/stashup
