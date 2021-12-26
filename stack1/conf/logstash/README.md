@@ -59,6 +59,18 @@ adding
 
 generates docker logs data that's handy for debugging the filters, which are not at all easy. 
 
-I'm still looking for documentation.
+This is currently configured. Unless you are doing something with logstash, it's a giant waste, so you may want to turn it off.
 
+Two good tutorials: [https://logz.io/blog/logstash-grok/](https://logz.io/blog/logstash-grok/) and [https://www.tutorialspoint.com/logstash/logstash_transforming_the_logs.htm](https://www.tutorialspoint.com/logstash/logstash_transforming_the_logs.htm)
+
+### ZooKeeper
+
+This is the GROK expression for ZooKeeper logs: 
+
+
+```
+    match => { "message" => "%{TIME:time} \[%{DATA:thread}\] %{LOGLEVEL:loglevel} %{DATA:class} - %{GREEDYDATA:logdata}"  }
+```
+
+Nothing interesting is logged, so I'm just sending Leader/Follower update  messages, which are nodes joining the cluster.
 

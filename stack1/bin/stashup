@@ -17,6 +17,7 @@ docker rm stash1
 # --net
 #   vm-bridge is created by netup; it is what it sounds like.
 # -p
+#   9600 it has its own web server (not sure why)
 # -v
 #   /usr/share/logstash is the root path for everything
 #   make data/ persistent across up/down.
@@ -31,12 +32,13 @@ docker run --name stash1 \
     -d \
     --restart always \
     --net=vm-bridge \
+    -p 9600:9600 \
     -v ~/cluster-test/stack1/logstash/data:/usr/share/logstash/data/ \
     -v ~/cluster-test/stack1/conf/logstash/config:/usr/share/logstash/config \
     -v ~/cluster-test/stack1/conf/logstash/pipeline:/usr/share/logstash/pipeline \
     -v ~/cluster-test/stack1/logstash/logs:/usr/share/logstash/logs \
-    -v ~/cluster-test/stack1/zookeeper/logs:zookeeperlogs \
-    -v ~/cluster-test/stack1/bookkeeper/logs:bookkeeperlogs \
-    -v ~/cluster-test/stack1/broker/logs:brokerlogs \
-    -v ~/cluster-test/stack1/cassandra/logs:cassandralogs \
+    -v ~/cluster-test/stack1/zookeeper/logs:/zookeeperlogs \
+    -v ~/cluster-test/stack1/bookkeeper/logs:/bookkeeperlogs \
+    -v ~/cluster-test/stack1/broker/logs:/brokerlogs \
+    -v ~/cluster-test/stack1/cassandra/logs:/cassandralogs \
     logstash:7.16.2
