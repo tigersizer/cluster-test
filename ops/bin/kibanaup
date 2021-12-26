@@ -5,17 +5,15 @@
 netup
    
 # this could be bad, but it works for dev
-docker stop elastic
+docker stop kibana
 
 # cannot recreate with the same name (docker-compose does this on "down")
 # do it on up so the logs are laying about should I want them
-docker rm elastic
+docker rm kibana
 
 # --net
 #   the common bridge network
 # -p
-#   9200 - the http port (logstash send/kibana pulls)
-#   9300
 # -e
 #   discovery.type=single-node is as opposed to a cluster
 #       (I don't care enough about this to cluster it)
@@ -26,14 +24,13 @@ docker rm elastic
 #   mount our own configuration directory (copied out of the image the tweaked).
 #
 # Note the gamble on the latest version: It's direct from Elasticsearch.
-docker run --name elastic \
+#    -v ~/cluster-test/ops/conf/elasticsearchconfig:/usr/share/elasticsearch/config \
+docker run --name kibana \
     -d \
     --net=vm-bridge \
-    -p 9200:9200 \
-    -p 9300:9300 \
-    -e discovery.type=single-node \
-    -e ES_JAVA_OPTS="-Xms512m -Xmx512m" \
-    -v ~/cluster-test/ops/elastic/data:/usr/share/elasticsearch/data \
-    -v ~/cluster-test/ops/elastic/logs:/usr/share/elasticsearch/logs \
-    -v ~/cluster-test/ops/conf/elasticsearchconfig:/usr/share/elasticsearch/config \
-    docker.elastic.co/elasticsearch/elasticsearch:7.16.2
+    -p 5601:5601 \
+    -e SERVER_NAME=kibana.cluster.test \
+    -v ~/cluster-test/ops/kibana/data:/usr/share/kibana/data \
+    -v ~/cluster-test/ops/kibana/logs:/usr/share/kibana/logs \
+    -v ~/cluster-test/ops/conf/kibana.yml:/usr/share/kibana/config/kibana.yml \
+    docker.elastic.co/kibana/kibana:7.16.2

@@ -1,0 +1,5 @@
+#!/bin/bash
+# set the terminal window title
+echo -en "\033]2;Kibana logs\007";
+# this is trivial, but handy
+docker logs -f kibana
