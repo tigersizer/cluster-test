@@ -4,8 +4,8 @@
 
 - pipeline.id: zoo2
   path.config: "pipeline/zoo2.conf"
-#- pipeline.id: bookie2
-#  path.config: "pipeline/bookie2.conf"
+- pipeline.id: bookie2
+  path.config: "pipeline/bookie2.conf"
 #- pipeline.id: broker2
 #  path.config: "pipeline/broker2.conf"
 #- pipeline.id: cass2
