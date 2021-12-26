@@ -81,6 +81,16 @@ ln -s ~/cluster-test/ops/bin/elasticup ~/bin/elasticup
 ln -s ~/cluster-test/ops/bin/elasticdown ~/bin/elasticdown
 ln -s ~/cluster-test/ops/bin/elastictail ~/bin/elastictail
 
+# the Kibana section
+mkdir -p ~/cluster-test/ops/kibana/data
+mkdir -p ~/cluster-test/ops/kibana/logs
+# same authors, so likely group craziness (not docoumented, though)
+chgrp -R docker ~/cluster-test/ops/kibana
+chmod -R g+w ~/cluster-test/ops/kibana
+ln -s ~/cluster-test/ops/bin/kibanaup ~/bin/kibanaup
+ln -s ~/cluster-test/ops/bin/kibanadown ~/bin/kibanadown
+ln -s ~/cluster-test/ops/bin/kibanatail ~/bin/kibanatail
+
 # and the whole thing
 ln -s ~/cluster-test/ops/bin/opsup ~/bin/opsup
 ln -s ~/cluster-test/ops/bin/opsdown ~/bin/opsdown

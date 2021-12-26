@@ -345,6 +345,20 @@ Note that the paths on that page are correct. The ones on the linked "Important 
 
 #### Kibana
 
+This also runs in Docker, so we just need the usual:
+
+```
+    mkdir -p ~/cluster-test/ops/kibana/data
+    mkdir -p ~/cluster-test/ops/kibana/logs
+    chgrp -R docker ~/cluster-test/ops/kibana
+    chmod -R g+w ~/cluster-test/ops/kibana
+    ln -s ~/cluster-test/ops/bin/kibanaup ~/bin/kibanaup
+    ln -s ~/cluster-test/ops/bin/kibanadown ~/bin/kibanadown
+    ln -s ~/cluster-test/ops/bin/kibanatail ~/bin/kibanatail
+```
+
+It complians a **LOT** about security. Perhaps I'll deal with it, later.
+
 ### STACK VMs
 
 Set the hostnames (it's just pretty):
