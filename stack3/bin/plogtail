@@ -1,0 +1,5 @@
+#!/bin/bash
+# set the terminal window title
+echo -en "\033]2;Prometheus: plog3 logs\007";
+# we don't care about its logs; just use Docker
+docker logs -f plog3

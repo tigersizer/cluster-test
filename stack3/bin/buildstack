@@ -76,3 +76,11 @@ chmod -R a+r ~/cluster-test/stack3/conf/logstash
 ln -s ~/cluster-test/stack3/bin/stashdown ~/bin/stashdown
 ln -s ~/cluster-test/stack3/bin/stashtail ~/bin/stashtail
 ln -s ~/cluster-test/stack3/bin/stashup ~/bin/stashup
+
+# Prometheus Logstash exporter
+# https://github.com/alxrem/prometheus-logstash-exporter
+# just links
+ln -s ~/cluster-test/stack3/bin/plogdown ~/bin/plogdown
+ln -s ~/cluster-test/stack3/bin/plogtail ~/bin/plogtail
+ln -s ~/cluster-test/stack3/bin/plogup ~/bin/plogup
+
