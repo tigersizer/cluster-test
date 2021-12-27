@@ -72,8 +72,9 @@ Why put that in the configuration documentation? Because the Docker image builde
 
 The changes:
 - dataDir is set to the `docker run` mount point: data/zookeeper; "data" is added automagically.
-- admin.enableServer is set to true; apparently everyone knows it is awful and no one uses it
-- admin.serverPort, which could have been remapped with `docker run`
+- electionPortBindRetry is zero, which means "try indefinitely"; this prevents needing to get all three of them up in six seconds (the default).
+- admin.enableServer is set to true; apparently everyone knows it is awful and no one uses it.
+- admin.serverPort, which could have been remapped with `docker run`.
 - server.X are zooX.cluster.test except for "me" (server.1 for stack1), which is 0.0.0.0; see above.
 
 #### BookKeeper
