@@ -52,4 +52,7 @@ scrape_configs:
       metrics_path: /
       static_configs:
           - targets: ["cass1.cluster.test:8084", "cass2.cluster.test:8084", "cass3.cluster.test:8084"]
+    - job_name: "logstashes"
+      static_configs:
+          - targets: ["stack1.cluster.test:9095", "stack2.cluster.test:9095", "stack3.cluster.test:9095" ]
 
