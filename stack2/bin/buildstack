@@ -78,3 +78,8 @@ ln -s ~/cluster-test/stack2/bin/stashdown ~/bin/stashdown
 ln -s ~/cluster-test/stack2/bin/stashtail ~/bin/stashtail
 ln -s ~/cluster-test/stack2/bin/stashup ~/bin/stashup
 
+# Prometheus Logstash exporter
+ln -s ~/cluster-test/stack2/bin/plogdown ~/bin/plogdown
+ln -s ~/cluster-test/stack2/bin/plogtail ~/bin/plogtail
+ln -s ~/cluster-test/stack2/bin/plogup ~/bin/plogup
+
