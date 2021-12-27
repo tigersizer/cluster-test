@@ -4,9 +4,9 @@
 
 - pipeline.id: zoo3
   path.config: "pipeline/zoo3.conf"
-#- pipeline.id: bookie3
-#  path.config: "pipeline/bookie3.conf"
-#- pipeline.id: broker3
-#  path.config: "pipeline/broker3.conf"
+- pipeline.id: bookie3
+  path.config: "pipeline/bookie3.conf"
+- pipeline.id: broker3
+  path.config: "pipeline/broker3.conf"
 #- pipeline.id: cass3
 #  path.config: "pipeline/cass3.conf"
