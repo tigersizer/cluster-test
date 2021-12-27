@@ -8,5 +8,5 @@
   path.config: "pipeline/bookie2.conf"
 - pipeline.id: broker2
   path.config: "pipeline/broker2.conf"
-#- pipeline.id: cass2
-#  path.config: "pipeline/cass2.conf"
+- pipeline.id: cass2
+  path.config: "pipeline/cass2.conf"
