@@ -169,7 +169,14 @@ The mouse will now move seamlessly. Resizing the VM window will resize the Deskt
 - shift-ctrl-C will copy, but it must be the left shift and ctrl keys.
 - shift-ctrl-V will paste, but it must be the left shift and ctrl keys.
 
-This is confusing and do not paste into vi unless you're in insert mode!
+This is confusing and drives me crazy with ctrl-c,x,v all using the right ctrl key by non-carpel-tunnel standards (I retrained myself after using EMACS on VT100 terminals - 30 years ago).
+
+While the VM is running
+- Open File / Preferences.
+- Select Input.
+- Select the Host Key Combination's Shortcut entry box
+- Press some other key (I use Right Alt)
+- Press OK
 
 See why we do this *before* copying the VM?
 
