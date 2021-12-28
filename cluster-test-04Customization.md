@@ -434,6 +434,8 @@ As usual, everything except the network configuration can be done via
     builddev
 ```
 
+If you're doing this manually, you can do as little or as much of this as you'd like. Remember, these started out as (and continue to be) notes to myself about how to configure *my* machines. The point is: If I need to do this again next year, I don't fofet what I did; not only "how?" but "what?"
+
 #### DEV ifcfg
 
 This is in an isolated script everything else can be scripted *except* this.
@@ -488,12 +490,23 @@ Set the username and email:
     git config --global user.email you@example.com
 ```
 
+#### /usr/local
+
+I got tired of sudo-ing to install Python libraries, so I chose the nuclear option:
+
+```
+    cd /usr/local
+    sudo chown -R ctest *
+```
+
+It's my VM; I'll install if I want to.
+
 #### pulsar-client
 
 The Python Package Index has the [Pulsar Client library](https://pypi.org/project/pulsar-client/)
 
 ```
-    sudo pip3 install pulsar-client
+    pip3 install pulsar-client
 ```
 
 #### cqlsh
@@ -505,7 +518,7 @@ The Python Package Index [has cqlsh](https://pypi.org/project/cqlsh/).
 Not having version 2, pip and pip3 *should* do the same thing, but pip3 is installed and pip is not, so pip3 it is.
 
 ```
-    sudo pip3 install -U cqlsh
+    pip3 install -U cqlsh
 ```
 
 This causes issues with the "describe" command. In 3.11, which is what the cluster is running (unless you changed it), it is a client-side command. In 4.x, which is what the Python 3 cqlsh is, it is a server-side command. 
@@ -515,8 +528,46 @@ The "cql" command on the cluster nodes runs locally so the versions always match
 This installs the Python Cassandra driver, too. If you're not installing cqlsh and want the driver:
 
 ```
-    sudo pip3 install cassandra-driver
+    pip3 install cassandra-driver
 ```
 
+#### reading .md files locally
+
+The Firefox addon doesn't "just work".
+
+From a [superuser.com post](https://superuser.com/questions/696361/how-to-get-the-markdown-viewer-addon-of-firefox-to-work-on-linux/1175837#1175837):
+
+```
+    mkdir -p ~/.local/share/mime/packages
+    vi ~/.local/share/mime/packages/text-markdown.xml
+        then paste
+<?xml version="1.0"?>
+<mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'>
+  <mime-type type="text/plain">
+    <glob pattern="*.md"/>
+    <glob pattern="*.mkd"/>
+    <glob pattern="*.markdown"/>
+  </mime-type>
+</mime-info>
+        then :wq
+    update-mime-database ~/.local/share/mime
+```
+
+#### protobuf
+
+Start with https://github.com/protocolbuffers/protobuf/releases
+
+The prebuilt binary for the compiler is a "protoc" file at the link.
+
+It unzips into bin and include from where you run this. I decided that, just as I have ~/bin in PATH, I want ~/include in any include path I may need.
+
+```
+    cd ~
+    wget https://github.com/protocolbuffers/protobuf/releases/download/v3.19.1/protoc-3.19.1-linux-x86_64.zip
+    unzip protoc-3.19.1-linux-x86_64.zip
+    # cp -r include /usr/local/include
+    rm readme.txt
+    rm protoc-3.19.1-linux-x86_64.zip
+```
 
 [Prev](cluster-test-03CopyVMs.md)       [Table of Contents](#table-of-contents)     [Next](cluster-test-05FiringItUp.md)
