@@ -158,9 +158,9 @@ Getting the configuration for the others is much the same, but with only a singl
 
 ## Component Directories
 
-We need a place for persistence. Docker does odd things with permissions and some of the components are odder, yet. You do *not* want to let these auto-create via the `docker run` command. They will, but access is often wrong.
+We need a place for persistence. Docker does odd things with permissions and some of the components are odder, yet. You do *not* want to let these auto-create via the `docker run` command. They (usually) will, but access is often wrong.
 
-These directories are not in git. They are created (and `chgrp` / `chmod` as needed) by the buildstack script. It's in the step-by-step instructions, too.
+These directories are not in git. They are created (and `chgrp` / `chmod` as needed) by the buildstack script. It's in the [step-by-step instructions](cluster-test-04Customization.md#directories-and-links), too.
 
-In general, your user (*stack* if you're following instructions) owns them and they are in the Docker group. There root ownership and groups scattered in subdiretories.
+In general, your user (*ctest* if you're following instructions) owns them and they are in the *docker* group. There is *root* ownership and groups scattered in subdiretories.
 

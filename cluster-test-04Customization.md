@@ -25,8 +25,11 @@ This is all manual, mostly command-line, work. But it's all simple, short, and c
     1. [DEV VM](#dev-vm)
         1. [ifcfg](#dev-ifcfg)
         1. [github](#github)
+        1. [/usr/local](#-usr-local)
         1. [Python Pulsar Client](#pulsar-client)
-        1. [cqlsh](#cqlqsh)
+        1. [cqlsh](#cqlsh)
+        1. [Reading .md files in Firefox](#reading--md-files-locally)
+        1. [protobuf compiler](#protobuf)
 1. [Firing it all up](cluster-test-05FiringItUp.md)
 1. [Recovering from Mistakes](cluster-test-06Recovery.md)
 1. [Testing Failure Modes](cluster-test-07Testing.md)
@@ -570,4 +573,19 @@ It unzips into bin and include from where you run this. I decided that, just as 
     rm protoc-3.19.1-linux-x86_64.zip
 ```
 
+I don't know how this is supposed to work, but I couldn't get anything to compile without copying the `descriptor.proto` file into the *local directory* of my .proto files. I should give credit to the link where I found this information, but I didn't make note of it.
+
+```
+    cd ~/code/wherever
+    cp ~/protobuf-3.19.1/src/google/protobuf/descriptor.proto .
+```
+
+Then protoc works. If you put that path in -I, it does not.
+
+```
+    protoc -I=. --python_out=. mydefintion.proto
+```
+
+
+    
 [Prev](cluster-test-03CopyVMs.md)       [Table of Contents](#table-of-contents)     [Next](cluster-test-05FiringItUp.md)
