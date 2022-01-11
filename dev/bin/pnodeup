@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# see the stack1 version for comments
+~/node_exporter*/node_exporter --web.listen-address="0.0.0.0:9090" > ~/cluster-test/dev/node_exporter/logs/nodeexporter3.log 2>&1 &

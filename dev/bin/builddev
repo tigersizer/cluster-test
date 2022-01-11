@@ -6,6 +6,12 @@
 cd
 rm -rf eclipse-installer
 
+# I was having performance issues with Pulsar and decided this would be handy
+mkdir -p ~/cluster-test/dev/node_exporter/logs
+ln -s ~/cluster-test/dev/bin/pnodedown ~/bin/pnodedown
+ln -s ~/cluster-test/dev/bin/pnodetail ~/bin/pnodetail
+ln -s ~/cluster-test/dev/bin/pnodeup ~/bin/pnodeup
+
 # github
 sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
 sudo dnf install gh
