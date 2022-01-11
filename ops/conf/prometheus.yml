@@ -31,7 +31,7 @@ scrape_configs:
     - job_name: "vms"
       static_configs:
           # I don't like 9090, but node_exporter dislikes many ports; this one works          
-          - targets: ["stack1.cluster.test:9090","stack2.cluster.test:9090","stack3.cluster.test:9090","ops.cluster.test:9091"]
+          - targets: ["stack1.cluster.test:9090","stack2.cluster.test:9090","stack3.cluster.test:9090","ops.cluster.test:9091","dev.cluster.test:9090"]
 
     # working on this one:
     - job_name: "dockers"
