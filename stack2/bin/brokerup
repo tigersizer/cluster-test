@@ -7,6 +7,7 @@ docker rm broker2
 
 docker run --name broker2 \
     -d \
+    --restart always \
     --net=vm-bridge \
     -p 6650:6650 \
     -p 8083:8083 \

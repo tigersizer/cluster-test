@@ -30,6 +30,7 @@ docker rm broker1
 #   use a startups cript to redirect the logs
 docker run --name broker1 \
     -d \
+    --restart always \
     --net=vm-bridge \
     -p 6650:6650 \
     -p 8083:8083 \
