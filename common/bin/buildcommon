@@ -69,8 +69,8 @@ ln -s ~/cluster-test/common/bin/stackup ~/bin/stackup
 ln -s ~/cluster-test/common/bin/stackdown ~/bin/stackdown
 
 # the node_exporter 
-mkdir -p ~/cluster-test/dev/node_exporter/logs
-ln -s ~/cluster-test/dev/bin/pnodedown ~/bin/pnodedown
-ln -s ~/cluster-test/dev/bin/pnodetail ~/bin/pnodetail
-ln -s ~/cluster-test/dev/bin/pnodeup ~/bin/pnodeup
+mkdir -p ~/cluster-test/common/node_exporter/logs
+ln -s ~/cluster-test/common/bin/pnodedown ~/bin/pnodedown
+ln -s ~/cluster-test/common/bin/pnodetail ~/bin/pnodetail
+ln -s ~/cluster-test/common/bin/pnodeup ~/bin/pnodeup
 

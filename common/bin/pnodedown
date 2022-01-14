@@ -1,0 +1,3 @@
+#!/bin/bash
+NEPID=`ps -a | grep node_exporter | awk '{ print $1 }' `
+kill $NEPID
