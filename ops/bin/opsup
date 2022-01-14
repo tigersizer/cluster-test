@@ -1,5 +1,5 @@
 #!/bin/bash
-pnodeup
+# pnodeup moved to common and .bashrc
 pdockup
 prometheusup
 grafanaup
