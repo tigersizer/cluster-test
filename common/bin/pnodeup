@@ -1,7 +1,8 @@
 #!/bin/bash
 # Prometheus node_export serves OS metrics
 #
-# most ports just don't work (DNS name failure on the other side; no idea why) 9090 works
+# most ports just don't work; 9090 works (anything works on the OPS machine)
+# it probably has something to do with GO and IPV6 (check netstat -nlp | grep node)
 # redirect the logs
 # NOTE: This is not docker!
-~/node_exporter*/node_exporter --web.listen-address="0.0.0.0:9091" > ~/cluster-test/common/node_exporter/logs/nodeexporter1.log 2>&1 &
+~/node_exporter*/node_exporter --web.listen-address="0.0.0.0:9090" > ~/cluster-test/common/node_exporter/logs/nodeexporter1.log 2>&1 &
