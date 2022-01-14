@@ -42,9 +42,6 @@ ln -s ~/cluster-test/ops/bin/pmanup ~/bin/pmanup
 
 # the Prometheus section
 # OS monitor
-mkdir -p ~/cluster-test/ops/node_exporter/logs
-ln -s ~/cluster-test/ops/bin/pnodedown ~/bin/pnodedown
-ln -s ~/cluster-test/ops/bin/pnodetail ~/bin/pnodetail
 ln -s ~/cluster-test/ops/bin/pnodeup ~/bin/pnodeup
 
 # Docker monitor
