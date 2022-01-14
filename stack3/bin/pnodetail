@@ -1,5 +1,0 @@
-#!/bin/bash
-# set the terminal window title
-echo -en "\033]2;Prometheus: node_exporter3 logs\007";
-# this is trivial, but handy
-tail -f ~/cluster-test/stack3/node_exporter/logs/nodeexporter3.log

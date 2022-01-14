@@ -1,6 +1,6 @@
 #!/bin/bash
 # bring everything up
-pnodeup
+# pnodeup started by .bashrc
 pdockup
 zooup
 bookieup

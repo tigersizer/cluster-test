@@ -60,10 +60,17 @@ sudo alternatives --config python
 # The vi section
 cat ~/cluster-test/common/conf/vi.vimrc >> ~/.vimrc
 
-# The vi section
+# The bash section
 cat ~/cluster-test/common/conf/sh.bashrc >> ~/.bashrc
 
 mkdir ~/bin
 ln -s ~/cluster-test/common/bin/netup ~/bin/netup
 ln -s ~/cluster-test/common/bin/stackup ~/bin/stackup
 ln -s ~/cluster-test/common/bin/stackdown ~/bin/stackdown
+
+# the node_exporter 
+mkdir -p ~/cluster-test/dev/node_exporter/logs
+ln -s ~/cluster-test/dev/bin/pnodedown ~/bin/pnodedown
+ln -s ~/cluster-test/dev/bin/pnodetail ~/bin/pnodetail
+ln -s ~/cluster-test/dev/bin/pnodeup ~/bin/pnodeup
+
