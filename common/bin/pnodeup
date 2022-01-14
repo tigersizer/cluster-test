@@ -4,4 +4,4 @@
 # most ports just don't work (DNS name failure on the other side; no idea why) 9090 works
 # redirect the logs
 # NOTE: This is not docker!
-~/node_exporter*/node_exporter --web.listen-address="0.0.0.0:9090" > ~/cluster-test/common/node_exporter/logs/nodeexporter1.log 2>&1 &
+~/node_exporter*/node_exporter --web.listen-address="0.0.0.0:9091" > ~/cluster-test/common/node_exporter/logs/nodeexporter1.log 2>&1 &
