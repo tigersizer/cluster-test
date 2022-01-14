@@ -12,12 +12,6 @@
   "__elements": [],
   "__requires": [
     {
-      "type": "panel",
-      "id": "gauge",
-      "name": "Gauge",
-      "version": ""
-    },
-    {
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
@@ -115,11 +109,11 @@
       },
       "gridPos": {
         "h": 9,
-        "w": 11,
+        "w": 12,
         "x": 0,
         "y": 0
       },
-      "id": 14,
+      "id": 2,
       "options": {
         "legend": {
           "calcs": [],
@@ -130,7 +124,29 @@
           "mode": "single"
         }
       },
-      "title": "Panel Title",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "exemplar": true,
+          "expr": "sum by (instance, pipeline) (logstash_pipeline_plugins_filters_events_in{name=\"grok\"})",
+          "interval": "",
+          "legendFormat": "{{instance}}-{{pipeline}}",
+          "refId": "A"
+        }
+      ],
+      "title": " Events Pipeline In",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "(.*)\\..*\\..*:.*-(.*)",
+            "renamePattern": "$1 $2"
+          }
+        }
+      ],
       "type": "timeseries"
     },
     {
@@ -186,11 +202,11 @@
       },
       "gridPos": {
         "h": 9,
-        "w": 11,
-        "x": 11,
+        "w": 12,
+        "x": 12,
         "y": 0
       },
-      "id": 16,
+      "id": 6,
       "options": {
         "legend": {
           "calcs": [],
@@ -201,7 +217,29 @@
           "mode": "single"
         }
       },
-      "title": "Panel Title",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "exemplar": true,
+          "expr": "sum by (instance, pipeline)(logstash_pipeline_events_duration_in_millis)   ",
+          "interval": "",
+          "legendFormat": "{{instance}}-{{pipeline}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Event Pipeline Time (msec)",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "(.*)\\..*\\..*:.*-(.*)",
+            "renamePattern": "$1 $2"
+          }
+        }
+      ],
       "type": "timeseries"
     },
     {
@@ -256,12 +294,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 9,
-        "w": 11,
+        "h": 8,
+        "w": 12,
         "x": 0,
         "y": 9
       },
-      "id": 12,
+      "id": 4,
       "options": {
         "legend": {
           "calcs": [],
@@ -272,7 +310,29 @@
           "mode": "single"
         }
       },
-      "title": "Panel Title",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "exemplar": true,
+          "expr": "sum by (instance, pipeline) (logstash_pipeline_plugins_outputs_events_in{name=\"elasticsearch\"})",
+          "interval": "",
+          "legendFormat": "{{instance}}-{{pipeline}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Events Elasticsearch Out",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "(.*)\\..*\\..*:.*-(.*)",
+            "renamePattern": "$1 $2"
+          }
+        }
+      ],
       "type": "timeseries"
     },
     {
@@ -327,9 +387,9 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 9,
-        "w": 11,
-        "x": 11,
+        "h": 8,
+        "w": 12,
+        "x": 12,
         "y": 9
       },
       "id": 8,
@@ -350,383 +410,23 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "cassandra_clientrequest_latency_seconds_count{clientrequest=\"Read-ONE\"}",
-          "hide": false,
+          "expr": "sum by (instance, pipeline) (logstash_pipeline_plugins_outputs_events_duration_in_millis{name=\"elasticsearch\"})",
           "interval": "",
-          "legendFormat": "R1: {{instance}}",
+          "legendFormat": "{{instance}}-{{pipeline}}",
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "exemplar": true,
-          "expr": "cassandra_clientrequest_latency_seconds_count{clientrequest=\"Write-LOCAL_QUORUM\"}",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "WLQ: {{instance}}",
-          "refId": "B"
         }
       ],
-      "title": "Latency",
+      "title": "Event Output Time (msec)",
       "transformations": [
         {
           "id": "renameByRegex",
           "options": {
-            "regex": "\\..*",
-            "renamePattern": ""
+            "regex": "(.*)\\..*\\..*:.*-(.*)",
+            "renamePattern": "$1 $2"
           }
         }
       ],
       "type": "timeseries"
-    },
-    {
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "axisSoftMax": 60,
-            "axisSoftMin": 0,
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "s"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 11,
-        "x": 0,
-        "y": 18
-      },
-      "id": 10,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "exemplar": true,
-          "expr": "sum by (instance) (irate(process_cpu_seconds_total{job=\"casses\"}[1m]))",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "{{instance}}",
-          "refId": "A"
-        }
-      ],
-      "title": "CPU Seconds",
-      "transformations": [
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": "\\..*",
-            "renamePattern": ""
-          }
-        }
-      ],
-      "type": "timeseries"
-    },
-    {
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 11,
-        "x": 11,
-        "y": 18
-      },
-      "id": 6,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "exemplar": true,
-          "expr": "jvm_memory_bytes_used{job=\"casses\", area=\"heap\"} / 1048576",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "used: {{instance}}",
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "exemplar": true,
-          "expr": "jvm_memory_bytes_committed{job=\"casses\", area=\"heap\"} / 1048576",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "commit: {{instance}}",
-          "refId": "B"
-        }
-      ],
-      "title": "Heap Memory Used (MB)",
-      "transformations": [
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": "\\..*",
-            "renamePattern": ""
-          }
-        }
-      ],
-      "type": "timeseries"
-    },
-    {
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "max": 100,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 11,
-        "x": 0,
-        "y": 27
-      },
-      "id": 2,
-      "options": {
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
-      },
-      "pluginVersion": "8.3.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "exemplar": true,
-          "expr": "sum by (instance) (irate(process_cpu_seconds_total{job=\"casses\"}[1m])) * 100",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "{{instance}}",
-          "refId": "A"
-        }
-      ],
-      "title": "CPU %",
-      "transformations": [
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": "\\..*",
-            "renamePattern": ""
-          }
-        }
-      ],
-      "type": "gauge"
-    },
-    {
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "max": 100,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 11,
-        "x": 11,
-        "y": 27
-      },
-      "id": 4,
-      "options": {
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
-      },
-      "pluginVersion": "8.3.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "exemplar": true,
-          "expr": "(jvm_memory_bytes_used{job=\"casses\", area=\"heap\"} / jvm_memory_bytes_max{job=\"casses\", area=\"heap\"}) * 100",
-          "hide": false,
-          "interval": "",
-          "legendFormat": "{{instance}}",
-          "refId": "A"
-        }
-      ],
-      "title": "Heap Memory %",
-      "transformations": [
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": "\\..*",
-            "renamePattern": ""
-          }
-        }
-      ],
-      "type": "gauge"
     }
   ],
   "refresh": "30s",
@@ -742,8 +442,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Casses",
-  "uid": "EMMH1ponk",
-  "version": 5,
+  "title": "Stashes",
+  "uid": "QIANEX0nz",
+  "version": 2,
   "weekStart": ""
 }

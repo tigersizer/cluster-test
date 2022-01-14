@@ -530,7 +530,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "irate(node_network_receive_bytes_total{device=\"enp0s3\"}[1m]) / 1024 / 60",
+          "expr": "(irate(node_network_receive_bytes_total{device=\"enp0s3\"}[1m]) )/ 1024",
           "hide": false,
           "interval": "",
           "legendFormat": "r: {{instance}}",
@@ -542,7 +542,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "exemplar": true,
-          "expr": "irate(node_network_transmit_bytes_total{device=\"enp0s3\"}[1m]) / 1024 / 60",
+          "expr": "(irate(node_network_transmit_bytes_total{device=\"enp0s3\"}[1m])) / 1024 ",
           "hide": false,
           "interval": "",
           "legendFormat": "w: {{instance}}",
@@ -629,7 +629,29 @@
           "mode": "single"
         }
       },
-      "title": "Panel Title",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "exemplar": true,
+          "expr": "(node_memory_MemTotal_bytes -node_memory_MemFree_bytes) / (1024*1024)",
+          "interval": "",
+          "legendFormat": "{{instance}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Memory Used (MB)",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "(.*)\\.(.*)\\.(.*):.*",
+            "renamePattern": "$1"
+          }
+        }
+      ],
       "type": "timeseries"
     },
     {
@@ -792,6 +814,6 @@
   "timezone": "",
   "title": "VMs",
   "uid": "N3AmAOTnk",
-  "version": 8,
+  "version": 12,
   "weekStart": ""
 }
