@@ -1,0 +1,16 @@
+#!/bin/bash
+
+netup
+docker stop postgres3
+docker rm postgres3
+
+docker run --name postgres3 \
+    -d \
+    --restart always \
+    --net=vm-bridge \
+    -p 5432:5432 \
+    -v ~/cluster-test/stack3/postgres/data:/var/lib/posgres/data \
+    -v ~/cluster-test/stack3/conf/postgres.conf:/etc/postgresql/postgresql.conf \
+    -v ~/cluster-test/stack3/posgres/logs:/logs \
+    -e POSTGRES_PASSWORD=clustertest \
+    postgres -c 'config_file=/etc/postgresql/postgresql.conf'

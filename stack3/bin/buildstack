@@ -84,3 +84,12 @@ ln -s ~/cluster-test/stack3/bin/plogdown ~/bin/plogdown
 ln -s ~/cluster-test/stack3/bin/plogtail ~/bin/plogtail
 ln -s ~/cluster-test/stack3/bin/plogup ~/bin/plogup
 
+# Postgres
+mkdir -p ~/cluster-test/stack3/postgres/data
+mkdir -p ~/cluster-test/stack3/postgres/logs
+ln -s ~/cluster-test/stack3/bin/postgresdown ~/bin/postgresdown
+ln -s ~/cluster-test/stack3/bin/postgrestail ~/bin/postgrestail
+ln -s ~/cluster-test/stack3/bin/postgresup ~/bin/postgresup
+ln -s ~/cluster-test/stack3/bin/psql ~/bin/psql
+
+
