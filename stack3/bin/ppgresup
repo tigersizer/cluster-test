@@ -1,0 +1,13 @@
+#!/bin/bash
+
+netup
+docker stop ppgres3
+docker rm ppgres3
+
+docker run --name ppgres3 \
+    -d \
+    --net=vm-bridge \
+    --restart always \
+    -p 9096:9187 \
+    -e DATA_SOURCE_NAME="postgresql://postgres:clustertest@postgres3.cluster.test:5432/postgres?sslmode=disable" \
+    quay.io/prometheuscommunity/postgres-exporter

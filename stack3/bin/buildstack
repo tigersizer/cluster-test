@@ -92,4 +92,10 @@ ln -s ~/cluster-test/stack3/bin/postgrestail ~/bin/postgrestail
 ln -s ~/cluster-test/stack3/bin/postgresup ~/bin/postgresup
 ln -s ~/cluster-test/stack3/bin/psql ~/bin/psql
 
+# postgres-exporter (ppgres)
+ln -s ~/cluster-test/stack3/bin/ppgresdown ~/bin/ppgresdown
+ln -s ~/cluster-test/stack3/bin/ppgrestail ~/bin/ppgrestail
+ln -s ~/cluster-test/stack3/bin/ppgresup ~/bin/ppgresup
+
+
 
