@@ -14,8 +14,12 @@ docker rm grafana
 # Grafana has some funky user issues
 ID=$(id -u)
 
-# -net
+# --net
 #   the common bridged network
+#
+# --restart always
+#   why not?
+#
 # --user 
 #   this is just crazy but required
 # -p
@@ -27,6 +31,7 @@ ID=$(id -u)
 docker run --name grafana \
     -d \
     --net=vm-bridge \
+    --restart always \
     --user $ID \
     -p 3000:3000 \
     -v ~/cluster-test/ops/grafana/data:/var/lib/grafana \

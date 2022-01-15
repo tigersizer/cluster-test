@@ -13,6 +13,10 @@ docker rm elastic
 
 # --net
 #   the common bridge network
+#
+# --restart always
+#   the stack logstashes get very unhappy if this isn't running
+#
 # -p
 #   9200 - the http port (logstash send/kibana pulls)
 #   9300
@@ -29,6 +33,7 @@ docker rm elastic
 docker run --name elastic \
     -d \
     --net=vm-bridge \
+    --restart always \
     -p 9200:9200 \
     -p 9300:9300 \
     -e discovery.type=single-node \
