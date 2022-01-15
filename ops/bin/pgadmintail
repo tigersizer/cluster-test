@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# set the terminal window title
+echo -en "\033]2;Postgres: pgAdmin logs\007";
+
+# don't want these in Elasticsearch, so just leave Docker alone
+docker logs -f pgAdmin

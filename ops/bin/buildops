@@ -98,6 +98,10 @@ ln -s ~/cluster-test/ops/bin/gogsdown ~/bin/gogsdown
 ln -s ~/cluster-test/ops/bin/gogstail ~/bin/gogstail
 # gogs is the reason postgres exists at all
 ln -s ~/cluster-test/ops/bin/psql ~/bin/psql
+# and then we need this:
+ln -s ~/cluster-test/ops/bin/pgadminup ~/bin/pgadminsup
+ln -s ~/cluster-test/ops/bin/pgadmindown ~/bin/pgadmindown
+ln -s ~/cluster-test/ops/bin/pgadmintail ~/bin/pgadmintail
 
 # and the whole thing
 ln -s ~/cluster-test/ops/bin/opsup ~/bin/opsup
