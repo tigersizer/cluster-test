@@ -56,6 +56,10 @@ scrape_configs:
       static_configs:
           - targets: ["stack1.cluster.test:9095", "stack2.cluster.test:9095", "stack3.cluster.test:9095" ]
 
+    - job_name: "postgreses"
+      static_configs:
+          - targets: ["postgres1.cluster.test:9096", "postgres2.cluster.test:9096", "postgres3.cluster.test:9096" ]
+
     - job_name: "gogs"
       metrics_path: "/-/metrics"
       basic_auth:
