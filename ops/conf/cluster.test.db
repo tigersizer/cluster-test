@@ -14,6 +14,7 @@ ops	IN 	A	192.168.2.200
 ; no MX record
 
 ;A - host to IP
+gogs    IN  A   192.168.2.200
 elastic	IN	A	192.168.2.200
 kibana	IN	A	192.168.2.200
 prometheus	IN	A	192.168.2.200
@@ -24,17 +25,20 @@ bookie1	IN	A	192.168.2.201
 broker1	IN	A	192.168.2.201
 proxy1	IN	A	192.168.2.201
 cass1	IN	A	192.168.2.201
+postgres1    IN  A   192.168.2.201
 stack2	IN	A 	192.168.2.202
 zoo2	IN	A	192.168.2.202
 bookie2	IN	A	192.168.2.202
 broker2	IN	A	192.168.2.202
 proxy2	IN	A	192.168.2.201
 cass2	IN	A	192.168.2.202
+postgres2   IN  A   192.168.2.202
 stack3	IN	A 	192.168.2.203
 zoo3	IN	A	192.168.2.203
 bookie3	IN	A	192.168.2.203
 broker3	IN	A	192.168.2.203
 proxy3	IN	A	192.168.2.201
 cass3	IN	A	192.168.2.203
+postgres3   IN  A   192.168.2.203
 dev	IN	A	192.168.2.210
 
