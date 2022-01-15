@@ -22,6 +22,7 @@ This is all manual, mostly command-line, work. But it's all simple, short, and c
         1. [Kibana](#kibana)
     1. [STACK VMs](#stack-vms)
         1. [ifcfg](#stack-ifcfg)
+        1. [Everything Else](#stack-everything-else)
     1. [DEV VM](#dev-vm)
         1. [ifcfg](#dev-ifcfg)
         1. [github](#github)
@@ -398,7 +399,7 @@ The most likely problems are:
 - zone file doesn't match ifcfg values
 - a typo somewhere; check VERY closely.
 
-#### directories and links
+#### STACK Everything Else
 
 This is BY FAR easier to do via script:
 

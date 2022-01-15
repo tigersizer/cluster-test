@@ -28,4 +28,8 @@ sudo pip3 install pulsar-client
 
 # cqlsh (no idea what -U does, just copied)
 sudo pip3 install -U cqlsh
+ln -s ~/cluster-test/dev/bin/cql ~/bin/cql
+
+# psql
+ln -s ~/cluster-test/dev/bin/psql ~/bin/psql
 
