@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Create the network (should already be there with an error for this).
+# One node per VM works better without a Docker network; bridging is the next best option.
+netup
+   
+# This could be bad, but it works for dev.
+docker stop ppgres1
+
+# Cannot recreate with the same name (docker-compose does this on "down").
+# Do it on up so the logs are laying about should I want themi.
+docker rm ppgres1
+
+# --net
+#   vm-bridge is created by netup; it is what it sounds like.
+# --restart
+#   always is just easy
+# -p
+#   9096 maps 9187 (the default) keeping with the Prometheus on 909x pattern
+docker run --name ppgres1 \
+    -d \
+    --net=vm-bridge \
+    --restart always \
+    -p 9096:9187 \
+    -e DATA_SOURCE_NAME="postgresql://postgres:clustertest@postgres1.cluster.test:5432/postgres?sslmode=disable" \
+    quay.io/prometheuscommunity/postgres-exporter
