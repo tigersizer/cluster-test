@@ -7,5 +7,6 @@ docker rm plog2
 docker run --name plog2 \
     -d \
     --net=vm-bridge \
+    --restart always \
     -p 9095:9304 \
     alxrem/prometheus-logstash-exporter -logstash.host stack2.cluster.test
