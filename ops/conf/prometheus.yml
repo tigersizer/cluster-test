@@ -56,3 +56,11 @@ scrape_configs:
       static_configs:
           - targets: ["stack1.cluster.test:9095", "stack2.cluster.test:9095", "stack3.cluster.test:9095" ]
 
+    - job_name: "gogs"
+      metrics_path: "/-/metrics"
+      basic_auth:
+          username: gogs
+          password: clustertest
+      static_configs:
+          - targets: ["gogs.cluster.test:8086"]
+
