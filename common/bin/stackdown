@@ -2,6 +2,7 @@
 # bring everything down in reverse order of up
 plogdown
 stashdown
+postgresdown
 cassdown
 proxydown
 brokerdown

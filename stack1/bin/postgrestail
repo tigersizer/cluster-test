@@ -1,0 +1,5 @@
+#!/bin/bash
+# set the terminal window title
+echo -en "\033]2;Postgres: postgres1 logs\007";
+# haven't done persistent, so this will do, for now
+docker logs -f postgres1

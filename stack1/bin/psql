@@ -1,0 +1,3 @@
+#!/bin/bash
+echo -en "\033]2;Postgres: postgres1 psql\007";
+docker run --name pql -it --net=vm-bridge --rm postgres psql -h postgres1.cluster.test -U postgres

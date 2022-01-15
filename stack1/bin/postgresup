@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# Create the network (should already be there with an error for this).
+# One node per VM works better without a Docker network; bridge is the best we can do.
+netup
+   
+# This could be bad, but it works for dev.
+docker stop postgres1
+
+# Cannot recreate with the same name (docker-compose does this on "down").
+# Do it on up so the logs are laying about should I want them.
+docker rm postgres1
+
+# --restart
+#   always will restart after a shutdown, if the container is running at the time.
+# --net
+#   vm-bridge is created by netup; it is what it sounds like.
+# -p
+#   5432 is the native connection port ("port" in .conf file)
+# -v
+#   make /var/lib/postgres/data persistent 
+#   use our own configuration
+#   /logs is not used, yet
+# -e
+#   POSTGRES_PASSWORD is required; on initial start, it is created (for postgres user, by default)
+docker run --name postgres1 \
+    -d \
+    --restart always \
+    --net=vm-bridge \
+    -p 5432:5432 \
+    -v ~/cluster-test/stack1/postgres/data:/var/lib/posgres/data \
+    -v ~/cluster-test/stack1/conf/postgres.conf:/etc/postgresql/postgresql.conf \
+    -v ~/cluster-test/stack1/posgres/logs:/logs \
+    -e POSTGRES_PASSWORD=clustertest \
+    postgres -c 'config_file=/etc/postgresql/postgresql.conf'
