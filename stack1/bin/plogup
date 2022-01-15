@@ -29,6 +29,8 @@ docker rm plog1
 
 # --net
 #   vm-bridge is created by netup; it is what it sounds like.
+# --restart
+#   always is just easy
 # -p
 #   9095 maps 9304 - see above - to stick with the Prometheus on 909x pattern
 # -v
@@ -37,5 +39,6 @@ docker rm plog1
 docker run --name plog1 \
     -d \
     --net=vm-bridge \
+    --restart always \
     -p 9095:9304 \
     alxrem/prometheus-logstash-exporter -logstash.host stack1.cluster.test
