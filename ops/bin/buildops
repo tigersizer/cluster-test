@@ -88,6 +88,17 @@ ln -s ~/cluster-test/ops/bin/kibanaup ~/bin/kibanaup
 ln -s ~/cluster-test/ops/bin/kibanadown ~/bin/kibanadown
 ln -s ~/cluster-test/ops/bin/kibanatail ~/bin/kibanatail
 
+# the gogs section
+# as far as I can tell, usermod requires a reboot; logout doesn't cut it
+sudo usermod -aG vboxfs ctest
+# which means this will fail
+mkdir -p ~/cluster-test/ops/gogs/data
+ln -s ~/cluster-test/ops/bin/gogsup ~/bin/gogsup
+ln -s ~/cluster-test/ops/bin/gogsdown ~/bin/gogsdown
+ln -s ~/cluster-test/ops/bin/gogstail ~/bin/gogstail
+# gogs is the reason postgres exists at all
+ln -s ~/cluster-test/ops/bin/psql ~/bin/psql
+
 # and the whole thing
 ln -s ~/cluster-test/ops/bin/opsup ~/bin/opsup
 ln -s ~/cluster-test/ops/bin/opsdown ~/bin/opsdown
