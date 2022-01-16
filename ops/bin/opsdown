@@ -1,8 +1,9 @@
 #!/bin/bash
+pgadmindown
 gogsdown
 pmandown
 grafanadown
 prometheusdown
 elasticdown
 pdockdown
-pnodedown
+# pnodedown - leave this running

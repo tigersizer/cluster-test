@@ -16,19 +16,20 @@ docker rm gogs
 #
 # -p
 #   8022 - the ssh port
-#   8086 - the http port
+#   8086 - the http port (be sure that is in "Application URL", not 3000.
 # -e
 #   PGID=973 gives it access to /host, but that is apparently TOO MUCH access
 #       it fails to start because the private key is group readable
 # -v
 #   mount the data volume for persistence
-#   /host/gogs was desired for automagic transfer to Windows
+#       /host/gogs was desired for automagic transfer to Windows; doesn't work
+#    -v ~/cluster-test/ops/conf/gogs.ini:custom/conf/app.ini \
+#       one can just edit the one in /data
 #
 docker run --name gogs \
     -d \
     --net=vm-bridge \
     -p 8022:22 \
     -p 8086:3000 \
-    -e PGID=973 \
     -v ~/cluster-test/ops/gogs/data:/data \
     gogs/gogs
