@@ -1,4 +1,4 @@
 #!/bin/bash
 
 # this is trivial, but symmetry!
-docker stop pgadmindown
+docker stop pgAdmin
