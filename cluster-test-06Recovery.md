@@ -10,6 +10,7 @@
 1. [Firing it all up](cluster-test-05FiringItUp.md)
 1. [Recovering from Mistakes](#recovering-from-mistakes)
     1. [BookKeeper Changes](#bookkeeper-changes)
+    1. [Pulsar Manager](#pulsar-manager)
 1. [Testing Failure Modes](cluster-test-07Testing.md)
 
 ## Recovering from Mistakes
@@ -29,8 +30,8 @@ Cassandra work, I recommend leaving it running and putting the host to "sleep" r
 BookKeeper has two cookies: One locally in the data directory and one in ZooKeeper. When those cookies do not match, it refuses to start. The error message will look like this:
 
 ```
-01:56:34.017 [main] ERROR org.apache.bookkeeper.server.Main - Failed to build bookie server
-org.apache.bookkeeper.bookie.BookieException$InvalidCookieException: Cookie
+    01:56:34.017 [main] ERROR org.apache.bookkeeper.server.Main - Failed to build bookie server
+    org.apache.bookkeeper.bookie.BookieException$InvalidCookieException: Cookie
 ```
 
 This is a dandy production feature to keep one from accidentally wiping out data by bringing up a misconfiged bookie. However, during development it can be annoying. Hopefully, I have made most of those mistakes for you. In case I have not:
@@ -62,7 +63,20 @@ To remove them via prettyZoo, fire it up (on ops.cluster.dev):
 
 #### Blank Web Page
 
-The most likely reason for this is starting it outside it's home directory. It really, really wants to start from ~/pulsar-manager/pulsar-manager.
+Running it locally (as opposed to in Docker), the most likely reason for this is starting it outside it's home directory. It really, really wants to start from ~/pulsar-manager/pulsar-manager.
+
+
+#### Wiping it from ZooKeeper
+
+It uses herdDB, whatever that is, and it's configured to use the ZooKeeper cluster. If you need to start over, you need to wipe that out. Just as above, either wipe the cluster entirely or use prettyZoo.
+
+Be sure Pulsar Manager is not running (pmandown).
+
+It's easy to remove because it's all in one place:
+
+- Connect to any cluster. If you haven't configured it, see the link above.
+- Select the "herd" entry.
+- Delete it.
 
 #### Pulsar Admin Exceptions
 
@@ -83,7 +97,7 @@ This lives between Prometheus and Grafana because it applies to both.
 There both positive and negative regular expression matches.
 
 **Positive Regex**
-Look at `container_memory_max_usage_bytes` in Prometheus. It has named and unnamed metrics. To display only the named ones, use `name=~".*"` - i.e. name is anything.
+Look at `container_memory_max_usage_bytes` in Prometheus. It has named and unnamed metrics. To display only the named ones, use `name=~".+"` - i.e. name is anything.
 
 **Negative Regex**
 Look at `pulsar_producers_count` in Prometheus. It has topiced and untopiced metrics. To display only the unnamed ones, use `topc!~".0"` - i.e. no name attribute.

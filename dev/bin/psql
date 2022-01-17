@@ -1,4 +1,4 @@
 #!/bin/bash
 echo -en "\033]2;Postgres: $1 psql\007";
 netup
-docker run --name psql -it --net=vm-bridge --rm postgres psql -U postgres -h $1
+docker run --name psql -it --net=vm-bridge --rm postgres psql -U postgres -h $@

@@ -20,6 +20,7 @@ This is all manual, mostly command-line, work. But it's all simple, short, and c
         1. [Elasticsearch](#elasticsearch)
         1. [Grafana](#grafana)
         1. [Kibana](#kibana)
+        1. [gogs](#gogs)
     1. [STACK VMs](#stack-vms)
         1. [ifcfg](#stack-ifcfg)
         1. [Everything Else](#stack-everything-else)
@@ -31,6 +32,8 @@ This is all manual, mostly command-line, work. But it's all simple, short, and c
         1. [cqlsh](#cqlsh)
         1. [Reading .md files in Firefox](#reading--md-files-locally)
         1. [protobuf compiler](#protobuf)
+        1. [node_exporter](#node-exporter)
+        1. [.ssh files](-ssh-files)
 1. [Firing it all up](cluster-test-05FiringItUp.md)
 1. [Recovering from Mistakes](cluster-test-06Recovery.md)
 1. [Testing Failure Modes](cluster-test-07Testing.md)
@@ -318,6 +321,7 @@ There are [configuration instructions](https://grafana.com/docs/grafana/latest/a
 ```
     mkdir -p ~/cluster-test/ops/grafana/logs
     mkdir -p ~/cluster-test/ops/grafana/data
+    sudo chmod -R a+w ~/cluster-test/ops/grafana
     sudo chown -R 65534:65534 ~/cluster-test/ops/grafana
     ln -s ~/cluster-test/ops/bin/grafanaup ~/bin/grafanaup
     ln -s ~/cluster-test/ops/bin/grafanadown ~/bin/grafanadown
@@ -363,6 +367,19 @@ This also runs in Docker, so we just need the usual:
 
 It complians a **LOT** about security. Perhaps I'll deal with it, later.
 
+#### gogs
+
+Same ol', same ol'
+
+```
+mkdir -p ~/cluster-test/ops/gogs/data
+ln -s ~/cluster-test/ops/bin/gogsup ~/bin/gogsup
+ln -s ~/cluster-test/ops/bin/gogsdown ~/bin/gogsdown
+ln -s ~/cluster-test/ops/bin/gogstail ~/bin/gogstail
+```
+
+The [github app.ini file](https://github.com/gogs/gogs/blob/main/conf/app.ini) is useful to know what can be configured.
+
 ### STACK VMs
 
 Set the hostnames (it's just pretty):
@@ -373,7 +390,7 @@ Set the hostnames (it's just pretty):
 
 #### STACK ifcfg
 
-This is in an isolated script everything else can be scripted *except* this.
+This is in an isolated script, so everything else can be scripted *except* this.
 
 If you're feeling lucky (or you're me):
 
@@ -587,6 +604,32 @@ Then protoc works. If you put that path in -I, it does not.
     protoc -I=. --python_out=. mydefintion.proto
 ```
 
+#### node_exporter
+
+I added `~/bin/pnodeup` to `.bashrc` when I was having performance issues. It turns out that Eclipse is a giant memory hog and 4GB just isn't enough. The Grafana dashboards magically adjust to whatever `node_exporter` processes are reporting, so this was an easy way to watch it.
+
+#### .ssh files
+
+You will want a key-pair, which is easy:
+
+```
+    ssh-keygen
+```
+
+You will also want to tell SSH that gogs.cluster.test is not normal. This goes in `.ssh/config`, which doesn't exist by default.
+
+Create it. The content should be:
+
+```
+Host gogs.cluster.test
+    Port 8022
+```
+
+AND *you must* change the default permissions (or you will get very confusing errors that don't make any sense and have nothing to do with the actual problem).
+
+```
+    chmod g-w config
+```
 
     
 [Prev](cluster-test-03CopyVMs.md)       [Table of Contents](#table-of-contents)     [Next](cluster-test-05FiringItUp.md)

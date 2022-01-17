@@ -19,7 +19,6 @@
         1. [Grafana](#grafana)
         1. [Elasticsearch](#elasticsearch)
     1. [DEV VM](#dev-vm)
-        1. [Monitoring](#node-exporter)
         1. [Testing Cassandra](#testing-cassandra)
         1. [Testing Pulsar](#testing-pulsar)
 1. [Recovering from Mistakes](cluster-test-06Recovery.md)
@@ -280,13 +279,11 @@ This thing is a bear to get running. Do NOT make a mistake or you'll be [startin
 
 Be SURE the cluster is running (e.g. check Prometheus metrics or the Grafana dashboard).
 
-Copy our configuration into it and start it (you MUST be in that directory):
+```
+    pmanup
+```
 
-```
-    cp ~/cluster-test/ops/conf/application.properties ~/pulsar-manager/pulsar-manager
-    cd ~/pulsar-manager/pulsar-manager
-    ./bin/pulsar-manager
-```
+`pmantail` works, but nothing interesting is logged.
 
 Generate the super-user. This is VERY finicky. In particular, it validates the email address, somehow, and does NOT validate the password, but the login UI does: more than 6 characters or [recover from it](cluster-test-06Recovery.md#pulsar-manager).
 
@@ -297,7 +294,7 @@ Generate the super-user. This is VERY finicky. In particular, it validates the e
     -H "Cookie: XSRF-TOKEN=$CSRF_TOKEN;" \
     -H 'Content-Type: application/json' \
     -X PUT http://ops.cluster.test:7750/pulsar-manager/users/superuser \
-    -d '{"name": "admin", "password": "cluster-test", "description": "cluster.test test cluster", "email": "ctest@test.org"}'
+    -d '{"name": "admin", "password": "clustertest", "description": "cluster.test test cluster", "email": "ctest@test.org"}'
 ```
 
 You very much want to see:
@@ -308,6 +305,9 @@ You very much want to see:
 
 Open a browser and 
 - Go to `http://ops.cluster.test:7750/ui/index.html`.
+
+If that fails with an error page, you're just screwed. I can't get it working, again.
+
 - It will redirect to a login page.
 - Login with credentials from above.
 - Boookmark where you end up.
@@ -395,6 +395,8 @@ The Dashboards can now be imported:
 
 These are very tall dashboards. I wanted the green/red stuff across my screen. The top of the windows have inches of header information; the bottom does not. So I made the VM window full-screen height and the Firefox windows inside it full height, too. I can then open other stuff over the top of it and the gauges stay visible without cluttering up the screen with title bars, tabs, and menus.
 
+Browse the [Grafana Dashboards](https://grafana.com/grafana/dashboards/). Some of them work fine (e.g. Node Exporter Full #1860) and nicely compliment my overviews (which are just thrown togeter). Some of them do not (e.g. cassandra-monitoring).
+
 #### Elasticsearch
 
 This is copied almost exactly from the [Elasticsearch instructions](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html).
@@ -476,16 +478,13 @@ Expectation: You are taken to the main web page. Bookmark it.
 One last step:
 "Register" a user. I used ctest and the tigersizer email address (having no idea what emails it might send, I thought a real address was a good first choice). It seems to contact Gravitar, since I have my blog icon.
 
+*IMPORTANT NOTE:* This configures SSH on a non-standard port (8022). This requires modifying the URLs or adding SSH configuration. See DEV .ssh, below.
 
 ### DEV VM
 
 The entire point of this machine is that nothing runs on it. You can do whatever you want to it.
 
 Have fun!
-
-#### node_exporter
-
-I added `~/bin/pnodeup` to `.bashrc` when I was having performance issues. It turns out that Eclipse is a giant memory hog and 4GB just isn't enough. The Grafana dashboards magically adjust to whatever `node_exporter` processes are reporting, so this was an easy way to watch it.
 
 #### Testing Cassandra
 
