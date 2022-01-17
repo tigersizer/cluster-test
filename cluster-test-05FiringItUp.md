@@ -44,6 +44,8 @@ If any of these commands do not work, there was an `ln -s` step missed. They're 
 
 **Prometheus OS monitor**
 
+`pnodeup` should run as part of .bashrc - if you're following instructions. Otherwise, do it now:
+
 ```
     pnodeup
     pnodetail
@@ -74,8 +76,8 @@ The output will be something like this:
 ```
 
 - the large hex number is the docker id of the network (created by netup)
-- the first error is the `docker stop` command, but it does not yet exist to be stopped.
-- the second error is the `docker rm` command, but it does not yet exist to be removed.
+- the first error is the `docker stop` command, but the container, pdock1, does not yet exist to be stopped.
+- the second error is the `docker rm` command, but the container, pdock1, does not yet exist to be removed.
 
 Followed by a bunch of downloading status/information and finally another large hex number.
 
@@ -233,6 +235,25 @@ It doesn't log much. At the end, you want to see:
     timstamp [1] LOG:  database system is ready to accept connections
 ```
 
+**postgres-exporter**
+This exports Postgres metrics to Prometheus. 
+
+```
+    ppgresup
+    ppgrestail
+```
+
+You want to see something like this:
+
+```
+ts=2022-01-15T22:50:16.582Z caller=main.go:123 level=info msg="Listening on address" address=:9187
+ts=2022-01-15T22:50:16.583Z caller=tls_config.go:195 level=info msg="TLS is disabled." http2=false
+ts=2022-01-15T22:50:18.274Z caller=server.go:74 level=info msg="Established new database connection" fingerprint=postgres2.cluster.test:5432
+ts=2022-01-15T22:50:18.280Z caller=postgres_exporter.go:662 level=info msg="Semantic version changed" server=postgres2.cluster.test:5432 from=0.0.0 to=14.1.0
+```
+
+That's all it does; no point in leaving the tail open.
+
 And you're up and running!
 
 #### Nominal Cold Start
@@ -346,12 +367,13 @@ You want to see:
 - brokers (3/3 up)
 - casses (3/3 up)
 - dockers (4/4 up)
+- postgreses (3/3 up)
 - prometheus (1/1 up)
-- VMs (4/4 up)
+- VMs (5/5 up)
 
 Click on the links and explore; that's the point.
 
-The query "language" is a bit odd, but once you get used it, it's quite nice. Grafana uses it more-or-less directly, so you can test out pieces of you Grafana queries here.
+The query "language" is a bit odd, but once you get used it, it's quite nice. Grafana uses it more-or-less directly, so you can test out pieces of your Grafana queries in Prometheus, which has a lot more screen real-estate and better error messages.
 
 The documentation is good. [Start here](https://prometheus.io/docs/prometheus/latest/querying/basics/).
 
@@ -392,10 +414,11 @@ The Dashboards can now be imported:
 - Pick one.
 - Open it.
 - Press the "Import" button.
+- Set the Prometheus Data Source.
 
 These are very tall dashboards. I wanted the green/red stuff across my screen. The top of the windows have inches of header information; the bottom does not. So I made the VM window full-screen height and the Firefox windows inside it full height, too. I can then open other stuff over the top of it and the gauges stay visible without cluttering up the screen with title bars, tabs, and menus.
 
-Browse the [Grafana Dashboards](https://grafana.com/grafana/dashboards/). Some of them work fine (e.g. Node Exporter Full #1860) and nicely compliment my overviews (which are just thrown togeter). Some of them do not (e.g. cassandra-monitoring).
+Browse the [Grafana Dashboards](https://grafana.com/grafana/dashboards/). Some of them work fine (e.g. Node Exporter Full #1860) and nicely compliment my overviews (which are just thrown together). Some of them do not (e.g. cassandra-monitoring).
 
 #### Elasticsearch
 
@@ -478,7 +501,7 @@ Expectation: You are taken to the main web page. Bookmark it.
 One last step:
 "Register" a user. I used ctest and the tigersizer email address (having no idea what emails it might send, I thought a real address was a good first choice). It seems to contact Gravitar, since I have my blog icon.
 
-*IMPORTANT NOTE:* This configures SSH on a non-standard port (8022). This requires modifying the URLs or adding SSH configuration. See DEV .ssh, below.
+*IMPORTANT NOTE:* This configures SSH on a non-standard port (8022). This requires modifying the URLs or adding SSH configuration. See [DEV .ssh files](cluster-test-04Customization.md#ssh-files).
 
 ### DEV VM
 

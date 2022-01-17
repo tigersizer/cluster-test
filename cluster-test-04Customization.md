@@ -33,7 +33,7 @@ This is all manual, mostly command-line, work. But it's all simple, short, and c
         1. [Reading .md files in Firefox](#reading--md-files-locally)
         1. [protobuf compiler](#protobuf)
         1. [node_exporter](#node-exporter)
-        1. [.ssh files](-ssh-files)
+        1. [.ssh files](#ssh-files)
 1. [Firing it all up](cluster-test-05FiringItUp.md)
 1. [Recovering from Mistakes](cluster-test-06Recovery.md)
 1. [Testing Failure Modes](cluster-test-07Testing.md)
@@ -612,7 +612,7 @@ Then protoc works. If you put that path in -I, it does not.
 
 I added `~/bin/pnodeup` to `.bashrc` when I was having performance issues. It turns out that Eclipse is a giant memory hog and 4GB just isn't enough. The Grafana dashboards magically adjust to whatever `node_exporter` processes are reporting, so this was an easy way to watch it.
 
-#### .ssh files
+#### ssh files
 
 You will want a key-pair, which is easy:
 
