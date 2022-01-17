@@ -94,7 +94,7 @@ Find "recursion: no" and change it to:
 Right after the "." zone, add the new zone:
 
 ```
-zone "cluster.dev" IN {
+zone "cluster.test" IN {
         type master;
         file "/var/named/cluster.test.db";
         allow-update { none; };
@@ -270,7 +270,7 @@ Clicking on the name will offer you the option to connect (by pressing the Conne
 
 You may add the servers before bringing them up, if you wish; obviosly connecting to them will not work.
 
-Note that the port is configured in cluster.dev/stackX/conf/zookeeper.conf as "clientPort" and exposed in the zooup "docker run" command.
+Note that the port is configured in cluster.test/stackX/conf/zooKeeper.conf as "clientPort" and exposed in the zooup "docker run" command.
 
 #### BookKeeper Admin
 
