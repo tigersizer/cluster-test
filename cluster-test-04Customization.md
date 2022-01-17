@@ -128,6 +128,7 @@ ops	IN 	A	192.168.2.200
 ; no MX record
 
 ;A - host to IP
+gogs    IN  A   192.168.2.200
 elastic	IN	A	192.168.2.200
 kibana	IN	A	192.168.2.200
 prometheus	IN	A	192.168.2.200
@@ -138,18 +139,21 @@ bookie1	IN	A	192.168.2.201
 broker1	IN	A	192.168.2.201
 proxy1	IN	A	192.168.2.201
 cass1	IN	A	192.168.2.201
+postgres1   IN  A   192.168.2.201
 stack2	IN	A 	192.168.2.202
 zoo2	IN	A	192.168.2.202
 bookie2	IN	A	192.168.2.202
 broker2	IN	A	192.168.2.202
 proxy2	IN	A	192.168.2.201
 cass2	IN	A	192.168.2.202
+postgres2   IN  A   192.168.2.202
 stack3	IN	A 	192.168.2.203
 zoo3	IN	A	192.168.2.203
 bookie3	IN	A	192.168.2.203
 broker3	IN	A	192.168.2.203
 proxy3	IN	A	192.168.2.201
 cass3	IN	A	192.168.2.203
+postgres3   IN  A   192.168.2.203
 dev	IN	A	192.168.2.210
 ```
 
@@ -198,7 +202,7 @@ The same change is made to all of the VMs, with just the IPADDR being different:
 I don't know where `enp0s3` came from. The VMs only have one NIC, so edit whatever is there.
 
 ```
-    $ sudo vi /etc/sysconfig/network-scripts/ifcfg-enp0s3
+    sudo vi /etc/sysconfig/network-scripts/ifcfg-enp0s3
 # BOOTPROTO=dhcp
 BOOTPROTO=none
 IPADDR=192.168.2.200
@@ -270,7 +274,7 @@ Clicking on the name will offer you the option to connect (by pressing the Conne
 
 You may add the servers before bringing them up, if you wish; obviosly connecting to them will not work.
 
-Note that the port is configured in cluster.test/stackX/conf/zooKeeper.conf as "clientPort" and exposed in the zooup "docker run" command.
+Note that the port is configured in cluster-test/stackX/conf/zooKeeper.conf as "clientPort" and exposed in the zooup "docker run" command.
 
 #### BookKeeper Admin
 
@@ -378,7 +382,7 @@ ln -s ~/cluster-test/ops/bin/gogsdown ~/bin/gogsdown
 ln -s ~/cluster-test/ops/bin/gogstail ~/bin/gogstail
 ```
 
-The [github app.ini file](https://github.com/gogs/gogs/blob/main/conf/app.ini) is useful to know what can be configured.
+The [github app.ini file](https://github.com/gogs/gogs/blob/main/conf/app.ini) is useful to know what can be configured. You only need to define what you are overriding in `~/cluster-test/ops/conf/gogs.ini`
 
 ### STACK VMs
 
@@ -395,7 +399,7 @@ This is in an isolated script, so everything else can be scripted *except* this.
 If you're feeling lucky (or you're me):
 
 ```
-    setifcfg
+    ~/cluster-test/stackX/bin/setifcfg
 ```
 
 or do it by hand:
@@ -421,7 +425,7 @@ The most likely problems are:
 This is BY FAR easier to do via script:
 
 ```
-    buildstack
+    ~/cluster-test/stackX/bin/buildstack
 ```
 
 Repeat on stack1, stack2, and stack3.
