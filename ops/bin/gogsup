@@ -13,7 +13,8 @@ docker rm gogs
 
 # --net
 #   the common bridge network
-#
+# --restart
+#   always want gogs running
 # -p
 #   8022 - the ssh port
 #   8086 - the http port (be sure that is in "Application URL", not 3000.
@@ -29,6 +30,7 @@ docker rm gogs
 docker run --name gogs \
     -d \
     --net=vm-bridge \
+    --restart always \
     -p 8022:22 \
     -p 8086:3000 \
     -v ~/cluster-test/ops/gogs/data:/data \
