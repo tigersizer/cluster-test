@@ -6,6 +6,8 @@
 cd
 rm -rf eclipse-installer
 
+hostnamectl set-hostname dev.cluster.test
+
 # I was having performance issues with Pulsar and decided this would be handy
 mkdir -p ~/cluster-test/dev/node_exporter/logs
 ln -s ~/cluster-test/dev/bin/pnodedown ~/bin/pnodedown
