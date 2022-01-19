@@ -34,4 +34,5 @@ docker run --name gogs \
     -p 8022:22 \
     -p 8086:3000 \
     -v ~/cluster-test/ops/gogs/data:/data \
+    -v ~/cluster-test/ops/conf/gogs.ini:/data/custom/conf/app.ini \
     gogs/gogs

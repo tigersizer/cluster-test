@@ -3,5 +3,5 @@
 # set the terminal window title
 echo -en "\033]2;gogs logs\007";
 
-# don't want these in Elasticsearch, so just leave Docker alone
-docker logs -f gogs
+# don't want these in Elasticsearch, but this is where gogs puts them
+tail -f ~/cluster-test/ops/gogs/data/gogs/log/gogs.log
