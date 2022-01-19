@@ -1,5 +1,4 @@
 #!/bin/bash
 # set the terminal window title
 echo -en "\033]2;Cassandra: cass2 logs\007";
-# I don't have persistent logs working, yet
-docker logs -f cass2
+tail -f ~/cluster-test/stack2/cassandra/logs/cassandra2.log
