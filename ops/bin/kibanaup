@@ -13,12 +13,14 @@ docker rm kibana
 
 # --net
 #   the common bridge network
+# --restart
+#   always - it's finally doing something so might as well
 # -p
+#   5601 - the default server port
 # -e
-#   discovery.type=single-node is as opposed to a cluster
-#       (I don't care enough about this to cluster it)
+#   SERVER_NAME 
 # -v
-#   ignore the documentation about "/var" directories, /usr/share/elasticsearch is correct.
+#   ignore the documentation about "/var" directories, /usr/share/kibana is correct.
 #   mount the data volume for persistence
 #   mount the log volume, just in case
 #   mount our own configuration directory (copied out of the image the tweaked).
@@ -28,6 +30,7 @@ docker rm kibana
 docker run --name kibana \
     -d \
     --net=vm-bridge \
+    --restart always \
     -p 5601:5601 \
     -e SERVER_NAME=kibana.cluster.test \
     -v ~/cluster-test/ops/kibana/data:/usr/share/kibana/data \
