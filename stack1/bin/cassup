@@ -46,5 +46,6 @@ docker run --name cass1 \
     -v ~/cluster-test/stack1/conf/etccassandra:/etc/cassandra \
     -v ~/cluster-test/stack1/cassandra/logs:/logs \
     -v ~/cluster-test/common/bin:/casslib \
+    -v ~/cluster-test/stack1/bin:/scripts \
     -e CASSANDRA_BROADCAST_ADDRESS=192.168.2.201 \
-    cassandra:3.11 
+    cassandra:3.11 /bin/bash /scripts/start_cass.sh

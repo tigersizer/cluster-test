@@ -2,5 +2,4 @@
 
 echo -en "\033]2;Cassandra: cass1 logs\007";
 # I don't have persistent logs working, yet
-docker logs -f cass1
-
+tail -f ~/cluster-test/stack1/cassandra/logs/cassandra1.log
