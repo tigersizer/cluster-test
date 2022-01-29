@@ -27,6 +27,7 @@ This is all manual, mostly command-line, work. But it's all simple, short, and c
     1. [DEV VM](#dev-vm)
         1. [ifcfg](#dev-ifcfg)
         1. [github](#github)
+        1. [Docker](#docker)
         1. [/usr/local](#-usr-local)
         1. [Python Pulsar Client](#pulsar-client)
         1. [cqlsh](#cqlsh)
@@ -34,6 +35,8 @@ This is all manual, mostly command-line, work. But it's all simple, short, and c
         1. [protobuf compiler](#protobuf)
         1. [node_exporter](#node-exporter)
         1. [.ssh files](#ssh-files)
+        1. [Visual Studio Code](#visual-studio-code)
+        1. [Anaconda](#anaconda)
 1. [Firing it all up](cluster-test-05FiringItUp.md)
 1. [Recovering from Mistakes](cluster-test-06Recovery.md)
 1. [Testing Failure Modes](cluster-test-07Testing.md)
@@ -515,6 +518,21 @@ Set the username and email:
     git config --global user.email you@example.com
 ```
 
+#### Docker
+
+Of course there's more. To build docker images, you want ["BuildKit" working](https://docs.docker.com/language/python/build-images/).
+
+```
+    cd /etc/docker
+    sudo vi daemon.json
+{
+    "features":{"buildkit" : true}
+}
+    sudo systemctl restart docker
+```
+
+There is more information on [configuring the Docker daemon](https://docs.docker.com/config/daemon/systemd/)
+
 #### /usr/local
 
 I got tired of sudo-ing to install Python libraries, so I chose the nuclear option:
@@ -635,5 +653,26 @@ AND *you must* change the default permissions (or you will get very confusing er
     chmod g-w config
 ```
 
-    
+#### Visual Studio Code
+
+It has an rpm, might as well give it a try. Get it from the [dowload page](https://code.visualstudio.com/docs/?dv=linux64_rpm).
+
+```
+    sudo yum --nogpgcheck localinstall code-1.63.2-1639562596.el7.x86_64.rpm 
+```
+
+It installs as /usr/bin/code. It shows up under Activities/Apps.
+
+There is a Python plugin.
+
+#### Anaconda
+
+This does far more than I think I need (or want), but it does allow creating Python environments, so...
+
+- Download the installer from [Anaconda's download page](https://www.anaconda.com/products/individual)
+- Follow the instructions on [a different, non-linked page](https://docs.anaconda.com/anaconda/install/linux/)
+
+I want it for the isolated environments so one can create `requirements.txt` files for Docker images. One does this with:
+
+
 [Prev](cluster-test-03CopyVMs.md)       [Table of Contents](#table-of-contents)     [Next](cluster-test-05FiringItUp.md)
