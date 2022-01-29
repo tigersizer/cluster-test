@@ -25,12 +25,20 @@ sudo dnf install gh
 #    git config --global user.name "Tiger"
 #    git config --global user.email tigersizer@gmail.com
 
+# Docker BuildKit
+sudo cp ~/cluster-test/dev/conf/dockerdaemon.json /etc/docker/daemon.json
+sudo systemctl restart docker
+
 # pulsar client
 sudo pip3 install pulsar-client
 
 # cqlsh (no idea what -U does, just copied)
 sudo pip3 install -U cqlsh
 ln -s ~/cluster-test/dev/bin/cql ~/bin/cql
+
+# just for documentation purposes, this is required for cassandra (above does it)
+# handy for bare Anaconda environments
+# sudo pip3 install cassandra-driver
 
 # psql
 ln -s ~/cluster-test/dev/bin/psql ~/bin/psql
