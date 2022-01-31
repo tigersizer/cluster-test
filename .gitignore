@@ -3,9 +3,15 @@
 
 # the local app directories
 node_exporter/
+# stackX
 bookkeeper/
 broker/
 cassandra/
 logstash/
 proxy/
 zookeeper/
+# ops
+elastic/
+gogs/
+grafana/
+kibana/
