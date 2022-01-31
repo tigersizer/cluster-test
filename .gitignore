@@ -1,0 +1,11 @@
+# the JMX exporter
+*.jar
+
+# the local app directories
+node_exporter/
+bookkeeper/
+broker/
+cassandra/
+logstash/
+proxy/
+zookeeper/
