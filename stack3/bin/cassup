@@ -20,6 +20,6 @@ docker run --name cass3 \
     -v ~/cluster-test/stack3/cassandra/logs:/logs \
     -v ~/cluster-test/stack3/bin:/scripts \
     -v ~/cluster-test/common/bin:/casslib \
-    -e CASSANDRA_BROADCAST_ADDRESS=192.168.2.203 \
-    -e CASSANDRA_SEEDS=192.168.2.201 \
+    -e CASSANDRA_BROADCAST_ADDRESS=10.247.246.203 \
+    -e CASSANDRA_SEEDS=10.247.246.201 \
     cassandra:3.11 /bin/bash /scripts/start_cass.sh
