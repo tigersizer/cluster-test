@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# see stack1 version for comments
+netup
+docker stop sparkw2
+docker rm sparkw2
+
+docker run --name sparkw2 \
+    -d \
+    --restart always \
+    --net=vm-bridge \
+    -p 8101:8081 \
+    -v ~/cluster-test/stack2/conf/sparkw:/opt/spark/conf \
+    -v ~/cluster-test/stack2/sparkw:/opt/spark/work \
+    -v ~/cluster-test/stack2/sparkw/logs:/logs \
+    apache/spark /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker -c 3 -m 6G spark://sparkm1.cluster.test:7077
