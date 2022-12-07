@@ -13,4 +13,4 @@ docker run --name sparkw2 \
     -v ~/cluster-test/stack2/conf/sparkw:/opt/spark/conf \
     -v ~/cluster-test/stack2/sparkw:/opt/spark/work \
     -v ~/cluster-test/stack2/sparkw/logs:/logs \
-    apache/spark /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker -c 3 -m 6G spark://sparkm1.cluster.test:7077
+    apache/spark /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker -c 3 -m 4G spark://sparkm1.cluster.test:7077

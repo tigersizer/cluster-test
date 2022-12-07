@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Create the network (should already be there with an error for this).
+# One node per VM works better without a Docker network; bridged is the next best thing.
+netup
+   
+# This could be bad, but it works for dev.
+docker stop sparkm1
+
+# Cannot recreate with the same name (docker-compose does this on "down").
+# Do it on up so the logs are laying about should I want them.
+docker rm sparkm1
+
+# --restart 
+#   always will restart after a shutdown, if the container is running at the time.
+# --net
+#   vm-bridge is created by netup; it is what it sounds like.
+# -p
+#   7070 is the Spark Master/Executor port
+#   8080 is the web UI port
+# -v
+#   create /conf for configuration - our's not Docker's
+#   create /logs for persistent logs (and it's handy for moving files)
+# command
+docker run --name sparkm1 \
+    -d \
+    --restart always \
+    --net=vm-bridge \
+    -p 7077:7077 \
+    -p 8100:8080 \
+    -v ~/cluster-test/stack1/conf/sparkm:/opt/spark/conf \
+    -v ~/cluster-test/stack1/sparkm/logs:/logs \
+    apache/spark /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master
+

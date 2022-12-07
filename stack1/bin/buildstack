@@ -91,3 +91,11 @@ ln -s ~/cluster-test/stack1/bin/ppgresdown ~/bin/ppgresdown
 ln -s ~/cluster-test/stack1/bin/ppgrestail ~/bin/ppgrestail
 ln -s ~/cluster-test/stack1/bin/ppgresup ~/bin/ppgresup
 
+# Spark
+mkdir -p ~/cluster-test/stack1/sparkw/logs
+ln -s ~/cluster-test/stack1/bin/sparkwdown ~/bin/sparkwdown
+ln -s ~/cluster-test/stack1/bin/sparkwup ~/bin/sparkwup
+mkdir -p ~/cluster-teest/stack1/sparkm/logs
+ln -s ~/cluster-test/stack1/bin/sparkmdown ~/bin/sparkmdown
+ln -s ~/cluster-test/stack1/bin/sparkmup ~/bin/sparkmup
+
