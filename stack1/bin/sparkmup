@@ -26,9 +26,13 @@ docker run --name sparkm1 \
     -d \
     --restart always \
     --net=vm-bridge \
+    --hostname sparkm1.cluster.test \
     -p 7077:7077 \
     -p 8100:8080 \
     -v ~/cluster-test/stack1/conf/sparkm:/opt/spark/conf \
     -v ~/cluster-test/stack1/sparkm/logs:/logs \
+    -e SPARK_LOCAL_HOSTNAME=sparkm1.cluster.test \
+    -e SPARK_IDENT_STRING=sparkm1.cluster.test \
+    -e SPARK_PUBLIC_DNS=10.247.246.201 \
     apache/spark /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master
 
