@@ -2,16 +2,6 @@
 # make the commands executable
 chmod +x ~/cluster-test/stack2/bin
 
-# Prometheus node_exporter
-mkdir ~/cluster-test/stack3/node_exporter
-mkdir ~/cluster-test/stack3/node_exporter/logs
-ln -s ~/cluster-test/stack3/bin/pnodedown ~/bin/pnodedown
-ln -s ~/cluster-test/stack3/bin/pnodetail ~/bin/pnodetail
-ln -s ~/cluster-test/stack3/bin/pnodeup ~/bin/pnodeup
-
-# first command required by everything Docker
-ln -s ~/cluster-test/stack3/bin/netup ~/bin/netup
-
 # Prometheus Docker monitoring
 ln -s ~/cluster-test/stack3/bin/pdockdown ~/bin/pdockdown
 ln -s ~/cluster-test/stack3/bin/pdockup ~/bin/pdockup
@@ -21,7 +11,7 @@ mkdir ~/cluster-test/stack3/zookeeper
 mkdir ~/cluster-test/stack3/zookeeper/data
 mkdir ~/cluster-test/stack3/zookeeper/logs
 chgrp -R docker ~/cluster-test/stack3/zookeeper
-chown -R g+w ~/cluster-test/stack3/zookeeper
+chmod -R g+w ~/cluster-test/stack3/zookeeper
 ln -s ~/cluster-test/stack3/bin/zoodown ~/bin/zoodown
 ln -s ~/cluster-test/stack3/bin/zootail ~/bin/zootail
 ln -s ~/cluster-test/stack3/bin/zooup ~/bin/zooup
@@ -31,7 +21,7 @@ mkdir ~/cluster-test/stack3/bookkeeper
 mkdir ~/cluster-test/stack3/bookkeeper/data
 mkdir ~/cluster-test/stack3/bookkeeper/logs
 chgrp -R docker ~/cluster-test/stack3/bookkeeper
-chown -R g+w ~/cluster-test/stack3/bookkeeper
+chmod -R g+w ~/cluster-test/stack3/bookkeeper
 ln -s ~/cluster-test/stack3/bin/bookiedown ~/bin/bookiedown
 ln -s ~/cluster-test/stack3/bin/bookietail ~/bin/bookietail
 ln -s ~/cluster-test/stack3/bin/bookieup ~/bin/bookieup
@@ -41,13 +31,13 @@ mkdir ~/cluster-test/stack3/broker
 mkdir ~/cluster-test/stack3/broker/data
 mkdir ~/cluster-test/stack3/broker/logs
 chgrp -R docker ~/cluster-test/stack3/broker
-chown -R g+w ~/cluster-test/stack3/broker
+chmod -R g+w ~/cluster-test/stack3/broker
 ln -s ~/cluster-test/stack3/bin/brokerdown ~/bin/brokerdown
 ln -s ~/cluster-test/stack3/bin/brokertail ~/bin/brokertail
 ln -s ~/cluster-test/stack3/bin/brokerup ~/bin/brokerup
 
 # Pulsar Proxy
-mkdir ~/clustert-test/stack3/proxy
+mkdir ~/cluster-test/stack3/proxy
 mkdir ~/cluster-test/stack3/proxy/logs
 chgrp -R docker ~/cluster-test/stack3/proxy
 chmod -R g+w ~/cluster-test/stack3/proxy

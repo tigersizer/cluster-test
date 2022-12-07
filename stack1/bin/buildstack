@@ -2,13 +2,6 @@
 # make the commands executable
 chmod +x ~/cluster-test/stack1/bin
 
-# Prometheus OS monitor
-mkdir ~/cluster-test/stack1/node_exporter
-mkdir ~/cluster-test/stack1/node_exporter/logs
-ln -s ~/cluster-test/stack1/bin/pnodeup ~/bin/pnodeup
-ln -s ~/cluster-test/stack1/bin/pnodedown ~/bin/pnodedown
-ln -s ~/cluster-test/stack1/bin/pnodetail ~/bin/pnodetail
-
 # Prometheus Docker moinitor
 ln -s ~/cluster-test/stack1/bin/pdockdown ~/bin/pdockdown
 # it doesn't write logs so no pdocktail
@@ -45,7 +38,7 @@ ln -s ~/cluster-test/stack1/bin/brokertail ~/bin/brokertail
 ln -s ~/cluster-test/stack1/bin/brokerup ~/bin/brokerup
 
 # Pulsar Proxy
-mkdir ~/clustert-test/stack1/proxy
+mkdir ~/cluster-test/stack1/proxy
 mkdir ~/cluster-test/stack1/proxy/logs
 chgrp -R docker ~/cluster-test/stack1/proxy
 chmod -R g+w ~/cluster-test/stack1/proxy

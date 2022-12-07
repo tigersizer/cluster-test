@@ -612,7 +612,7 @@ ssl_storage_port: 7001
 #   I beg to differ: Try getting this to work across VMs while inside Docker.
 #   IP addresses flip/flop all over the place and network boundaries change.
 #
-listen_address: 172.19.0.5
+listen_address: 172.18.0.10
 
 # Set listen_address OR listen_interface, not both. Interfaces must correspond
 # to a single address, IP aliasing is not supported.
