@@ -9,8 +9,12 @@ docker run --name sparkw3 \
     -d \
     --restart always \
     --net=vm-bridge \
+    --hostname sparkw3.cluster.test \
     -p 8101:8081 \
     -v ~/cluster-test/stack3/conf/sparkw:/opt/spark/conf \
     -v ~/cluster-test/stack3/sparkw:/opt/spark/work \
     -v ~/cluster-test/stack3/sparkw/logs:/logs \
+    -e SPARK_LOCAL_HOSTNAME=sparkw3.cluster.test \
+    -e SPARK_IDENT_STRING=sparkw3.cluster.test \
+    -e SPARK_PUBLIC_DNS=10.247.246.203 \
     apache/spark /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker -c 3 -m 4G spark://sparkm1.cluster.test:7077
