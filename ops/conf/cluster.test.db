@@ -26,6 +26,8 @@ broker1	IN	A	10.247.246.201
 proxy1	IN	A	10.247.246.201
 cass1	IN	A	10.247.246.201
 postgres1    IN  A   10.247.246.201
+sparkm1 IN  A   10.247.246.201
+sparkw1 IN  A   10.247.246.201
 stack2	IN	A 	10.247.246.202
 zoo2	IN	A	10.247.246.202
 bookie2	IN	A	10.247.246.202
@@ -33,6 +35,8 @@ broker2	IN	A	10.247.246.202
 proxy2	IN	A	10.247.246.201
 cass2	IN	A	10.247.246.202
 postgres2   IN  A   10.247.246.202
+sparkm2 IN  A   10.247.246.202
+sparkw2 IN  A   10.247.246.202
 stack3	IN	A 	10.247.246.203
 zoo3	IN	A	10.247.246.203
 bookie3	IN	A	10.247.246.203
@@ -40,5 +44,7 @@ broker3	IN	A	10.247.246.203
 proxy3	IN	A	10.247.246.201
 cass3	IN	A	10.247.246.203
 postgres3   IN  A   10.247.246.203
+sparkm3 IN  A   10.247.246.203
+sparkw3 IN  A   10.247.246.203
 dev	IN	A	10.247.246.210
 
