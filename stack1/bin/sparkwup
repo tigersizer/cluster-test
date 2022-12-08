@@ -17,7 +17,8 @@ docker rm sparkw1
 #   give the Linux inside the container a hostname (it shows up in various web pages)
 # -p
 #   8081 is the Web UI port; conflicted with ZooKeeper admin, but mapped that one
-#      because the master web interface uses the default for drill-down and I have no idea how to change that
+#       because the master web interface uses the default for drill-down and I have no idea how to change that
+#       this seems to be spark.ui.port
 # -v
 #   conf/sparkw is not yet used
 #   sparkw is where job data is written (and logs is a subdirectory); must be in root group.
