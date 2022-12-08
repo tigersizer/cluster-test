@@ -1,10 +1,30 @@
 #!/bin/bash
 
-# see stack1 version for comments
+# make sure the network is up
 netup
+# stop it if it's already running
 docker stop sparkw1
+# remove it so we can start another one
 docker rm sparkw1
 
+# -d
+#   detached
+# --restart
+#   always restart it if dies (mostly for machine restarts)
+# --net
+#   netup creates vm-bridge; it's what it sounds like
+# --hostname
+#   give the Linux inside the container a hostname (it shows up in various web pages)
+# -p
+#   8081 is the Web UI port - for everything; map it
+# -v
+#   conf/sparkw is not yet used
+#   sparkw is where job data is written (and logs is a subdirectory); must be in root group.
+# -e
+#   SPARK_LOCAL_HOSTNAME used to chat with other Spark things; must match hostname
+#   SPARK_IDENT_STRING no idea; instructions say to set it
+#   SPARK_PUBLIC_DNS override the Docker network so outside-container stuff can see it
+#
 docker run --name sparkw1 \
     -d \
     --restart always \
@@ -13,7 +33,6 @@ docker run --name sparkw1 \
     -p 8101:8081 \
     -v ~/cluster-test/stack1/conf/sparkw:/opt/spark/conf \
     -v ~/cluster-test/stack1/sparkw:/opt/spark/work \
-    -v ~/cluster-test/stack1/sparkw/logs:/logs \
     -e SPARK_LOCAL_HOSTNAME=sparkw1.cluster.test \
     -e SPARK_IDENT_STRING=sparkw1.cluster.test \
     -e SPARK_PUBLIC_DNS=10.247.246.201 \
