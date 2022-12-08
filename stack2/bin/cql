@@ -1,3 +1,5 @@
 #!/bin/bash
+# the mapped drive is just a place to put files to "source" in the shell
+# it doesn't need to be "logs", but that exists so why not?
 echo -en "\033]2;Cassandra: cass2 cql\007";
-docker run --name cqlsh -it --net=vm-bridge --rm cassandra:3.11 cqlsh cass2.cluster.test
+docker run --name cqlsh -it --net=vm-bridge -v ~/cluster-test/stack2/cassandra/logs:/logs --rm cassandra:3.11 cqlsh cass2.cluster.test $*
