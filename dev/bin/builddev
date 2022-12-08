@@ -43,3 +43,7 @@ ln -s ~/cluster-test/dev/bin/cql ~/bin/cql
 # psql
 ln -s ~/cluster-test/dev/bin/psql ~/bin/psql
 
+# Spark
+mkdir -p ~/cluster-test/dev/spark/.ivy2
+sudo chgrp -R root ~/cluster-test/dev/spark
+ln -s ~/cluster-test/dev/bin/spark ~/bin/spark

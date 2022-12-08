@@ -1,0 +1,34 @@
+#!/bin/bash
+echo -en "\033]2;Spark: $1 scala shell\007";
+netup
+# -it
+#   interactive tty
+# --rm
+#   remove the container when it stops
+# --net
+#   vm-bridge is created by netup; it is what it sounds like
+# -p
+#   4040 is the application details web port
+# --hostname
+#   apparently sets the hostname in the container 
+#   (not sure it's needed for the shell; it is for workers)
+# -v
+#   .ivy2 is where the non-default jars are stored
+#       must be persisent or they download each time
+#       inside the container, the permissions are wrong to create it (so the download fails)
+# -e
+#   SPARK_LOCAL_HOSTNAME the spark protocol hostname (undocumented but critical)
+#   SPARK_IDENT_STRING no idea what this is used for, but needed to match HOSTNAME
+#   SPARK_PUBLIC_DNS overrides the Docker network IP
+# 
+docker run --name spark \
+    -it \
+    --rm \
+    --net=vm-bridge \
+    -p 4040:4040 \
+    --hostname dev.cluster.test \
+    -v ~/cluster-test/dev/spark/.ivy2:/opt/spark/.ivy2 \
+    -e SPARK_LOCAL_HOSTNAME=dev.cluster.test \
+    -e SPARK_IDENT_STRING=dev.cluster.test \
+    -e SPARK_PUBLIC_DNS=10.247.246.210 \
+    apache/spark /opt/spark/bin/spark-shell --conf spark.master=spark://sparkm1.cluster.test:7077 --packages com.datastax.spark:spark-cassandra-connector_2.12:3.2.0 --conf spark.cassandra.connection.host=cass1.cluster.test --conf spark.sql.extensions=com.datastax.spark.connector.CassandraSparkExtensions
