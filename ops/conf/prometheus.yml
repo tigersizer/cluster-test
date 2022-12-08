@@ -37,7 +37,7 @@ scrape_configs:
       static_configs:
           - targets: ["stack1.cluster.test:9092","stack2.cluster.test:9092","stack3.cluster.test:9092","ops.cluster.test:9092"]
 
-    # zooX are on 8081, but they do not serve prometheus compatible data
+    # zooX are on 8180, but they do not serve prometheus compatible data
     
     - job_name: "bookies"
       static_configs:
@@ -67,4 +67,10 @@ scrape_configs:
           password: clustertest
       static_configs:
           - targets: ["gogs.cluster.test:8086"]
+
+    - job_name: "sparkws"
+      metrics_path: "/metrics/prometheus"
+      static_configs:
+          - targets: ["sparkw1.cluster.test:8081", "sparkw2.cluster.test:8081", "sparkw3.cluster.test:8081"]
+
 
