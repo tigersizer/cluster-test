@@ -89,9 +89,12 @@ ln -s ~/cluster-test/stack3/bin/ppgresup ~/bin/ppgresup
 
 # Spark
 mkdir -p ~/cluster-test/stack3/sparkw/logs
+# as usual, freaky group membership
+sudo chgrp -R root ~/cluster-test/stack3/sparkw
 ln -s ~/cluster-test/stack3/bin/sparkwdown ~/bin/sparkwdown
 ln -s ~/cluster-test/stack3/bin/sparkwup ~/bin/sparkwup
 mkdir -p ~/cluster-teest/stack3/sparkm/logs
+sudo chgrp -R root ~/cluster-test/stack3/sparkm
 ln -s ~/cluster-test/stack3/bin/sparkmdown ~/bin/sparkmdown
 ln -s ~/cluster-test/stack3/bin/sparkmup ~/bin/sparkmup
 
