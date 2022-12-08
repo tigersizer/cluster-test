@@ -11,7 +11,7 @@ docker run --name zoo3 \
     --net=vm-bridge \
     -p 3888:3888 \
     -p 2181:2181 \
-    -p 8081:8081 \
+    -p 8181:8081 \
     -p 2888:2888 \
     -v ~/cluster-test/stack3/zookeeper/data:/pulsar/data/zookeeper/ \
     -v ~/cluster-test/stack3/conf:/conf \

@@ -10,7 +10,7 @@ docker run --name sparkw3 \
     --restart always \
     --net=vm-bridge \
     --hostname sparkw3.cluster.test \
-    -p 8101:8081 \
+    -p 8081:8081 \
     -v ~/cluster-test/stack3/conf/sparkw:/opt/spark/conf \
     -v ~/cluster-test/stack3/sparkw:/opt/spark/work \
     -v ~/cluster-test/stack3/sparkw/logs:/logs \

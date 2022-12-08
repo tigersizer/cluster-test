@@ -16,7 +16,8 @@ docker rm sparkw1
 # --hostname
 #   give the Linux inside the container a hostname (it shows up in various web pages)
 # -p
-#   8081 is the Web UI port - for everything; map it
+#   8081 is the Web UI port; conflicted with ZooKeeper admin, but mapped that one
+#      because the master web interface uses the default for drill-down and I have no idea how to change that
 # -v
 #   conf/sparkw is not yet used
 #   sparkw is where job data is written (and logs is a subdirectory); must be in root group.
@@ -30,7 +31,7 @@ docker run --name sparkw1 \
     --restart always \
     --net=vm-bridge \
     --hostname sparkw1.cluster.test \
-    -p 8101:8081 \
+    -p 8081:8081 \
     -v ~/cluster-test/stack1/conf/sparkw:/opt/spark/conf \
     -v ~/cluster-test/stack1/sparkw:/opt/spark/work \
     -e SPARK_LOCAL_HOSTNAME=sparkw1.cluster.test \
