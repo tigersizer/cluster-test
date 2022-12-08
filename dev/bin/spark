@@ -9,6 +9,8 @@ netup
 #   vm-bridge is created by netup; it is what it sounds like
 # -p
 #   4040 is the application details web port
+#   7080 is the "random driver port" that I have hard-coded (spark.driver.port)
+#   7081 is the "random block manager port" that I have hard-coded (spark.driver.blockManager.port)
 # --hostname
 #   apparently sets the hostname in the container 
 #   (not sure it's needed for the shell; it is for workers)
@@ -26,9 +28,15 @@ docker run --name spark \
     --rm \
     --net=vm-bridge \
     -p 4040:4040 \
+    -p 7080:7080 \
+    -p 7081:7081 \
     --hostname dev.cluster.test \
     -v ~/cluster-test/dev/spark/.ivy2:/opt/spark/.ivy2 \
+    -v ~/cluster-test/dev/conf/spark:/opt/spark/conf \
     -e SPARK_LOCAL_HOSTNAME=dev.cluster.test \
     -e SPARK_IDENT_STRING=dev.cluster.test \
     -e SPARK_PUBLIC_DNS=10.247.246.210 \
-    apache/spark /opt/spark/bin/spark-shell --conf spark.master=spark://sparkm1.cluster.test:7077 --packages com.datastax.spark:spark-cassandra-connector_2.12:3.2.0 --conf spark.cassandra.connection.host=cass1.cluster.test --conf spark.sql.extensions=com.datastax.spark.connector.CassandraSparkExtensions
+    apache/spark /opt/spark/bin/spark-shell --packages com.datastax.spark:spark-cassandra-connector_2.12:3.2.0 --conf spark.cassandra.connection.host=cass1.cluster.test --conf spark.sql.extensions=com.datastax.spark.connector.CassandraSparkExtensions
+
+# moved to spark-defaults.conf (to see if it is being read; it is, so leaving it there)
+# --conf spark.master=spark://sparkm1.cluster.test:7077 
