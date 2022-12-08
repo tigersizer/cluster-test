@@ -70,7 +70,12 @@ calculate_heap_sizes()
     else
         max_heap_size_in_mb="$quarter_system_memory_in_mb"
     fi
+
+    # rather than breaking all the logic above, just leave it and ignore it
+    # set the variable, though; it is used below
+    max_heap_size_in_mb="2048"
     MAX_HEAP_SIZE="${max_heap_size_in_mb}M"
+    
 
     # Young gen: min(max_sensible_per_modern_cpu_core * num_cores, 1/4 * heap size)
     max_sensible_yg_per_core_in_mb="100"
