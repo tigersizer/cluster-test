@@ -16,8 +16,9 @@ netup
 #   (not sure it's needed for the shell; it is for workers)
 # -v
 #   .ivy2 is where the non-default jars are stored
-#       must be persisent or they download each time
+#       must be persistent or they download each time
 #       inside the container, the permissions are wrong to create it (so the download fails)
+#   /opt/spark/conf doesn't exist in the container, so putting our configuration there is easy
 # -e
 #   SPARK_LOCAL_HOSTNAME the spark protocol hostname (undocumented but critical)
 #   SPARK_IDENT_STRING no idea what this is used for, but needed to match HOSTNAME
@@ -36,7 +37,7 @@ docker run --name spark \
     -e SPARK_LOCAL_HOSTNAME=dev.cluster.test \
     -e SPARK_IDENT_STRING=dev.cluster.test \
     -e SPARK_PUBLIC_DNS=10.247.246.210 \
-    apache/spark /opt/spark/bin/spark-shell --packages com.datastax.spark:spark-cassandra-connector_2.12:3.2.0 --conf spark.cassandra.connection.host=cass1.cluster.test --conf spark.sql.extensions=com.datastax.spark.connector.CassandraSparkExtensions
+    apache/spark /opt/spark/bin/spark-shell --packages com.datastax.spark:spark-cassandra-connector_2.12:3.2.0 --conf spark.cassandra.connection.host=cass1.cluster.test --conf spark.sql.extensions=com.datastax.spark.connector.CassandraSparkExtensions $*
 
 # moved to spark-defaults.conf (to see if it is being read; it is, so leaving it there)
 # --conf spark.master=spark://sparkm1.cluster.test:7077 
