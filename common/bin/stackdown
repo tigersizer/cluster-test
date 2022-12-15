@@ -1,5 +1,6 @@
 #!/bin/bash
 # bring everything down in reverse order of up
+sparkwdown
 plogdown
 stashdown
 ppgresdown

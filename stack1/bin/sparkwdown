@@ -1,5 +1,5 @@
 #!/bin/bash
 
-# this is trivial, but symmetry! 
+# this is trivial, but symmetry!
 docker stop sparkw1
 
