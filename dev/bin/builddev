@@ -47,3 +47,12 @@ ln -s ~/cluster-test/dev/bin/psql ~/bin/psql
 mkdir -p ~/cluster-test/dev/spark/.ivy2
 sudo chgrp -R root ~/cluster-test/dev/spark
 ln -s ~/cluster-test/dev/bin/spark ~/bin/spark
+
+# PySpark is much more complicated
+# conda it
+# edit the crap out of the pyspark command (see condapyspark in this directory)
+# change the firewall rules, which can be done here
+sudo firewall-cmd --zone=public --add-port=4040/tcp --permanent
+sudo firewall-cmd --zone=public --add-port=10080/tcp --permanent
+sudo firewall-cmd --zone=public --add-port=10081/tcp --permanent
+
